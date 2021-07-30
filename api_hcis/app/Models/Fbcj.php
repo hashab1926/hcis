@@ -100,6 +100,7 @@ class Fbcj extends Model
 
             // add select dari join
             $addSelect = [
+                'rekap__fbcj_detail.id',
                 'lainnya__bussiness_trans.kode_bussiness_trans',
                 'lainnya__bussiness_trans.nama_bussiness_trans',
 

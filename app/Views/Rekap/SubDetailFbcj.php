@@ -3,6 +3,8 @@ $library = new App\Libraries\Library();
 ?>
 <?= $this->extend('Layout/Page') ?>
 <?= $this->section('css_files') ?>
+<link rel="stylesheet" href="<?= base_url('template/vendors/select2/select2.min.css') ?>">
+<link rel="stylesheet" href="<?= base_url('template/vendors/LightPick/lightpick.css') ?>">
 <style>
     .nav-link {
         padding: 20px;
@@ -38,13 +40,13 @@ $library = new App\Libraries\Library();
 </style>
 <?= $this->endSection() ?>
 <?= $this->section('content') ?>
-
+<div id='id-fbcj' data-id="<?= $id_fbcj ?>"></div>
 <div class="row">
     <div class="col">
         <div class="card">
             <?= $this->include('Rekap/MenuFbcj') ?>
 
-            <div class="card-body padding-y-2 padding-x-6">
+            <div class="card-body padding-top-3 padding-bottom-9 padding-x-6">
 
                 <br />
                 <div class="row margin-top-5">
@@ -161,54 +163,95 @@ $library = new App\Libraries\Library();
                 <?php if ($empty_sub_detail == true) : ?>
                     <div class="row">
 
-                        <form id='form-fbcj'>
-                            <table class='table table-borderless'>
-                                <thead>
-                                    <tr>
-                                        <th>No</th>
-                                        <th>Keterangan</th>
-                                        <th>Tanggal BON</th>
-                                        <th>Amount Detail</th>
-                                        <th></th>
-                                    </tr>
-                                </thead>
-                                <tbody id='tbody-isi'>
-                                    <tr class='box-shadow'>
-                                        <td class='padding-3'>1</td>
-                                        <td class='padding-3'><input type='text' name='subdetail[keterangan][]' class='form-control' placeholder='Keterangan'></td>
-                                        <td class='padding-3'><input type='text' name='subdetail[tanggal_bon][]' class='form-control' placeholder='Tanggal BON'></td>
-                                        <td class='padding-3'><input type='text' dir="rtl" name='subdetail[amount_detail][]' class='form-control currency-number currency-number amount_detail' placeholder='Amount Detail'></td>
+                        <form id='form-fbcj-subdetail'>
+                            <!-- DOKUMEN -->
+                            <div class='box-shadow padding-x-7 padding-top-5 padding-bottom-3 dokumen margin-y-5 border-radius'>
+                                <div class="row margin-bottom-5">
+                                    <div class="col-lg-4 col-xl-4 col-12">
+                                        <div class="form-group">
+                                            <label class="fweight-700 margin-bottom-2">Doc No</label>
+                                            <select name="id_fbcj_detail[]" data-name="id_fbcj_detail" class='w-100'></select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <table class='table table-borderless'>
+                                    <thead>
+                                        <tr>
+                                            <th class='text-center'>No</th>
+                                            <th class='padding-left-5'>Keterangan</th>
+                                            <th class='padding-left-4'>Tanggal BON</th>
+                                            <th style="text-align:right" class='padding-right-5'>Amount Detail</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class='tbody-isi'>
+                                        <tr class='box-shadow'>
+                                            <td class='padding-3 text-center'>1</td>
+                                            <td class='padding-3'><input type='text' name='subdetail[keterangan][]' class='form-control' placeholder='Keterangan'></td>
+                                            <td class='padding-3'>
+                                                <input type='text' name='subdetail[tanggal_bon][]' class='form-control tglbon' placeholder='Tanggal BON'>
+                                            </td>
+                                            <td class='padding-3'><input type='text' dir="rtl" name='subdetail[amount_detail][]' class='form-control currency-number currency-number amount_detail' placeholder='Amount Detail'></td>
 
-                                        <td class='padding-3 text-center'>
-                                            <button class='no-border no-background text-muted padding-x-1 hapus-baris d-flex align-items-center justify-content-center padding-top-1 w-100'>
-                                                <span class='material-icons-outlined'>
-                                                    highlight_off
-                                                </span>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                                <tfoot>
-                                    <tr>
-                                        <td style="text-align:right" class=' fweight-700 text-md-2' colspan=2>TOTAL AMOUNT</td>
-                                        <td class='text-center fweight-700 padding-right-6'>
-                                            <div class=' d-flex justify-content-between'>
-                                                <div>Rp.</div>
-                                                <div id='total-amount'>0</div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </tfoot>
-                            </table>
+                                            <td class='padding-3 text-center'>
+                                                <button class='no-border no-background text-muted padding-x-1 hapus-baris d-flex align-items-center justify-content-center padding-top-1 w-100'>
+                                                    <span class='material-icons-outlined'>
+                                                        highlight_off
+                                                    </span>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                    <tfoot>
+                                        <tr style="border:none">
+                                            <td colspan=5 style="border:none">
+                                                <div class='margin-top-2 w-100'>
+                                                    <button class='btn btn-primary padding-y-2 fweight-700 d-flex mx-auto justify-content-center tambah-baris'>
+                                                        <span class="material-icons-outlined">
+                                                            add_circle_outline
+                                                        </span>
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr style='border:none'>
+                                            <td style="text-align:right; border:none" class=' padding-3 fweight-700 text-md-2' colspan=3>TOTAL AMOUNT</td>
+                                            <td class='text-center fweight-700 padding-right-6' style="border:none">
+                                                <div class=' d-flex justify-content-between'>
+                                                    <div>Rp.</div>
+                                                    <div class='total-amount'>0</div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                            <!-- DOKUMEN -->
+
+
                         </form>
 
-                        <div class='margin-top-2'>
-                            <button class='btn btn-primary padding-y-2 fweight-700 btn-block d-flex align-items-center justify-content-center' id='templating-tambah-baris'>
-                                <span class='material-icons-outlined'>
-                                    add
-                                </span>
-                                <div class='margin-left-2'>Tambah Baris Rincian</div>
-                            </button>
+
+                    </div>
+
+
+                    <div class='position-fixed' style="bottom:10px; left:50%; transform: translate(-50%, -50%);">
+                        <button class='btn btn-success d-flex align-items-center rounded-pill box-shadow btn-lg padding-x-3 padding-y-2' name="tambah-dokumen" id="tambah-dokumen">
+                            <span class="material-icons-outlined icon-title">
+                                add
+                            </span>
+                            <div class='fweight-700 text-md-4 margin-left-2'>Tambah Dokumen</div>
+                            <div></div>
+                        </button>
+                    </div>
+
+                    <div class='row margin-top-4'>
+                        <div class="col d-flex flex-column justify-content-center align-items-center">
+                            <h5>GRAND TOTAL AMOUNT</h5>
+                            <div class='d-flex fweight-700 text-md-2'>
+                                <div>Rp.</div>
+                                <div id='grandtotal-amount'>0</div>
+                            </div>
                         </div>
                     </div>
                 <?php endif; ?>
@@ -221,5 +264,10 @@ $library = new App\Libraries\Library();
 <?= $this->endSection() ?>
 
 <?= $this->section('js_files') ?>
-<script src="<?= base_url('js/Pengajuan/DetailPengajuan.js') ?>"></script>
+<script src="<?= base_url('template/vendors/select2/select2.min.js') ?>"></script>
+<script src="<?= base_url('template/vendors/JqueryMask/jquery.mask.min.js') ?>"></script>
+<script src="<?= base_url('template/vendors/LightPick/moment.min.js') ?>"></script>
+<script src="<?= base_url('template/vendors/LightPick/lightpick.js') ?>"></script>
+
+<script src="<?= base_url('js/Rekap/RekapFbcjSubDetail.js') ?>"></script>
 <?= $this->endSection() ?>

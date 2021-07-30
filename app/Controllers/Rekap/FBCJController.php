@@ -11,6 +11,7 @@ class FBCJController extends BaseController
 {
 
     use ParamDatatable;
+    use AjaxData;
 
     public function __construct()
     {
@@ -109,12 +110,12 @@ class FBCJController extends BaseController
             $source = $get->data[0];
             $sourceDetail = $getDetail->data;
             $sourceSubDetail = $getSubDetail->data;
-
             return view("Rekap/SubDetailFbcj", [
                 'fbcj'              => $source,
                 'detail'            => $sourceDetail,
                 'sub_detail'        => $sourceSubDetail,
-                'empty_sub_detail'  => $emptySubDetail
+                'empty_sub_detail'  => $emptySubDetail,
+                'id_fbcj'           => $id
             ]);
         } catch (\Exception | \Throwable $error) {
             echo $error->getMessage();
@@ -226,5 +227,49 @@ trait ParamDatatable
         $orderBy = $namaKolom . "_" . $type;
         $param['order_by'] = $orderBy;
         return $param;
+    }
+}
+
+
+
+trait AjaxData
+{
+    public function ajaxDataFbcj($idFbcj)
+    {
+        try {
+
+            // set default param
+            $param = [];
+
+            // get method
+            $input = $this->request->getGet();
+
+            // param 'page' kalo ada
+            if (!empty($input['page']))
+                $param['page'] = $input['page'];
+
+            // param 'q' kalo ada
+            if (!empty($input['search']))
+                $param['q'] = $input['search'];
+
+            // get karyawan
+            $get = $this->fbcj->getFbcjDetail($param, $idFbcj);
+            // printr($get);
+            $data = $get->data;
+            $response = [];
+
+            foreach ($data as $list) :
+                $response['results'][] = [
+                    'id'    => $list->id,
+                    'text'  => $list->doc_no . ' - ' . $list->kode_bussiness_trans . ' ' . $list->nama_bussiness_trans
+                ];
+            endforeach;
+
+            $response['pagination']['more'] = true;
+            $response['count_filtered'] = $get->total_row;
+            echo json_encode($response);
+        } catch (\Exception | \Throwable $error) {
+            echo json_encode(['error' => $error->getMessage()]);
+        }
     }
 }

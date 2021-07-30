@@ -22,7 +22,7 @@ class FbcjController extends Controller
         return response()->json($get);
     }
 
-    public function detail($idFbcj, Request $request)
+    public function detail($idFbcj = null, Request $request)
     {
         $allowGet = $request->only(['id', 'q', 'limit', 'page', 'order_by']);
 

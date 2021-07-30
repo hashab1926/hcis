@@ -174,7 +174,9 @@ $routes->group('/', ['filter' => 'authlogin'], function ($routes) {
 		$routes->get('perdin', 'Rekap\PerdinController::index');
 		$routes->get('perdin/get_datatable', 'Rekap\PerdinController::getDatatable');
 
+
 		$routes->get('fbcj', 'Rekap\FBCJController::index');
+		$routes->get('fbcj/ajax/data_fbcj/(:num)', 'Rekap\FBCJController::ajaxDataFbcj/$1');
 		$routes->get('fbcj/detail/(:num)', 'Rekap\FBCJController::detail/$1');
 		$routes->get('fbcj/sub_detail/(:num)', 'Rekap\FBCJController::subDetail/$1');
 
