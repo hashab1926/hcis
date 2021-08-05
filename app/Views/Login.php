@@ -29,7 +29,7 @@ $session = session();
                         </div>
                         <h1 class="auth-title">Login</h1>
 
-                        <p class="auth-subtitle mb-5">Silahkan masukan username dan password anda</p>
+                        <p class="auth-subtitle mb-5">Silahkan masukan username dan password anda <?=FCPATH?></p>
 
                         <form action="" id="store-login" autocomplete="off">
                             <input type="hidden" reqdonly name="<?= csrf_token() ?>" value="<?= csrf_hash() ?>" id='csrf_token'>

@@ -1077,3 +1077,12 @@ tr th{
 	padding-right:0 !important;
 
 }
+.hover-white{
+	color:#aaa;
+}
+.hover-white:hover{
+	color:white;
+}
+.text-right{
+	text-align:right;
+}

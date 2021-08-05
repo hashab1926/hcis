@@ -2,6 +2,7 @@
 
 <?= $this->section('css_files') ?>
 <link rel="stylesheet" href="<?= base_url('template/vendors/select2/select2.min.css') ?>">
+<link rel="stylesheet" href="<?= base_url('template/vendors/kartik-upload/fileinput.min.css') ?>">
 <link rel="stylesheet" href="<?= base_url('template/vendors/LightPick/lightpick.css') ?>">
 
 <style>
@@ -73,6 +74,29 @@
                                 </div>
                             </div>
                         </div>
+
+                        <div class="col-lg-6">
+                            <div class="row  margin-top-2">
+                                <div class="col-lg-2 d-flex justify-content-between align-items-center">
+                                    <div class='fweight-700'>Penandatangan</div>
+                                    <div class='d-lg-block d-xl-block d-md-block d-sm-none d-xs-none d-none'>:</div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <select data-name="penandatangan" name='penandatangan' class='form-select'>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-12">
+                            <div class="form-group padding-x-5 margin-top-7">
+                                <label for="first-name-column">Upload Bukti Transaksi/Bon <sup>Opsional</sup></label>
+                                <div class="file-loading">
+                                    <input id="fileUpload" name="bukti_file[]" type="file" data-browse-on-zone-click="true" class="file" multiple>
+                                </div>
+                                <i class='text-muted'>Upload bukti transaksi jika diperlukan</i>
+                            </div>
+                        </div>
                     </div>
                 </form>
 
@@ -129,6 +153,7 @@
                         </button>
                     </div>
                 </div>
+
             </div>
         </div>
 
@@ -143,6 +168,8 @@
         </div>
     </div>
 </div>
+
+
 <?= $this->endSection(); ?>
 <?= $this->section('js_files') ?>
 <script src="<?= base_url('template/vendors/select2/select2.min.js') ?>"></script>
@@ -152,6 +179,10 @@
 
 <script src="<?= base_url('js/UnitKerja/Bagian/BagianSelect2.js') ?>"></script>
 
+<script src="<?= base_url('template/vendors/kartik-upload/piexif.min.js') ?>"></script>
+<script src="<?= base_url('template/vendors/kartik-upload/sortable.min.js') ?>"></script>
+<script src="<?= base_url('template/vendors/kartik-upload/custom_fileinput.min.js') ?>"></script>
+<script src="<?= base_url('template/vendors/kartik-upload/theme.js') ?>"></script>
 
 <script src="<?= base_url('js/Rekap/FBCJSelect2.js') ?>"></script>
 <script src="<?= base_url('js/Rekap/BuatFBCJ.js') ?>"></script>

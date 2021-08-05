@@ -36,3 +36,10 @@ function select2RekapFbcj() {
 }
 
 select2RekapFbcj();
+
+
+select2Request({
+    element: 'select[data-name=penandatangan]',
+    placeholder: '- Pilih Penandatangan -',
+    url: `${baseUrl}/karyawan/ajax/data_pejabat`,
+});

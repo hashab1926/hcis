@@ -27,6 +27,18 @@
                                 <div class="col ">
                                     <img src="<?= base_url('img/undraw-karyawan.svg') ?>" width=300 class='d-block mx-auto d-xs-none d-sm-none d-md-none d-lg-block d-xl-block d-none'>
 
+                                    <div class='text-center d-flex align-items-center flex-column margin-top-5'>
+                                        <i class='text-muted'>hanya mendukung format file <code>.jpg</code> <code>.jpeg</code> <code>.png</code></i>
+                                        <label class='btn btn-primary margin-top-2'>
+                                            <input type="file" class='d-none fileupload' id="btn-upload">
+                                            <div class='d-flex align-items-center'>
+                                                <span class=" material-icons-outlined">
+                                                    file_upload
+                                                </span>
+                                                <div class='margin-left-1 fweight-600'>Upload</div>
+                                            </div>
+                                        </label>
+                                    </div>
                                 </div>
                             </div>
                             <form id="karyawan-store" method="POST">

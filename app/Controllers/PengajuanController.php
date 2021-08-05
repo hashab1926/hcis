@@ -142,6 +142,7 @@ class PengajuanController extends BaseController
                 'pengajuan'    => $source,
                 'pengaju'      => $karyawan->data[0],
                 'penandatangan' => $penandatangan->data[0],
+                '_nama_jenis'   => $source->nama_jenis,
                 'nama_jenis'    => $this->namaJenisToView(($source->nama_jenis)),
                 'user'          => $userLogin,
                 'template'      => json_decode($source->data_template)
@@ -180,6 +181,13 @@ class PengajuanController extends BaseController
                     case 'perdin_luarkota':
                         $view = 'Pengajuan/Jenis/PerdinLuarKota';
                         break;
+                    case 'perdin_dalamkota':
+                        $view = 'Pengajuan/Jenis/PerdinDalamKota';
+                        break;
+                    case 'perdin_luarnegri':
+                        $view = 'Pengajuan/Jenis/PerdinLuarNegri';
+                        break;
+
                     case 'reimburse_faskom':
                         $dataPengajuan = $this->pengajuan->getPengajuan(['jenis_pengajuan' => 'reimburse_faskom']);
                         $nomor = $dataPengajuan->total_row + 1;
@@ -187,6 +195,12 @@ class PengajuanController extends BaseController
                         $tahun = date('Y');
                         $data['nomor_pengajuan'] = "{$nomor}/{$nomorDivisi}/$tahun";
                         $view = 'Pengajuan/Jenis/ReimburseFaskom';
+                        break;
+                    case 'cuti_karyawan':
+                        $view = 'Pengajuan/Jenis/CutiKaryawan';
+                        break;
+                    case 'lembur_karyawan':
+                        $view = 'Pengajuan/Jenis/LemburKaryawan';
                         break;
                 }
             } else {
@@ -218,6 +232,8 @@ class PengajuanController extends BaseController
                 'nama_jenis'    =>  $this->namaJenis($input['nama_jenis']),
                 'data_template' =>  json_encode($input['templating'], JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT)
             ];
+
+            // printr($data);
             $this->pengajuan->tambah($data);
 
             $response = [
@@ -446,11 +462,12 @@ class PengajuanController extends BaseController
                 'pengajuan'    => $source,
                 'pengaju'      => $karyawan->data[0],
                 'penandatangan' => $penandatangan->data[0],
+                '_nama_jenis'   => $source->nama_jenis,
                 'nama_jenis'    => $this->namaJenisToView(($source->nama_jenis)),
                 'user'          => $userLogin,
             ];
 
-            if ($source->nama_jenis == 'PD_LKOTA' || $source->nama_jenis == 'PD_DKOTA') {
+            if ($source->nama_jenis == 'PD_LKOTA' || $source->nama_jenis == 'PD_DKOTA' ||  $source->nama_jenis == 'PD_LNGRI') {
                 $data = array_merge($data, [
                     'lampiran'      => $lampiranPengajuan->data,
                     'view'          => 'Pengajuan/Detail/DetailPerdin'
@@ -458,6 +475,14 @@ class PengajuanController extends BaseController
             } elseif ($source->nama_jenis == 'RE_FASKOM') {
                 $data = array_merge($data, [
                     'view'          => 'Pengajuan/Detail/DetailReimburse'
+                ]);
+            } elseif ($source->nama_jenis == 'CUTI') {
+                $data = array_merge($data, [
+                    'view'          => 'Pengajuan/Detail/DetailCuti'
+                ]);
+            } elseif ($source->nama_jenis == 'LEMBUR') {
+                $data = array_merge($data, [
+                    'view'          => 'Pengajuan/Detail/DetailLembur'
                 ]);
             }
         } catch (\Exception | \Throwable $error) {
@@ -605,6 +630,10 @@ class PengajuanController extends BaseController
                 $preview = view('Pengajuan/Berkas/BerkasPerdinLuarKota', $data);
             } elseif ($source->nama_jenis == 'RE_FASKOM') {
                 $preview = view('Pengajuan/Berkas/BerkasReimburse', $data);
+            } elseif ($source->nama_jenis == 'CUTI') {
+                $preview = view('Pengajuan/Berkas/BerkasCuti', $data);
+            } elseif ($source->nama_jenis == 'LEMBUR') {
+                $preview = view('Pengajuan/Berkas/BerkasLembur', $data);
             }
             // echo $preview;
             // exit(1);
@@ -631,8 +660,21 @@ class PengajuanController extends BaseController
             case 'perdin_luarkota':
                 $text = 'PD_LKOTA';
                 break;
+            case 'perdin_dalamkota':
+                $text = 'PD_DKOTA';
+                break;
+            case 'perdin_luarnegri':
+                $text = 'PD_LNGRI';
+                break;
             case 'reimburse_faskom':
                 $text = 'RE_FASKOM';
+                break;
+            case 'cuti_karyawan':
+                $text = 'CUTI';
+                break;
+            case 'lembur_karyawan':
+                $text = 'LEMBUR';
+
                 break;
         }
 
@@ -646,8 +688,20 @@ class PengajuanController extends BaseController
             case 'PD_LKOTA':
                 $text = 'Surat Perjalanan Dinas Luar Kota';
                 break;
+            case 'PD_DKOTA':
+                $text = 'Surat Perjalanan Dinas Dalam Kota';
+                break;
+            case 'PD_LNGRI':
+                $text = 'Surat Perjalanan Dinas Luar Negri';
+                break;
             case 'RE_FASKOM':
                 $text = 'Reimburse Fasilitas Komunikasi';
+                break;
+            case 'CUTI':
+                $text = 'Pengajuan Cuti Karyawan';
+                break;
+            case 'LEMBUR':
+                $text = 'Pengajuan Lembur Karyawan';
                 break;
         }
 

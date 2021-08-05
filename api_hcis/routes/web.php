@@ -113,4 +113,6 @@ $router->group(['middleware' => 'AuthLogin'], function () use ($router) {
     $router->get('fbcj_detail[/{idFbcj}]', 'FbcjController@detail');
     $router->get('fbcj_sub_detail[/{idFbcj}]', 'FbcjController@subDetail');
     $router->post('fbcj', 'FbcjController@store');
+    $router->post('fbcj/sub_store[/{idFbcj}]', 'FbcjController@subStore');
+    $router->get('fbcj_bukti[/{idFbcj}]', 'BuktiFbcjController@index');
 });

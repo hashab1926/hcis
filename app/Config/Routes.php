@@ -176,12 +176,16 @@ $routes->group('/', ['filter' => 'authlogin'], function ($routes) {
 
 
 		$routes->get('fbcj', 'Rekap\FBCJController::index');
+		$routes->get('fbcj_bukti/preview/(:num)/(:num)', 'Rekap\FBCJController::previewBukti/$1/$2');
 		$routes->get('fbcj/ajax/data_fbcj/(:num)', 'Rekap\FBCJController::ajaxDataFbcj/$1');
 		$routes->get('fbcj/detail/(:num)', 'Rekap\FBCJController::detail/$1');
 		$routes->get('fbcj/sub_detail/(:num)', 'Rekap\FBCJController::subDetail/$1');
+		$routes->get('fbcj/sub_detail/preview/(:num)', 'Rekap\FBCJController::previewSubDetail/$1');
+		$routes->get('fbcj/preview/(:num)', 'Rekap\FBCJController::preview/$1');
 
 		$routes->get('fbcj/buat', 'Rekap\FBCJController::buat');
 		$routes->post('fbcj/store', 'Rekap\FBCJController::store');
+		$routes->post('fbcj/sub_store', 'Rekap\FBCJController::subStore');
 		$routes->get('fbcj/get_datatable', 'Rekap\FBCJController::getDatatable');
 	});
 });

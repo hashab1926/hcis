@@ -21,7 +21,7 @@ $accessLampiran = [
 
         <div class='d-flex'>
             <?php
-            if (isset($pengajuan)) :
+            if (isset($pengajuan) && ($_nama_jenis == 'PD_LKOTA' || $_nama_jenis == 'PD_DKOTA' || $_nama_jenis == 'PD_LNGRI')) :
                 if ($pengajuan->id_unit_kerja_divisi == $user->id_unit_kerja_divisi && $user->level == '2') :
                     if ($pengajuan->status == 'ACC' || $pengajuan->status_edit == 'Y') : ?>
                         <li class="nav-item">

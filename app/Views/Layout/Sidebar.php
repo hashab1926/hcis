@@ -76,6 +76,10 @@ $accessPerdin = [
     $library->activeIf('rekap/perdin', 'active'),
     $library->activeIf('rekap/perdin', 'text-white'),
 ];
+$accessDashboard = [
+    $library->activeIf('dashboard', 'active'),
+    $library->activeIf('dashboard', 'text-white'),
+];
 
 ?>
 
@@ -173,6 +177,8 @@ $accessPerdin = [
                     </li>
 
 
+
+
                 <?php elseif ($level == '1') : ?>
 
 
@@ -253,8 +259,6 @@ $accessPerdin = [
 
                         </ul>
                     </li>
-
-
                     <li class="sidebar-item  has-sub <?= in_array('active', $accessUnitKerja) ? 'active'  : '' ?> ">
                         <a href="#" class='sidebar-link'>
                             <div class="material-icons-outlined <?= in_array('active', $accessUnitKerja) ? 'text-white'  : '' ?>">
@@ -275,17 +279,43 @@ $accessPerdin = [
 
                         </ul>
                     </li>
+
+                <?php elseif ($level == 'DIR') : ?>
+
+                    <li class="sidebar-item <?= in_array('active', $accessDashboard) ? 'active'  : '' ?>">
+                        <a href="<?= base_url('dashboard') ?>" class='sidebar-link'>
+                            <div class="material-icons-outlined  <?= in_array('text-white', $accessDashboard) ? 'text-white'  : '' ?>">
+                                home
+                            </div>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item  ">
+                        <a href="<?= base_url('pengajuan/inbox') ?>" class='sidebar-link'>
+                            <div class="material-icons-outlined">
+                                mail
+                            </div>
+                            <span>Inbox</span>
+                        </a>
+                    </li>
+
+
+
                 <?php endif; ?>
 
+                <?php
+                $allowBuat = ['1', '2', '3'];
+                if (in_array($level, $allowBuat)) : ?>
 
-                <li class="margin-top-5" style="list-style: none;">
-                    <a href="<?= base_url('pengajuan/tambah') ?>" class="btn btn-primary btn-block fweight-700 padding-y-2 d-flex align-items-center justify-content-center box-shadow" style="border-radius:.5rem">
-                        <span class="material-icons-outlined">
-                            add
-                        </span>
-                        <div class='margin-left-1 text-md-1'>Buat Pengajuan</div>
-                    </a>
-                </li>
+                    <li class="margin-top-5" style="list-style: none;">
+                        <a href="<?= base_url('pengajuan/tambah') ?>" class="btn btn-primary btn-block fweight-700 padding-y-2 d-flex align-items-center justify-content-center box-shadow" style="border-radius:.5rem">
+                            <span class="material-icons-outlined">
+                                add
+                            </span>
+                            <div class='margin-left-1 text-md-1'>Buat Pengajuan</div>
+                        </a>
+                    </li>
+                <?php endif; ?>
 
             </ul>
         </div>

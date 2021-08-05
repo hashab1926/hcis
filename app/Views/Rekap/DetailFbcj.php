@@ -153,10 +153,89 @@ $library = new App\Libraries\Library();
 
                 <!-- PRINT -->
 
-                <br /><Br /><br />
+                <div class='margin-top-7'>
+                    <div class='fweight-600 text-dark'> Berkas Rekapitulasi</div>
+                    <div class='d-flex flex-wrap'>
+                        <div>
+
+                            <div class='d-flex margin-top-3  hover-pointer'>
+                                <span class="material-icons-outlined text-muted" style='font-size:70px'>
+                                    description
+                                </span>
+                                <div class='d-flex flex-column margin-left-3 margin-top-1'>
+                                    <a href="<?= base_url("rekap/fbcj/preview/{$fbcj->id}") ?>" class='text-primary fweight-700' target="_blank">Rekapitulasi FBCJ</a>
+                                    <span>
+                                        <div class='badge badge-pill bg-danger text-sm-3'>pdf</div>
+                                    </span>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <?php if ($empty_sub_detail == false) : ?>
+                            <div class='margin-left-9'>
+
+                                <div class='d-flex margin-top-3  hover-pointer'>
+                                    <span class="material-icons-outlined text-muted" style='font-size:70px'>
+                                        description
+                                    </span>
+                                    <div class='d-flex flex-column margin-left-3  margin-top-1'>
+                                        <a href="<?= base_url("rekap/fbcj/sub_detail/preview/{$fbcj->id}") ?>" class='text-primary fweight-700' target="_blank">Rekapitulasi Detail FBCJ</a>
+                                        <span>
+                                            <div class='badge badge-pill bg-danger text-sm-3'>pdf</div>
+                                        </span>
+                                    </div>
+
+                                </div>
+                            </div>
+                        <?php endif; ?>
+
+                    </div>
+
+                </div>
+
+                <div class='margin-top-7'>
+                    <div class='fweight-600 text-dark'> Bukti Transaksi / BON</div>
+
+
+                    <?php if (count($fbcj_bukti) > 0) : ?>
+
+                        <div class='d-flex flex-wrap'>
+                            <?php
+                            $finfo = new finfo(FILEINFO_MIME);
+                            foreach ($fbcj_bukti as $list) : ?>
+                                <div class='d-flex margin-top-3 <?= $no != 1 ? 'margin-right-7' : '' ?> hover-pointer'>
+                                    <span class="material-icons-outlined text-muted" style='font-size:70px'>
+                                        description
+                                    </span>
+                                    <div class='d-flex flex-column margin-left-3'>
+                                        <a href="<?= base_url("rekap/fbcj_bukti/preview/{$fbcj->id}/{$list->id}") ?>" class='text-primary fweight-700' target="_blank">Bukti 000<?= $no++ ?></a>
+                                        <span>
+                                            <?php
+                                            $fileInfo = $finfo->buffer(base64_decode($list->bukti_file));
+                                            $mimeType = explode('; ', $fileInfo)[0] ?? 'Tidak Diketahui';
+                                            ?>
+                                            <div class='badge badge-pill <?= $library->mimeToExt($mimeType) == 'pdf' ? 'bg-danger' : 'bg-success' ?> text-sm-3'>
+                                                <?= $library->mimeToExt($mimeType); ?>
+                                            </div>
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+                            <?php endforeach; ?>
+                        </div>
+                    <?php endif; ?>
+
+                </div>
+
             </div>
+
+            <br /><Br /><br />
         </div>
     </div>
+</div>
 </div>
 <?= $this->endSection() ?>
 

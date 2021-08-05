@@ -66,20 +66,32 @@ class FBCJController extends BaseController
     public function detail($id)
     {
         try {
+            // printr($_SESSION);
             $get = $this->fbcj->getFbcj(['id' => $id]);
             if ($get->total_row <= 0)
                 throw new \Exception("Detail FBCJ tidak ditemukan");
-
             $getDetail = $this->fbcj->getFbcjDetail([], $id);
+
             // printr($getDetail);
             if ($getDetail->total_row <= 0)
                 throw new \Exception("Detail FBCJ tidak ditemukan");
 
+            $getSubDetail = $this->fbcj->getFbcjSubDetail([], $id);
+
+            $emptySubDetail = false;
+
+            if ($getSubDetail->total_row <= 0)
+                $emptySubDetail = true;
+
+            // bukti 
+            $getBukti = $this->fbcj->getBukti([], $id);
             $source = $get->data[0];
             $sourceDetail = $getDetail->data;
             return view("Rekap/DetailFbcj", [
                 'fbcj'      => $source,
-                'detail'    => $sourceDetail
+                'detail'    => $sourceDetail,
+                'empty_sub_detail'  => $emptySubDetail,
+                'fbcj_bukti'        => $getBukti->data
             ]);
         } catch (\Exception | \Throwable $error) {
             echo $error->getMessage();
@@ -110,13 +122,15 @@ class FBCJController extends BaseController
             $source = $get->data[0];
             $sourceDetail = $getDetail->data;
             $sourceSubDetail = $getSubDetail->data;
-            return view("Rekap/SubDetailFbcj", [
+            $data =  [
                 'fbcj'              => $source,
                 'detail'            => $sourceDetail,
                 'sub_detail'        => $sourceSubDetail,
                 'empty_sub_detail'  => $emptySubDetail,
                 'id_fbcj'           => $id
-            ]);
+            ];
+            // printr($data);
+            return view("Rekap/SubDetailFbcj", $data);
         } catch (\Exception | \Throwable $error) {
             echo $error->getMessage();
         }
@@ -126,14 +140,26 @@ class FBCJController extends BaseController
     {
         try {
             $input = $this->request->getPost();
+            $files = $_FILES['bukti_file'];
             $data = [
                 'tanggal'               => $input['tanggal'],
                 'id_unit_kerja_divisi'  => $input['id_unit_kerja_divisi'],
                 'kas_jurnal'            => $input['kas_jurnal'],
                 'id_cost_center'        => $input['id_cost_center'],
+                'id_penandatangan'      => $input['penandatangan'],
                 'rincian'               => json_encode($input['rincian'], JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT),
             ];
 
+            if (count($files['name']) > 0) :
+                $tampungFiles = [];
+                for ($x = 0; $x < count($files['name']); $x++) {
+                    if (!empty($files['name'][$x]) && $files['error'][$x] == 0)
+                        $tampungFiles["bukti_file[{$x}]"] =   $this->library->addFile($files['tmp_name'][$x], $files['type'][$x], $files['name'][$x]);
+                }
+                $data = array_merge($data, $tampungFiles);
+            endif;
+
+            // printr($data);
             $request = $this->fbcj->tambah($data);
             $response = [
                 'status_code' => 201,
@@ -151,40 +177,115 @@ class FBCJController extends BaseController
         }
     }
 
+    public function subStore()
+    {
+        try {
+            $input = $this->request->getPost();
+
+            $dataInput = json_decode($input['data'], true);
+            $data = [
+                'data_sub'         => $input['data'],
+            ];
+            // printr($data);
+            $request = $this->fbcj->tambahSubStore($data, $input['id_fbcj']);
+            $response = [
+                'status_code' => 201,
+                'message'     => $request->message,
+                'action'      => base_url('rekap/fbcj/sub_detail/' . $input['id_fbcj'])
+            ];
+        } catch (\Exception | \Throwable $error) {
+            $response = [
+                'status_code' => 400,
+                'message'     => $error->getMessage()
+            ];
+        } finally {
+            $response['token'] = csrf_hash();
+            echo json_encode($response);
+        }
+    }
+
     public function preview($id = null)
     {
         try {
-            $input = $this->request->getGet();
+            $get = $this->fbcj->getFbcj([
+                'id'            => $id,
+                'penandatangan' => 'yes'
+            ]);
+            // printr($get);
+            if ($get->total_row <= 0)
+                throw new \Exception("Detail FBCJ tidak ditemukan");
 
+            $getDetail = $this->fbcj->getFbcjDetail([], $id);
+            // printr($getDetail);
+            if ($getDetail->total_row <= 0)
+                throw new \Exception(" Detail FBCJ tidak ditemukan");
 
-            $param = [
-                'jenis_pengajuan'       => 'perjalanan_dinas',
-                'status'                => 'selesai'
+            $source = $get->data[0];
+            $sourceDetail = $getDetail->data;
+            $data =  [
+                'fbcj'              => $source,
+                'detail'            => $sourceDetail,
+                'id_fbcj'           => $id
             ];
 
-            // kalo ada tanggal between
-            if (isset($input['tgl_awal']) && isset($input['tgl_akhir'])) {
-                $param['date_range'] = trim($input['tgl_awal']) . '|' . trim($input['tgl_akhir']);
-            }
-
-            if ($id != null)
-                $param['id_user'] = $id;
-            // get karyawan
-            $pengajuan = $this->pengajuan->getPengajuan($param);
-            if ($pengajuan->total_row <= 0)
-                throw new \Exception("Belum ada riwayat pengajuan ini");
-
-            $response = [
-                'pengajuan'        => $pengajuan->data,
-            ];
-
-
-            // printr($response);
-            $preview = view('Pengajuan/Rekap/PreviewPerjalananDinas', $response);
+            // printr($data);
+            $preview = view('Pengajuan/Rekap/PreviewFBCJ', $data);
             // return $preview;
-            // echo $preview;
             // exit(1);
+            $pdf = new Pdf();
+            $pdf->htmlToPdf([
+                'paper'  => 'A4',
+                'layout' => 'portait',
+                'title'  => 'Berkas',
+                'author' => 'PT.INTI',
+                'html'   => $preview,
+            ]);
+        } catch (\Exception | \Throwable $error) {
+            echo $error->getMessage();
+        }
+    }
 
+
+    public function previewSubDetail($id = null)
+    {
+        try {
+            $get = $this->fbcj->getFbcj([
+                'id' => $id,
+                'penandatangan' => 'yes'
+            ]);
+
+            if ($get->total_row <= 0)
+                throw new \Exception("= Detail FBCJ tidak ditemukan");
+
+            $getDetail = $this->fbcj->getFbcjDetail([], $id);
+            // printr($getDetail);
+            if ($getDetail->total_row <= 0)
+                throw new \Exception(" Detail FBCJ tidak ditemukan");
+
+
+            $getSubDetail = $this->fbcj->getFbcjSubDetail([], $id);
+            // printr($getSubDetail);
+
+            $emptySubDetail = false;
+
+            if ($getSubDetail->total_row <= 0)
+                $emptySubDetail = true;
+
+            $source = $get->data[0];
+            $sourceDetail = $getDetail->data;
+            $sourceSubDetail = $getSubDetail->data;
+            $data =  [
+                'fbcj'              => $source,
+                'detail'            => $sourceDetail,
+                'sub_detail'        => $sourceSubDetail,
+                'empty_sub_detail'  => $emptySubDetail,
+                'id_fbcj'           => $id
+            ];
+
+            // printr($data);
+            $preview = view('Pengajuan/Rekap/PreviewSubDetailFBCJ', $data);
+            // return $preview;
+            // exit(1);
             $pdf = new Pdf();
             $pdf->htmlToPdf([
                 'paper'  => 'A4',
@@ -195,6 +296,31 @@ class FBCJController extends BaseController
             ]);
         } catch (\Exception | \Throwable $error) {
             echo $error->getMessage();
+        }
+    }
+
+
+    public function previewBukti($idFbcj, $idBukti)
+    {
+        try {
+            $fbcj = $this->fbcj->getBukti(['id' => $idBukti], $idFbcj);
+            if ($fbcj->total_row <= 0)
+                throw new \Exception('FBCJ tidak ditemukan');
+
+            // shorthand
+            $source = $fbcj->data[0];
+            $finfo = new \finfo(FILEINFO_MIME);
+            $fileInfo = $finfo->buffer(base64_decode($source->bukti_file));
+            $mimeType = explode('; ', $fileInfo)[0] ?? 'Tidak Diketahui';
+            $ekstensi = $this->library->mimeToExt($mimeType);
+
+
+            header("Content-type: {$mimeType}");
+            $content = base64_decode($source->bukti_file);
+            echo $content;
+            exit(1);
+        } catch (\Exception | \Throwable $error) {
+            echo $error->getMessage() . $error->getFile() . ' - ' . $error->getLine();
         }
     }
 }

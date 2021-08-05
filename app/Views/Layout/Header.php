@@ -32,7 +32,12 @@ $namaUser = $credential->nama_karyawan ?? 'HCIS';
                             <select id="jenis_pengajuan" name='jenis_pengajuan' class='form-select'>
                                 <option value="">- Pilih Jenis Pengajuan -</option>
                                 <option value="perdin_luarkota" <?= $jenisPengajuan != null && $jenisPengajuan == 'perdin_luarkota' ? 'selected' : '' ?>>Surat Perjalanan Dinas Luar Kota</option>
+                                <option value="perdin_dalamkota" <?= $jenisPengajuan != null && $jenisPengajuan == 'perdin_dalamkota' ? 'selected' : '' ?>>Surat Perjalanan Dinas Dalam Kota</option>
+                                <option value="perdin_luarnegri" <?= $jenisPengajuan != null && $jenisPengajuan == 'perdin_luarnegri' ? 'selected' : '' ?>>Surat Perjalanan Dinas Luar Negri</option>
+
                                 <option value="reimburse_faskom" <?= $jenisPengajuan != null && $jenisPengajuan == 'reimburse_faskom' ? 'selected' : '' ?>>Reimburse Fasilitas Komunikasi</option>
+                                <option value="cuti_karyawan" <?= $jenisPengajuan != null && $jenisPengajuan == 'cuti_karyawan' ? 'selected' : '' ?>>Pengajuan Cuti Karyawan</option>
+                                <option value="lembur_karyawan" <?= $jenisPengajuan != null && $jenisPengajuan == 'lembur_karyawan' ? 'selected' : '' ?>>Pengajuan Lembur Karyawan</option>
 
                             </select>
                         </fieldset>
@@ -84,11 +89,7 @@ $namaUser = $credential->nama_karyawan ?? 'HCIS';
                             </div>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
-                            <li><a class="dropdown-item" href="#"><i class="icon-mid bi bi-person me-2"></i> Profil saya</a></li>
-                            <li><a class="dropdown-item" href="#"><i class="icon-mid bi bi-gear me-2"></i>
-                                    Settings</a></li>
-                            <hr class="dropdown-divider">
-                            </li>
+
                             <li><a class="dropdown-item" href="<?= base_url('logout') ?>"><i class="icon-mid bi bi-box-arrow-left me-2"></i> Logout</a></li>
                         </ul>
                     </div>

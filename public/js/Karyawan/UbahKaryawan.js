@@ -42,7 +42,7 @@ $('#karyawan-updatestore').submit(function (evt) {
 
         successMessage('Pesan', response.message);
         setTimeout(function () {
-            // document.location = response.action;
+            document.location = response.action;
         }, 2000)
     })
 })

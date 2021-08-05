@@ -224,7 +224,10 @@ function namaJenis(nama) {
     switch (nama) {
         case 'PD_LKOTA': text = 'Surat perjalanan dinas luar kota'; break;
         case 'PD_DKOTA': text = 'Surat perjalanan dinas dalam kota'; break;
+        case 'PD_LNGRI': text = 'Surat perjalanan dinas luar negri'; break
         case 'RE_FASKOM': text = 'Reimburse Fasilitas Komunikasi'; break;
+        case 'CUTI': text = 'Surat Pengajuan Cuti Karyawan'; break;
+        case 'LEMBUR': text = 'Surat Pengajuan Lembur Karyawan'; break;
 
     }
 
@@ -235,8 +238,12 @@ function iconNamaJenis(nama) {
     let text = '';
     switch (nama) {
         case 'PD_LKOTA': text = `<span class="material-icons-outlined icon-lg-title">emoji_transportation</span>`; break;
-        case 'PD_DKOTA': text = `<span class="material-icons-outlined icon-lg-title">emoji_transportation</span>`; break;
+        case 'PD_DKOTA': text = `<span class="material-icons-outlined icon-lg-title">directions_car</span>`; break;
+        case 'PD_LNGRI': text = `<span class="material-icons-outlined icon-lg-title">flight_takeoff</span>`; break;
+
         case 'RE_FASKOM': text = `<span class="material-icons-outlined icon-lg-title">paid</span>`; break;
+        case 'CUTI': text = `<span class="material-icons-outlined icon-lg-title">hail</span>`; break;
+        case 'LEMBUR': text = `<span class="material-icons-outlined icon-lg-title">work</span>`; break;
 
     }
 

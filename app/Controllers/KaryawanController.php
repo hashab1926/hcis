@@ -200,7 +200,7 @@ class KaryawanController extends BaseController
     {
         try {
             $input = $this->request->getPost();
-            $file = $_FILES['foto'];
+
             $listNip = $input['nip'];
             foreach ($listNip as $key => $id) {
                 $data = [
@@ -230,8 +230,10 @@ class KaryawanController extends BaseController
                     $data['level'] = $input['level'][$key];
 
                 // upload foto, kalo ada
-                if (isset($file['name'][$key]))
+                if (isset($file['name'][$key])) {
+                    $file = $_FILES['foto'];
                     $data['foto'] = $this->library->addFile($file['tmp_name'][$key], $file['type'][$key], $file['name'][$key]);
+                }
 
                 $this->karyawan->ubah($key, $data);
             }
@@ -335,7 +337,7 @@ trait AjaxData
             foreach ($dataJabatan as $list) :
                 $response['results'][] = [
                     'id'    => $list->id,
-                    'text'  => $list->nama_karyawan
+                    'text'  => $list->nama_karyawan . ' - ' . $list->email
                 ];
             endforeach;
 

@@ -233,6 +233,34 @@ class Library
 
         return $text;
     }
+    public function objectToArray($object)
+    {
+        if (is_object($object)) {
+            $object = get_object_vars($object);
+        }
+        if (is_array($object)) {
+            return array_map(array($this, 'objectToArray'), $object);
+        } else {
+            return $object;
+        }
+    }
+    public function filterArrayKey($array, $keyC, $contains)
+    {
+        if (!is_array($array))
+            return false;
+
+        $tampung = null;
+        $counter = 0;
+        $index = 0;
+        foreach ($array as $key => $value) :
+            if (isset($value[$keyC]) and $value[$keyC] == $contains)
+                $tampung[$counter++] = $array[$index];
+
+            $index++;
+        endforeach;
+
+        return $tampung;
+    }
 
     public function mimeToExt($mime)
     {
@@ -419,5 +447,50 @@ class Library
         ];
 
         return isset($mime_map[$mime]) === true ? $mime_map[$mime] : false;
+    }
+    public function namaJenisToView($nama)
+    {
+        $text = '';
+        switch ($nama) {
+            case 'PD_LKOTA':
+                $text = 'Surat Perjalanan Dinas Luar Kota';
+                break;
+            case 'RE_FASKOM':
+                $text = 'Reimburse Fasilitas Komunikasi';
+                break;
+            case 'CUTI':
+                $text = 'Pengajuan Cuti Karyawan';
+                break;
+            case 'LEMBUR':
+                $text = 'Pengajuan Lembur Karyawan';
+                break;
+        }
+
+        return $text;
+    }
+
+
+    public function iconNamaJenis($nama, $class = '')
+    {
+        $text = '';
+        switch ($nama) {
+            case 'PD_LKOTA':
+                $text = '<span class="material-icons-outlined icon-lg-title ' . $class . ' ">emoji_transportation</span>';
+                break;
+            case 'PD_DKOTA':
+                $text = '<span class="material-icons-outlined icon-lg-title ' . $class . ' ">emoji_transportation</span>';
+                break;
+            case 'RE_FASKOM':
+                $text = '<span class="material-icons-outlined icon-lg-title ' . $class . ' ">paid</span>';
+                break;
+            case 'CUTI':
+                $text = '<span class="material-icons-outlined icon-lg-title ' . $class . ' ">hail</span>';
+                break;
+            case 'LEMBUR':
+                $text = '<span class="material-icons-outlined icon-lg-title ' . $class . ' ">work</span>';
+                break;
+        }
+
+        return $text;
     }
 }

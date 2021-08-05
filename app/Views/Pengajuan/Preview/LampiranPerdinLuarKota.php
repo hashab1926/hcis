@@ -146,7 +146,7 @@ $library = new App\Libraries\Library(); ?>
 
         <!-- RINCIAN -->
         <div style='margin-top:50px; width:100%;'>
-            <div style='text-align:center; font-weight:700'><?= strtoupper($lampiran->judul_rincian) ?></div>
+            <div style='text-align:center; font-weight:700'>RINCIAN TRANSPORTASI</div>
             <div style='text-align:center; font-weight:500'>PERJALANAN DINAS ADA BUKTI</div>
 
             <div style='margin-top:10px'>

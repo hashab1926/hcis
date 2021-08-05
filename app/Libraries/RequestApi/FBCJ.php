@@ -43,11 +43,34 @@ class FBCJ
         return $request;
     }
 
+    public function getBukti($param, $id)
+    {
+
+        $this->api->jwtToken = getToken();
+        $request = $this->api->get("fbcj_bukti/{$id}", arrayToGet($param));
+        if ($request->status_code != 200)
+            throw new \Exception($request->message);
+
+        return $request;
+    }
+
+
     public function tambah($data)
     {
         $this->api->jwtToken = getToken();
 
         $request = $this->api->post('fbcj', $data);
+        if ($request->status_code != 201)
+            throw new \Exception($request->message);
+
+        return $request;
+    }
+
+    public function tambahSubStore($data, $id)
+    {
+        $this->api->jwtToken = getToken();
+
+        $request = $this->api->post("fbcj/sub_store/{$id}", $data);
         if ($request->status_code != 201)
             throw new \Exception($request->message);
 

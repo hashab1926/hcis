@@ -56,6 +56,12 @@ function getFormData() {
             form.append(pair[0], pair[1]);
         }
     }
+
+    // file upload
+    const files = $('#fileUpload')[0].files;
+    for (let y = 0; y < files.length; y++) {
+        form.append(`bukti_file[${y}]`, files[y]);
+    }
     return form;
 }
 
@@ -93,3 +99,13 @@ $('button[name=simpan]').click(function (evt) {
             }
         })
 })
+
+
+
+// upload 'kartik-upload'+
+$("#fileUpload").fileinput({
+    showUpload: false,
+    dropZoneEnabled: true,
+    mainClass: "d-none",
+});
+$('.file-preview').addClass(['no-border']);

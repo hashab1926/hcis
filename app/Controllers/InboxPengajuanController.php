@@ -72,7 +72,7 @@ trait ParamDatatable
             'page'              => @$input['page'] ?? 1,
             'order_by'          => @$input['order_by'] ?? 'desc',
         ];
-        if ($user->level == '3')
+        if ($user->level == '3' || $user->level == 'DIR')
             $param['id_penandatangan'] = $user->id_karyawan;
         elseif ($user->level == '2') {
             $param['id_unit_kerja_divisi'] = $user->id_unit_kerja_divisi;

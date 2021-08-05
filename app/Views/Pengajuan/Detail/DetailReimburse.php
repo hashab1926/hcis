@@ -174,29 +174,32 @@ endif;
                 </div>
 
                 <!-- PRINT -->
-                <br /><br />
-                <div class='margin-top-7'>
-                    <div class='d-flex flex-wrap'>
-                        <div>
-                            <div class='fweight-600 text-dark'> Berkas Pengajuan</div>
+                <?php if (($user->id == $pengaju->id_user && ($pengajuan->status == 'ACC' || $pengajuan->status == 'SELESAI')) || $user->id == $penandatangan->id_user || $user->level == 'DIR') : ?>
 
-                            <div class='d-flex margin-top-3  hover-pointer'>
-                                <span class="material-icons-outlined text-muted" style='font-size:70px'>
-                                    description
-                                </span>
-                                <div class='d-flex flex-column margin-left-3'>
-                                    <a href="<?= base_url("pengajuan/preview/{$pengajuan->id}") ?>" class='text-primary fweight-700' target="_blank"><?= $nama_jenis ?></a>
-                                    <span>
-                                        <div class='badge badge-pill bg-danger text-sm-3'>pdf</div>
+                    <br /><br />
+                    <div class='margin-top-7'>
+                        <div class='d-flex flex-wrap'>
+                            <div>
+                                <div class='fweight-600 text-dark'> Berkas Pengajuan</div>
+
+                                <div class='d-flex margin-top-3  hover-pointer'>
+                                    <span class="material-icons-outlined text-muted" style='font-size:70px'>
+                                        description
                                     </span>
-                                </div>
+                                    <div class='d-flex flex-column margin-left-3'>
+                                        <a href="<?= base_url("pengajuan/preview/{$pengajuan->id}") ?>" class='text-primary fweight-700' target="_blank"><?= $nama_jenis ?></a>
+                                        <span>
+                                            <div class='badge badge-pill bg-danger text-sm-3'>pdf</div>
+                                        </span>
+                                    </div>
 
+                                </div>
                             </div>
+
                         </div>
 
                     </div>
-
-                </div>
+                <?php endif; ?>
 
 
                 <!-- PRINT -->

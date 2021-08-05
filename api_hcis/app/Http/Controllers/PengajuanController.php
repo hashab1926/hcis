@@ -18,7 +18,7 @@ class PengajuanController extends Controller
 
     public function index(Request $request)
     {
-        $allowGet = $request->only(['id', 'status', 'limit', 'date_range', 'reimburse_tahunbulan', 'page', 'order_by', 'id_user', 'id_penandatangan', 'status', 'id_unit_kerja_divisi', 'jenis_pengajuan']);
+        $allowGet = $request->only(['id', 'created_at', 'created_at_bulan', 'created_at_tahun', 'status', 'limit', 'date_range', 'reimburse_tahunbulan', 'page', 'order_by', 'id_user', 'id_penandatangan', 'status', 'id_unit_kerja_divisi', 'jenis_pengajuan']);
 
         $get = Pengajuan::getPengajuan($allowGet);
         return response()->json($get);
@@ -46,27 +46,19 @@ class PengajuanController extends Controller
             if (!isset($dataTemplateDecode['nama_penandatangan']))
                 throw new \Exception("penandatangan belum diisi, silahkan isi penandatangan");
 
+            $allowPost = [
+                'data_template' => $dataTemplate,
+                'nama_jenis'    => $request->post('nama_jenis'),
+                'id_user'       => $user->id,
+                'id_unit_kerja_divisi'   => $user->id_unit_kerja_divisi,
+                'id_penandatangan'       => $dataTemplateDecode['nama_penandatangan'],
+                'nomor'                  => Pengajuan::getAutoNumberGeneral($request->post('nama_jenis'))
+            ];
+
             switch ($request->post('nama_jenis')) {
-                case 'PD_LKOTA':
-                    $allowPost = [
-                        'data_template' => $dataTemplate,
-                        'nama_jenis'    => $request->post('nama_jenis'),
-                        'nomor'         => Pengajuan::getAutoNumberPerdin($request->post('nama_jenis')),
-                        'id_user'       => $user->id,
-                        'id_unit_kerja_divisi'   => $user->id_unit_kerja_divisi,
-                        'id_penandatangan'       => $dataTemplateDecode['nama_penandatangan']
-                    ];
-                    break;
 
                 case 'RE_FASKOM':
-                    $allowPost = [
-                        'data_template' => $dataTemplate,
-                        'nama_jenis'    => $request->post('nama_jenis'),
-                        'nomor'         => Pengajuan::getAutoNumberFaskom($request->post('nama_jenis'), $user),
-                        'id_user'       => $user->id,
-                        'id_unit_kerja_divisi'   => $user->id_unit_kerja_divisi,
-                        'id_penandatangan'       => $dataTemplateDecode['nama_penandatangan']
-                    ];
+                    $allowPost['nomor'] = Pengajuan::getAutoNumberFaskom($request->post('nama_jenis'), $user);
                     break;
             }
 

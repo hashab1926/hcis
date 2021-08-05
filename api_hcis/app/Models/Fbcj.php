@@ -24,7 +24,9 @@ class Fbcj extends Model
         'rekap__fbcj.id_unit_kerja_divisi',
         'rekap__fbcj.tanggal',
         'rekap__fbcj.kas_jurnal',
-        'rekap__fbcj.id_cost_center'
+        'rekap__fbcj.id_cost_center',
+        'rekap__fbcj.id_penandatangan',
+
     ];
 
     protected static $allow_limit = [10, 25, 50, 100];
@@ -44,6 +46,7 @@ class Fbcj extends Model
 
             $get = DB::table('rekap__fbcj')
                 ->leftJoin('unit_kerja__divisi', 'rekap__fbcj.id_unit_kerja_divisi', '=', 'unit_kerja__divisi.id')
+                ->leftJoin('karyawan', 'karyawan.id', '=', 'rekap__fbcj.id_penandatangan')
                 ->leftJoin('lainnya__cost_center', 'rekap__fbcj.id_cost_center', '=', 'lainnya__cost_center.id');
 
             // add select dari join
@@ -52,6 +55,9 @@ class Fbcj extends Model
                 'unit_kerja__divisi.kode_divisi',
                 'lainnya__cost_center.kode_cost_center',
                 'lainnya__cost_center.nama_cost_center',
+                'karyawan.nip AS nip_penandatangan',
+                'karyawan.nama_karyawan AS nama_penandatangan',
+                'karyawan.email AS nip_penandatangan',
             ];
             self::$column_table = array_merge($addSelect, self::$column_table);
 
@@ -265,6 +271,12 @@ class Fbcj extends Model
         $request = self::$request;
         if (isset($request['id'])) {
             $query = $query->where('rekap__fbcj.id', $request['id']);
+        }
+
+        if (isset($request['penandatangan']) && $request['penandatangan'] == 'yes') {
+            self::$column_table = array_merge([
+                DB::raw("(SELECT jabatan.nama_jabatan FROM jabatan WHERE jabatan.id = karyawan.id_jabatan) AS jabatan_penandatangan")
+            ], self::$column_table);
         }
 
         // param 'order_by'

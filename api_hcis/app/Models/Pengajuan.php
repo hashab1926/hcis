@@ -65,6 +65,7 @@ class Pengajuan extends Model
                 'karyawan.nip AS nip_pengaju',
                 'karyawan.nama_karyawan AS nama_pengaju',
                 'karyawan.email AS email_pengaju',
+
             ];
 
             self::$column = array_merge($addSelect, self::$column);
@@ -144,7 +145,7 @@ class Pengajuan extends Model
         }
     }
 
-    public static function getAutoNumberPerdin($namaJenis)
+    public static function getAutoNumberGeneral($namaJenis)
     {
         $text = '';
         $nomor = Pengajuan::where('nama_jenis', $namaJenis)->count() + 1;
@@ -222,6 +223,19 @@ class Pengajuan extends Model
 
             self::$column = array_merge([DB::raw("JSON_EXTRACT(pengajuan.data_template,'$.tahun_bulan') AS tahun_bulan")], self::$column);
         }
+
+        if (isset($request['created_at'])) {
+            $query = $query->where(DB::raw("DATE_FORMAT(pengajuan.created_at,'%Y-%m-%d')"), $request['created_at']);
+        }
+
+
+        if (isset($request['created_at_bulan'])) {
+            $query = $query->where(DB::raw("DATE_FORMAT(pengajuan.created_at,'%Y-%m')"), $request['created_at_bulan']);
+        }
+        if (isset($request['created_at_tahun'])) {
+            $query = $query->where(DB::raw("DATE_FORMAT(pengajuan.created_at,'%Y')"), $request['created_at_tahun']);
+        }
+
         if (isset($request['date_range'])) {
             $explodeTgl = explode('|', $request['date_range']);
             $awal =  $explodeTgl[0];
@@ -243,6 +257,16 @@ class Pengajuan extends Model
                         ->orWhere('pengajuan.nama_jenis', 'PD_LNGRI');
                 });
                 // exit(1);
+            } elseif ($request['jenis_pengajuan'] == 'perdin_luar_kota') {
+                $query = $query->where('pengajuan.nama_jenis', 'PD_LKOTA');
+            } elseif ($request['jenis_pengajuan'] == 'perdin_dalam_kota') {
+                $query = $query->where('pengajuan.nama_jenis', 'PD_DKOTA');
+            } elseif ($request['jenis_pengajuan'] == 'perdin_luar_negri') {
+                $query = $query->where('pengajuan.nama_jenis', 'PD_LNGRI');
+            } elseif ($request['jenis_pengajuan'] == 'cuti') {
+                $query = $query->where('pengajuan.nama_jenis', 'CUTI');
+            } elseif ($request['jenis_pengajuan'] == 'lembur') {
+                $query = $query->where('pengajuan.nama_jenis', 'LEMBUR');
             }
         }
 

@@ -31,7 +31,7 @@ $(document).ready(function () {
 
             },
             {
-                "sClass": "",
+                "sClass": "d-flex",
                 "data": "aksi",
                 "render": function (data, type, row) {
                     return `
@@ -41,6 +41,7 @@ $(document).ready(function () {
                                 </span>
                                 <div class='margin-left-2'>Detail</div>
                     </button>
+
                             `;
                 }
             },
@@ -60,7 +61,7 @@ $(document).ready(function () {
                     filter_alt
                 </div>
             </span>
-            <input type="text" class="form-control custom-input-height no-border-radius" placeholder="Filter Jabatan" style="border-left:0; padding-left:5px" >
+            <input type="text" class="form-control custom-input-height no-border-radius" placeholder="Cari" style="border-left:0; padding-left:5px" >
             <button class="btn btn-primary border-right-radius border border-light d-flex align-items-center padding-x-3" type="button">
                 <span class="material-icons-outlined" style='transform:rotate(90deg)'>
                     tune

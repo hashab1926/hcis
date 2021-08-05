@@ -8,6 +8,7 @@ use App\Models\Fbcj;
 use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\DB;
+use App\Helpers\BlobHelper;
 
 class FbcjController extends Controller
 {
@@ -16,7 +17,7 @@ class FbcjController extends Controller
 
     public function index(Request $request)
     {
-        $allowGet = $request->only(['id', 'q', 'limit', 'page', 'order_by']);
+        $allowGet = $request->only(['id', 'q', 'limit', 'page', 'order_by', 'penandatangan']);
 
         $get = Fbcj::getFbcj($allowGet);
         return response()->json($get);
@@ -51,6 +52,7 @@ class FbcjController extends Controller
                 'id_unit_kerja_divisi' => $request->post('id_unit_kerja_divisi'),
                 'kas_jurnal'           => $request->post('kas_jurnal'),
                 'tanggal'              => $request->post('tanggal'),
+                'id_penandatangan'     => $request->post('id_penandatangan')
             ];
             // insert
             $withId = Fbcj::insertGetId($allowPost);
@@ -66,7 +68,7 @@ class FbcjController extends Controller
                     $tampung[] = [
                         'id_fbcj'                   => $withId,
                         'doc_no'                    => Fbcj::getAutoNumberDetailFbcj(),
-                        'id_bussiness_transaction'  => $list,
+                        'id_bussiness_trans'        => $list,
                         'id_wbs_element'            => $rincian['id_wbs_element'][$key],
                         'amount'                    => str_replace('.', '', $rincian['amount'][$key]),
                         'id_karyawan'               => $rincian['id_karyawan'][$key],
@@ -75,6 +77,20 @@ class FbcjController extends Controller
                 endforeach;
 
                 DB::table('rekap__fbcj_detail')->insert($tampung);
+            }
+
+            // insert bon/ bukti file
+            $bukti = $request->file('bukti_file');
+            $length = count($bukti);
+            if ($length > 0) {
+                $dataTampung = [];
+                for ($x = 0; $x < $length; $x++) {
+                    $dataTampung[] = [
+                        'id_fbcj'       => $withId,
+                        'bukti_file'    => BlobHelper::fileToBlob($bukti[$x])
+                    ];
+                }
+                DB::table('rekap__fbcj_bukti')->insert($dataTampung);
             }
             $response = [
                 'status_code' => 201,
@@ -95,6 +111,50 @@ class FbcjController extends Controller
         }
     }
 
+    public function subStore($idFbcj, Request $request)
+    {
+        try {
+            $input = $request->only(['data_sub']);
+
+            $dataSub = json_decode($input['data_sub'], true);
+
+            $no = 0;
+            foreach ($dataSub as $list) :
+                $subDetail = $list['subdetail'];
+
+                foreach ($subDetail as $listSub) :
+
+                    $tampung = [
+                        'id_fbcj'           => $idFbcj,
+                        'id_fbcj_detail'    => $list['id_fbcj_detail'],
+                        'keterangan'        => $listSub['keterangan'],
+                        'tanggal_bon'       => $listSub['tglbon'],
+                        'amount_detail'     => $listSub['amount_detail'],
+                    ];
+
+                    if (!DB::table('rekap__fbcj_sub_detail')->insert($tampung))
+                        throw new \Exception("Gagal menambahkan data, silahkan coba beberapa saat lagi");
+                endforeach;
+            endforeach;
+
+            $response = [
+                'status_code' => 201,
+                'message'     => 'data telah ditambahkan',
+            ];
+        } catch (\Exception | \Throwable $error) {
+            $response = [
+                'status_code' => 400,
+                'message'     => $error->getMessage() . ' - ' . $error->getLine(),
+            ];
+        } catch (QueryException $Error) {
+            $response = [
+                'status_code' => 400,
+                'message'     => $Error->getMessage(),
+            ];
+        } finally {
+            return response()->json($response);
+        }
+    }
     public function update($id, Request $request)
     {
         try {

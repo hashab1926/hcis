@@ -141,10 +141,10 @@ class KaryawanController extends Controller
             // kalo ada id_user
             $idUser = @$request->post('id_user');
             if (!empty($request->post('id_user')) || $request->post('id_user') != null) {
-                $password = !empty($request->post('password')) ? $request->post('password') : $old->password;
+                $password = !empty($request->post('password')) ? Hash::make($request->post('password')) : $old->password;
                 $user =  \App\Models\User::findOrFail($idUser);
                 $user->update([
-                    'password'  => Hash::make($password),
+                    'password'  => $password,
                     'level'     => $request->post('level')
                 ]);
             }
@@ -161,11 +161,12 @@ class KaryawanController extends Controller
                 'nomor_hp'             => $noHp,
 
             ];
-            $filePhoto = $request->file('foto') ?? null;
 
             // cek 'foto'
-            if ($request->hasFile('foto'))
+            if ($request->hasFile('foto')) {
+                $filePhoto = $request->file('foto') ?? null;
                 $allowUpdate['foto'] = BlobHelper::fileToBlob($filePhoto);
+            }
 
             $old->update($allowUpdate);
 
@@ -174,16 +175,16 @@ class KaryawanController extends Controller
                 'message'     => 'Data telah diperbarui',
                 'response'    => $old,
             ];
-        } catch (QueryException $Error) {
+        } catch (QueryException $error) {
             $response = [
                 'status_code' => 400,
-                'message'     => $Error->getMessage(),
+                'message'     => $error->getMessage(),
 
             ];
-        } catch (\Exception $Error) {
+        } catch (\Exception | \Throwable $error) {
             $response = [
                 'status_code' => 400,
-                'message'     => $Error->getMessage(),
+                'message'     => $error->getMessage() . $error->getLine(),
             ];
         } finally {
             return response()->json($response);
