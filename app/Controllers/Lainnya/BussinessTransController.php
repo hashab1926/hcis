@@ -221,4 +221,43 @@ trait AjaxData
             echo json_encode([]);
         }
     }
+
+    public function ajaxDataBussinessTransKode()
+    {
+        try {
+
+            // set default param
+            $param = [];
+
+            // get method
+            $input = $this->request->getGet();
+
+            // param 'page' kalo ada
+            if (!empty($input['page']))
+                $param['page'] = $input['page'];
+
+            // param 'q' kalo ada
+            if (!empty($input['search']))
+                $param['q'] = $input['search'];
+
+
+            // get karyawan
+            $get = $this->bussiness_trans->getBussinessTrans($param);
+            $data = $get->data;
+            $response = [];
+
+            foreach ($data as $list) :
+                $response['results'][] = [
+                    'id'    => $list->kode_bussiness_trans,
+                    'text'  => "{$list->kode_bussiness_trans} - {$list->nama_bussiness_trans}"
+                ];
+            endforeach;
+
+            $response['pagination']['more'] = true;
+            $response['count_filtered'] = $get->total_row;
+            echo json_encode($response);
+        } catch (\Exception | \Throwable $error) {
+            echo json_encode([]);
+        }
+    }
 }

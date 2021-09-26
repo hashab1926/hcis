@@ -15,6 +15,8 @@ class Pengajuan
     public function getPengajuan($param)
     {
         $this->api->jwtToken = getToken();
+
+        // printr(arrayToGet($param));
         $request = $this->api->get('pengajuan', arrayToGet($param));
         if ($request->status_code != 200)
             throw new \Exception($request->message);

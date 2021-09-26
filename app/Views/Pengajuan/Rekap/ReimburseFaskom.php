@@ -55,13 +55,14 @@
         color: #777;
     }
 </style>
+<link rel="stylesheet" href="<?= base_url('template/vendors/select2/select2.min.css') ?>">
 <?= $this->endSection() ?>
 
 <?= $this->extend('Layout/Page') ?>
 <?= $this->section('content') ?>
 <div class="row margin-top-3">
-    <div class="col text-center">
-        <div class="d-flex flex-column">
+    <div class="col ">
+        <div class="d-flex flex-column text-center">
             <div class='fweight-500 text-lg-1 text-dark'>Rekapitulasi Reimburse Fasilitas Komunikasi</div>
             <p class='text-muted text-md-2'>Cari karyawan yang telah mengajukan reimburse fasilitas komunikasi disini</p>
         </div>
@@ -119,11 +120,23 @@
 
             </div>
 
+            <div class="row">
+                <div class="col">
+                    <div class="w-25 mx-auto">
+                        <div class="form-group">
+                            <label for="">Pilih divisi</label>
+                            <select name="id_divisi" data-name="id_divisi" class="w-100" id="id_divisi"></select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
 
             <div class="form-group d-flex justify-content-center flex-wrap margin-top-5">
                 <div class=" w-100 d-flex justify-content-center">
                     <div class='d-flex align-items-center'>
-                        <div class='margin-top-4 margin-right-3'>Dari tanggal &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </div>
+                        <div class='margin-top-4 margin-right-3'>Dari bulan &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </div>
                         <input type="month" class='form-control border-radius custom-input-height box-shadow' name='tgl_awal'>
                     </div>
 
@@ -143,5 +156,7 @@
 <?= $this->endSection() ?>
 
 <?= $this->section('js_files'); ?>
+<script src="<?= base_url('template/vendors/select2/select2.min.js') ?>"></script>
+<script src="<?= base_url('js/Karyawan/KaryawanSelect2.js') ?>"></script>
 <script src="<?= base_url('js/Rekap/DataRekap.js') ?>"></script>
 <?= $this->endSection() ?>

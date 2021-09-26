@@ -186,12 +186,15 @@ class DivisiController extends BaseController
 
 trait AjaxData
 {
-    public function ajaxDataDivisi()
+    public function ajaxDataDivisi($idKepala = null)
     {
         try {
 
             // set default param
             $param = [];
+
+            if ($idKepala != null)
+                $param['id_unit_kerja_kepala'] = $idKepala;
 
             // get method
             $input = $this->request->getGet();

@@ -9,6 +9,48 @@ $('#posisi').click(function (evt) {
     }
 })
 
+$('#batalButton').click(function (evt) {
+    const id = $(this).attr('data-id');
+    questionMessage("Pesan", "Pengajuan ini akan ditolak, apakah anda yakin ?")
+        .then((result) => {
+            /* Read more about isConfirmed, isDenied below */
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: `${baseUrl}/pengajuan/storebatal`,
+                    data: {
+                        id: id,
+                        [getCsrfName()]: getCsrfHash()
+                    },
+                    type: 'POST',
+                    dataType: 'json',
+                    beforeSend: function () {
+                        enableLoading('btnbatal')
+                    },
+                }).done(function (response) {
+                    resetCsrfToken(response.token);
+                    disableLoading('btnbatal', `
+                    <span class="material-icons-outlined">
+                    highlight_off
+                    </span>
+                    <div class='margin-left-2'>Batal</div>
+                    `)
+
+                    // kalo gagal dihapus
+                    if (response.status_code != 200) {
+                        warningMessage('Pesan', response.message);
+                        return false;
+                    }
+                    // kalo berhasil dihapus
+                    successMessage('Pesan', response.message);
+                    document.location = response.action;
+                });
+            } else if (result.isDenied) {
+                Swal.close();
+            }
+        })
+})
+
+
 $('#accButton').click(function (evt) {
     const id = $(this).attr('data-id');
     questionMessage("Pesan", "Pengajuan ini akan di ACC, apakah anda yakin ?")

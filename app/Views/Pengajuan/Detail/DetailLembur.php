@@ -137,11 +137,11 @@ endif;
 
                                     <?php if ($user->id == $penandatangan->id_user && $pengajuan->status == 'PROSES') : ?>
                                         <div class='d-flex margin-top-5'>
-                                            <button class='btn btn-danger d-flex align-items-center rounded-pill padding-x-4 box-shadow'>
+                                            <button class='btn btn-danger d-flex align-items-center rounded-pill padding-x-4 box-shadow' id='batalButton' name='btnbatal' data-id="<?= $pengajuan->id ?>">
                                                 <span class="material-icons-outlined">
                                                     highlight_off
                                                 </span>
-                                                <div class='margin-left-2'>Batal</div>
+                                                <div class='margin-left-2'>Tolak</div>
                                             </button>
                                             <button class='btn btn-success d-flex align-items-center margin-left-3 rounded-pill padding-x-4 box-shadow' id='accButton' name='btnacc' data-id="<?= $pengajuan->id ?>">
                                                 <span class="material-icons-outlined">
@@ -170,7 +170,18 @@ endif;
                                 <div class='margin-left-2 fweight-600 text-success'>Telah Selesai</div>
                             </div>
                         </div>
-                    <?php endif; ?>
+                    <?php
+                    elseif ($pengajuan->status == 'TOLAK') : ?>
+                        <div class=' margin-top-5'>
+                            <div class='d-flex align-items-center justify-content-center'>
+                                <span class='material-icons text-danger'>
+                                    highlight_off
+                                </span>
+                                <div class='margin-left-2 fweight-600 text-danger'>Ditolak</div>
+                            </div>
+                        </div>
+                    <?php
+                    endif; ?>
                 </div>
 
                 <!-- PRINT -->

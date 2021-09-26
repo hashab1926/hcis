@@ -44,6 +44,8 @@ $routes = service('routes');
                 <!-- ?= $this->include('Layout/Footer') ?> -->
             </div>
         </div>
+
+
     </div>
     <script src="<?= base_url('template/vendors/perfect-scrollbar/perfect-scrollbar.min.js') ?>"></script>
     <script src="<?= base_url('template/js/jquery-3.6.0.min.js') ?>"></script>

@@ -119,7 +119,7 @@
         <div class="card box-shadow">
             <div class="card-body">
                 <form id='form-pengajuan'>
-                    <h5 class="card-title">Form Pengajuan</h5>
+                    <h5 class="card-title">Form Pengajuan <?= $nama_pengajuan ?> </h5>
                     <div class='text-center'>
                         <span class="material-icons-outlined text-muted" style='font-size:200px'>
                             assignment
@@ -129,10 +129,9 @@
                         <div class="row">
                             <div class="col-lg-12">
                                 <div class="form-group">
-                                    <label for="">Lama Cuti</label>
+                                    <label for="">Tanggal Cuti</label>
                                     <div class='d-flex align-items-center'>
-                                        <input type='number' name='templating[lama]' class='form-control w-25' placeholder="Hari">
-                                        <div class='text-muted margin-left-2'>Hari</div>
+                                        <input type='text' name='templating[lama_cuti]' class='form-control custom-input-height' id='datelightpick-lama-cuti' placeholder="Lama Cuti">
                                     </div>
                                 </div>
                             </div>

@@ -1,6 +1,16 @@
 <?php
 
-$library = new App\Libraries\Library(); ?>
+$library = new App\Libraries\Library();
+$title = '';
+if ($pengajuan->nama_jenis == 'PD_LKOTA') :
+    $title = "LUAR KOTA";
+elseif ($pengajuan->nama_jenis == 'PD_DKOTA') :
+    $title = "DALAM KOTA";
+elseif ($pengajuan->nama_jenis == 'PD_LNGRI') :
+    $title = "LUAR NEGRI";
+
+endif;
+?>
 <html>
 <style>
     * {
@@ -45,7 +55,7 @@ $library = new App\Libraries\Library(); ?>
                 <td width='3%'><img src="https://recruitment.inti.co.id/images/logo_inti2.png" width=75></td>
                 <td width='' style='text-align: center; font-weight:600; width:95%'>
                     <span style='border-bottom:1px solid black; padding-bottom:5px; padding:5px; font-size:14px;'>
-                        REALISASI LANGSUNG PERJALANAN DINAS LUAR KOTA
+                        REALISASI LANGSUNG PERJALANAN DINAS <?= $title ?>
                     </span>
                     <div style='margin-top:7px'>NOMOR : <?= $pengajuan->nomor ?></div>
                 </td>
@@ -140,7 +150,7 @@ $library = new App\Libraries\Library(); ?>
                     <th>Nilai Pengajuan</th>
 
                     <?php if (isset($template->nilai_realisasi)) : ?>
-                        <th>Nilari Realisasi</th>
+                        <th>Nilai Realisasi</th>
                     <?php endif; ?>
                 </tr>
                 <tbody>
@@ -157,7 +167,7 @@ $library = new App\Libraries\Library(); ?>
 
                     foreach ($fasilitas as $key => $list) :
                         $totalPengajuan += str_replace('.', '', $nilaiPengajuan[$no]);
-                        if (isset($nilaiRealisasi[$no]))
+                        if (isset($nilaiRealisasi[$no]) && !empty($nilaiRealisasi[$no]))
                             $totalRealisasi += str_replace('.', '', $nilaiRealisasi[$no]);
                     ?>
                         <tr class='border'>

@@ -138,7 +138,7 @@ endif;
 
                                     <?php if ($user->id == $penandatangan->id_user && $pengajuan->status == 'PROSES') : ?>
                                         <div class='d-flex margin-top-5'>
-                                            <button class='btn btn-danger d-flex align-items-center rounded-pill padding-x-4 box-shadow'>
+                                            <button class='btn btn-danger d-flex align-items-center rounded-pill padding-x-4 box-shadow' id='batalButton' name='btnbatal' data-id="<?= $pengajuan->id ?>">
                                                 <span class="material-icons-outlined">
                                                     highlight_off
                                                 </span>

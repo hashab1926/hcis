@@ -37,6 +37,12 @@ $library = new App\Libraries\Library(); ?>
     }
 </style>
 
+
+<?php
+$explodeCuti = explode(' - ', $template->lama_cuti);
+
+?>
+
 <body>
     <div style="border:1px solid black; height:990px; padding-left:15px; padding-top:5px; font-family:Arial; font-size: 12px;">
 
@@ -84,7 +90,7 @@ $library = new App\Libraries\Library(); ?>
                     <td width='0.2%'>3.</td>
                     <td width='35%'>Lama Cuti</td>
                     <td>:</td>
-                    <td width='60%'><?= $template->lama ?> Hari</td>
+                    <td width='60%'><?= $library->dateDiff($explodeCuti[0], $explodeCuti[1]) ?> Hari</td>
                 </tr>
                 <tr>
                     <td width='0.2%'>4.</td>

@@ -5,9 +5,13 @@ $('#toolbar-ubah').click(function (evt) {
         warningMessage('Pesan', 'pilih karyawan terlebih dahulu');
         return false;
     }
-
+    const menu = $('#menu').attr('data-menu');
     const data = checkedBox.join(',');
-    document.location = `./karyawan/ubah/${encode(data)}`;
+    if (menu != 'direktorat')
+        document.location = `./karyawan/ubah/${encode(data)}`;
+    else
+        document.location = `./direktorat/ubah/${encode(data)}`;
+
 })
 
 // begitu tombol disimpan/ update

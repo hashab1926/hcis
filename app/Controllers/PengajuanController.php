@@ -175,17 +175,21 @@ class PengajuanController extends BaseController
                 'user'              => $userLogin,
                 'buat_pengajuan'    => true
             ];
-
+            $data['nama_pengajuan'] = '';
             if (isset($input['jenis_pengajuan'])) {
                 switch ($input['jenis_pengajuan']) {
                     case 'perdin_luarkota':
                         $view = 'Pengajuan/Jenis/PerdinLuarKota';
+                        $data['nama_pengajuan'] = 'Perjalanan Dinas Luar Kota';
                         break;
                     case 'perdin_dalamkota':
                         $view = 'Pengajuan/Jenis/PerdinDalamKota';
+                        $data['nama_pengajuan'] = 'Perjalanan Dinas Dalam Kota';
                         break;
                     case 'perdin_luarnegri':
                         $view = 'Pengajuan/Jenis/PerdinLuarNegri';
+                        $data['nama_pengajuan'] = 'Perjalanan Dinas Luar Negri';
+
                         break;
 
                     case 'reimburse_faskom':
@@ -195,12 +199,17 @@ class PengajuanController extends BaseController
                         $tahun = date('Y');
                         $data['nomor_pengajuan'] = "{$nomor}/{$nomorDivisi}/$tahun";
                         $view = 'Pengajuan/Jenis/ReimburseFaskom';
+                        $data['nama_pengajuan'] = 'Reimburse Fasilitas Komunikasi';
+
                         break;
                     case 'cuti_karyawan':
                         $view = 'Pengajuan/Jenis/CutiKaryawan';
+                        $data['nama_pengajuan'] = 'Cuti Karyawan';
                         break;
                     case 'lembur_karyawan':
                         $view = 'Pengajuan/Jenis/LemburKaryawan';
+                        $data['nama_pengajuan'] = 'Lembur Karyawan';
+
                         break;
                 }
             } else {
@@ -270,6 +279,10 @@ class PengajuanController extends BaseController
             if ($userLogin->id_karyawan != $source->id_penandatangan)
                 throw new \Exception('anda bukan penandatangan, silahkan coba beberapa saat lagi');
 
+            if ($userLogin->status  == '1')
+                throw new \Exception('anda tidak memiliki izin untuk menandatangan, silahkan hubungi administrator');
+
+
             $data = [
                 'status'        => 'ACC',
                 'waktu_diacc'   => date('Y-m-d H:i:s')
@@ -284,6 +297,50 @@ class PengajuanController extends BaseController
             $response = [
                 'status_code'   => 200,
                 'message'       => 'Pengajuan telah diacc',
+                'action'        => base_url('pengajuan/detail/' . $id)
+            ];
+        } catch (\Exception | \Throwable $error) {
+            $response = [
+                'status_code'   => 400,
+                'message'       => $error->getMessage()
+            ];
+        } finally {
+            $response['token'] = csrf_hash();
+            echo json_encode($response);
+        }
+    }
+
+    public function storeBatal()
+    {
+        try {
+            $input = $this->request->getPost();
+
+            $id = $input['id'];
+
+            // cek id
+            $pengajuan = $this->pengajuan->getPengajuan(['id' => $id]);
+            if ($pengajuan->total_row <= 0)
+                throw new \Exception('Pengajuan tidak ditemukan');
+
+            $source = $pengajuan->data[0];
+            $userLogin = $this->credential->cekCredential();
+            // cek apakah kepala divisi
+            if ($userLogin->id_karyawan != $source->id_penandatangan)
+                throw new \Exception('anda bukan penandatangan, silahkan coba beberapa saat lagi');
+
+            if ($userLogin->status  == '1')
+                throw new \Exception('anda tidak memiliki izin untuk menandatangan, silahkan hubungi administrator');
+
+            $data = [
+                'status'        => 'TOLAK',
+                'waktu_diacc'   => date('Y-m-d H:i:s')
+            ];
+
+            $this->pengajuan->ubah($id, $data);
+
+            $response = [
+                'status_code'   => 200,
+                'message'       => 'Pengajuan telah di tolak',
                 'action'        => base_url('pengajuan/detail/' . $id)
             ];
         } catch (\Exception | \Throwable $error) {
@@ -624,9 +681,9 @@ class PengajuanController extends BaseController
                 'nama_jenis'    => $this->namaJenisToView(($source->nama_jenis)),
                 'template'      => json_decode($source->data_template),
             ];
-            // printr($data);
+            // printr($source);
 
-            if ($source->nama_jenis == 'PD_LKOTA' || $source->nama_jenis == 'PD_DKOTA') {
+            if ($source->nama_jenis == 'PD_LKOTA' || $source->nama_jenis == 'PD_DKOTA' || $source->nama_jenis == 'PD_LNGRI') {
                 $preview = view('Pengajuan/Berkas/BerkasPerdinLuarKota', $data);
             } elseif ($source->nama_jenis == 'RE_FASKOM') {
                 $preview = view('Pengajuan/Berkas/BerkasReimburse', $data);
@@ -716,7 +773,8 @@ trait ParamDatatable
     {
         $param = [
             'page'      => @$input['page'] ?? 1,
-            'order_by'  => @$input['order_by'] ?? 'desc'
+            'order_by'  => @$input['order_by'] ?? 'desc',
+            'q'         => @$input['search']['value']
         ];
 
         $param = array_merge($param, $this->paramOrderBy($input));

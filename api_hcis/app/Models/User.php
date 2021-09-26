@@ -59,6 +59,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
                 'karyawan.id_unit_kerja_kepala',
                 'karyawan.id_unit_kerja_divisi',
                 'karyawan.id_unit_kerja_bagian',
+                'karyawan.status',
                 'jabatan.nama_jabatan',
                 'pangkat.nama_pangkat',
                 'unit_kerja__kepala.nama_kepala',

@@ -130,7 +130,7 @@ class Library
         return round($dateDiff / (60 * 60 * 24));;
     }
 
-    function tanggalToText($Tgl, $Time = true)
+    function tanggalToText($Tgl, $Time = true, $shortName = false)
     {
 
         $Explode = explode(' ', $Tgl);
@@ -146,7 +146,7 @@ class Library
         $Date = $ExplodeDate[2];
 
 
-        $Month = $this->bulanToText($Month);
+        $Month = $this->bulanToText($Month, $shortName);
         if ($Time == false)
             return "{$Date} {$Month} {$Year}";
 
@@ -164,45 +164,45 @@ class Library
         $timeDiff = $lastTime - $firstTime;
         return $timeDiff;
     }
-    function bulanToText($number)
+    function bulanToText($number, $shortName = false)
     {
         $tampung = '';
         switch ($number) {
             case 1:
-                $tampung = 'Januari';
+                $tampung = $shortName == false ? 'Januari' : 'Jan';
                 break;
             case 2:
-                $tampung = 'Februari';
+                $tampung = $shortName == false ?  'Februari' : 'Feb';
                 break;
             case 3:
-                $tampung = 'Maret';
+                $tampung = $shortName == false ?  'Maret' : 'Mar';
                 break;
             case 4:
-                $tampung = 'April';
+                $tampung = $shortName == false ?  'April' : 'Apr';
                 break;
             case 5:
-                $tampung = 'Mei';
+                $tampung = $shortName == false ?  'Mei' : 'Mei';
                 break;
             case 6:
-                $tampung = 'Juni';
+                $tampung = $shortName == false ?  'Juni' : 'Jun';
                 break;
             case 7:
-                $tampung = 'Juli';
+                $tampung = $shortName == false ?  'Juli' : 'Jul';
                 break;
             case 8:
-                $tampung = 'Agustus';
+                $tampung = $shortName == false ?  'Agustus' : 'Agu';
                 break;
             case 9:
-                $tampung = 'September';
+                $tampung = $shortName == false ?  'September' : 'Sep';
                 break;
             case 10:
-                $tampung = 'Oktober';
+                $tampung = $shortName == false ?  'Oktober' : 'Okt';
                 break;
             case 11:
-                $tampung = 'November';
+                $tampung = $shortName == false ?  'November' : 'Nov';
                 break;
             case 12:
-                $tampung = 'Desember   ';
+                $tampung = $shortName == false ?  'Desember' : 'Des';
                 break;
         }
 

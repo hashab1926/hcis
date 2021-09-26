@@ -23,7 +23,7 @@ $library = new \App\Libraries\Library;
                             <div class="card box-shadow">
 
                                 <?php if ($list->id_user != null) : ?>
-                                    <div class='position-absolute' style='top:15px; right:15px'>
+                                    <div class='position-absolute' style='bottom:15px; right:15px'>
                                         <div class='d-flex align-items-center'>
                                             <span class="material-icons-outlined text-success">
                                                 verified
@@ -35,13 +35,21 @@ $library = new \App\Libraries\Library;
 
                                 <div class="card-body">
                                     <div class='d-flex flex-column '>
-                                        <!-- ICON -->
-                                        <div class='text-center'>
-                                            <span class="material-icons-outlined text-muted" style="font-size:150px">
-                                                perm_identity
-                                            </span>
-                                        </div>
-                                        <!-- ICON -->
+                                        <?php if ($list->foto == null) : ?>
+                                            <!-- ICON -->
+                                            <div class='text-center'>
+                                                <span class="material-icons-outlined text-muted" style="font-size:150px">
+                                                    perm_identity
+                                                </span>
+                                            </div>
+                                            <!-- ICON -->
+                                        <?php else :
+                                            $mime = $library->mimeTypeBase64Code($list->foto);
+                                        ?>
+                                            <div class="text-center">
+                                                <img src="data:<?= $mime ?>;base64, <?= $list->foto ?>" width=200>
+                                            </div>
+                                        <?php endif; ?>
 
                                         <div class='row'>
                                             <div class='col-lg-6 col-xl-6 col-md-12 col-xs-12 margin-top-2'>

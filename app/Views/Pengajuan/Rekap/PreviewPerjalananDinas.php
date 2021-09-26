@@ -105,10 +105,12 @@ $library = new App\Libraries\Library();
                         <!-- NILAI PENGAJUAN  -->
                         <?php
                         $totalPengajuan = 0;
-                        if (isset($template->nilai_pengajuan)) {
+                        if (isset($template->nilai_pengajuan) && !empty($template->nilai_pengajuan)) {
                             foreach ($template->nilai_pengajuan as $nilai) :
-                                $totalPengajuan += str_replace('.', '', $nilai);
-                                $grandTotalPengajuan += str_replace('.', '', $nilai); ?>
+                                if (!empty($nilai)) {
+                                    $totalPengajuan += str_replace('.', '', $nilai);
+                                    $grandTotalPengajuan += str_replace('.', '', $nilai);
+                                } ?>
                         <?php
                             endforeach;
                         } ?>
@@ -123,11 +125,15 @@ $library = new App\Libraries\Library();
                         <?php
                         $totalRealisasi = 0;
                         if (isset($template->nilai_realisasi)) {
-                            foreach ($template->nilai_realisasi as $nilai) :
-                                $totalRealisasi += str_replace('.', '', $nilai);
-                                $grandTotalRealisasi += str_replace('.', '', $nilai); ?>
-                        <?php
-                            endforeach;
+                            if (isset($template->nilai_realisasi)) {
+                                foreach ($template->nilai_realisasi as $nilai) :
+                                    if (!empty($nilai)) {
+
+                                        $totalRealisasi += str_replace('.', '', $nilai);
+                                        $grandTotalRealisasi += str_replace('.', '', $nilai);
+                                    }
+                                endforeach;
+                            }
                         } ?>
                         <td style="font-size:10px" rowspan="<?= $countFasilitas ?>">
                             <div style='float:left;  font-size:10px;'>Rp.</div>
@@ -135,16 +141,16 @@ $library = new App\Libraries\Library();
                             <div style='clear:both'></div>
                         </td>
                         <!-- /NILAI REALISASI  -->
-                        <td style="font-size:10px" width='13%'><?= isset($template->jenis_fasilitas) ? $template->jenis_fasilitas[0] : ''  ?></td>
+                        <td style="font-size:10px" width='13%'><?= isset($template->jenis_fasilitas) ? $template->jenis_fasilitas[0] : '0'  ?></td>
                         <td style="font-size:10px" width='7%'>
                             <div style='float:left;  font-size:10px;'>Rp.</div>
-                            <div style='float:right;  font-size:10px;'> <?= isset($template->nilai_pengajuan) ? $template->nilai_pengajuan[0] : ''  ?></div>
+                            <div style='float:right;  font-size:10px;'> <?= isset($template->nilai_pengajuan) ? $template->nilai_pengajuan[0] : '0'  ?></div>
                             <div style='clear:both'></div>
 
                         </td>
                         <td style="font-size:10px" width='7%'>
                             <div style='float:left;  font-size:10px;'>Rp.</div>
-                            <div style='float:right;  font-size:10px;'> <?= isset($template->nilai_realisasi) ? $template->nilai_realisasi[0] : ''  ?></div>
+                            <div style='float:right;  font-size:10px;'> <?= isset($template->nilai_realisasi) ? $template->nilai_realisasi[0] : '0'  ?></div>
                             <div style='clear:both'></div>
 
                         </td>
@@ -156,14 +162,14 @@ $library = new App\Libraries\Library();
                             <td style="font-size:10px"><?= isset($template->jenis_fasilitas[$x]) ? $template->jenis_fasilitas[$x] : ''  ?></td>
                             <td style="font-size:10px">
                                 <div style='float:left;  font-size:10px;'>Rp.</div>
-                                <div style='float:right;  font-size:10px;'> <?= isset($template->nilai_pengajuan[$x]) ? $template->nilai_pengajuan[$x] : ''  ?></div>
+                                <div style='float:right;  font-size:10px;'> <?= isset($template->nilai_pengajuan[$x]) ? $template->nilai_pengajuan[$x] : '0'  ?></div>
                                 <div style='clear:both'></div>
 
 
                             </td>
                             <td style="font-size:10px">
                                 <div style='float:left;  font-size:10px;'>Rp.</div>
-                                <div style='float:right;  font-size:10px;'> <?= isset($template->nilai_realisasi[$x]) ? $template->nilai_realisasi[$x] : ''  ?></div>
+                                <div style='float:right;  font-size:10px;'> <?= isset($template->nilai_realisasi[$x]) ? $template->nilai_realisasi[$x] : '0'  ?></div>
                                 <div style='clear:both'></div>
                             </td>
 

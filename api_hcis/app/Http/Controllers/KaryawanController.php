@@ -39,7 +39,7 @@ class KaryawanController extends Controller
                 'id_unit_kerja_bagian'  => $request->post('id_unit_kerja_bagian'),
                 'id_jabatan'            => $request->post('id_jabatan'),
                 'email'                 => $request->post('email'),
-
+                'status'                => $request->post('status') ?? '1'
             ];
 
             $filePhoto = $request->file('foto') ?? null;
@@ -48,6 +48,9 @@ class KaryawanController extends Controller
             if ($request->hasFile('foto'))
                 $allowPost['foto'] = BlobHelper::fileToBlob($filePhoto);
 
+            $cariNip = Karyawan::where('nip', '=', $request->post('nip'))->count();
+            if ($cariNip > 0)
+                throw new \Exception("Nomor induk Telah digunakan, silahkan gunakan nomor induk lain");
             // insert
             Karyawan::create($allowPost);
 
@@ -141,8 +144,9 @@ class KaryawanController extends Controller
             // kalo ada id_user
             $idUser = @$request->post('id_user');
             if (!empty($request->post('id_user')) || $request->post('id_user') != null) {
-                $password = !empty($request->post('password')) ? Hash::make($request->post('password')) : $old->password;
                 $user =  \App\Models\User::findOrFail($idUser);
+                $password = !empty($request->post('password')) ? Hash::make($request->post('password')) : $user->password;
+                // throw new \Exception($password);
                 $user->update([
                     'password'  => $password,
                     'level'     => $request->post('level')
@@ -206,7 +210,6 @@ trait Rules
             'nip'            => 'required|max:100',
             'id_pangkat'     => 'required|max:10',
             'id_jabatan'     => 'required|max:10',
-            'id_unit_kerja_kepala'  => 'required|max:10',
 
         ], $this->message);
         // cek rules

@@ -135,7 +135,7 @@
             </div>
             <div class="card-body">
                 <form id='form-pengajuan'>
-                    <h5 class="card-title">Form Pengajuan</h5>
+                    <h5 class="card-title">Form Pengajuan <?= $nama_pengajuan ?> </h5>
                     <div class='text-center'>
                         <span class="material-icons-outlined text-muted" style='font-size:200px'>
                             assignment
@@ -144,7 +144,7 @@
                     <div class=" margin-top-4">
                         <div class="row margin-bottom-3">
                             <div class="col-lg-5 text-md-2">
-                                <div class='d-flex justify-content-end margin-top-2'>
+                                <div class='d-flex justify-content-lg-end margin-top-2'>
                                     <div class='fweight-600'>No.Pengajuan</div>
                                 </div>
                             </div>
@@ -157,7 +157,7 @@
                         </div>
                         <div class="row margin-bottom-3">
                             <div class="col-lg-5 text-md-2">
-                                <div class='d-flex justify-content-end margin-top-2'>
+                                <div class='d-flex justify-content-lg-end margin-top-2'>
                                     <div class='fweight-600'>Tgl.Pengajuan</div>
                                 </div>
                             </div>
@@ -172,7 +172,7 @@
 
                         <div class="row margin-bottom-3">
                             <div class="col-lg-5 text-md-2">
-                                <div class='d-flex justify-content-end margin-top-2'>
+                                <div class='d-flex justify-content-lg-end margin-top-2'>
                                     <div class='fweight-600'>Bulan</div>
                                 </div>
                             </div>
@@ -186,7 +186,7 @@
 
                         <div class="row margin-bottom-3">
                             <div class="col-lg-5 text-md-2">
-                                <div class='d-flex justify-content-end margin-top-2'>
+                                <div class='d-flex justify-content-lg-end margin-top-2'>
                                     <div class='fweight-600'>Divisi</div>
                                 </div>
                             </div>
@@ -208,48 +208,50 @@
 
                         <div class='margin-top-5'>
 
-                            <table class='table table-bordered'>
-                                <thead>
-                                    <tr class='fweight-700'>
-                                        <td class='text-muted text-center'>No</td>
-                                        <td class='text-muted padding-left-5'>NIP</td>
-                                        <td class='text-muted padding-left-5'>NAMA</td>
-                                        <td class='text-muted padding-left-5'>PANGKAT</td>
-                                        <td class='text-muted padding-left-5'>PLAFON MAXIMAL</td>
-                                        <td class='text-muted padding-left-5'>NILAI TOTAL</td>
-                                        <td class='text-muted padding-left-5'>SELISIH PLAFON</td>
-                                        <td class='text-muted padding-left-5'>HP.NOMOR</td>
-                                        <td class='text-muted padding-left-5'>NILAI (Rp/)</td>
+                            <div class='table-responsive'>
+                                <table class='table table-bordered'>
+                                    <thead>
+                                        <tr class='fweight-700'>
+                                            <td class='text-muted text-center'>No</td>
+                                            <td class='text-muted padding-left-5'>NIP</td>
+                                            <td class='text-muted padding-left-5'>NAMA</td>
+                                            <td class='text-muted padding-left-5'>PANGKAT</td>
+                                            <td class='text-muted padding-left-5'>PLAFON MAXIMAL</td>
+                                            <td class='text-muted padding-left-5'>NILAI TOTAL</td>
+                                            <td class='text-muted padding-left-5'>SELISIH PLAFON</td>
+                                            <td class='text-muted padding-left-5'>HP.NOMOR</td>
+                                            <td class='text-muted padding-left-5'>NILAI (Rp/)</td>
 
-                                    </tr>
-                                </thead>
-                                <tbody id='tbody-rincian-biaya'>
-                                    <tr>
-                                        <input type="hidden" readonly name='templating[no]' value="1">
-                                        <input type="hidden" readonly name='templating[nip]' value="<?= $user->nip ?>">
-                                        <input type="hidden" readonly name='templating[nama_karyawan]' value="<?= $user->nama_karyawan ?>">
-                                        <input type="hidden" readonly name='templating[nama_pangkat]' value="<?= $user->nama_pangkat ?>">
-                                        <input type="hidden" readonly name='templating[hp_nomor]' value="<?= $user->nomor_hp ?>">
+                                        </tr>
+                                    </thead>
+                                    <tbody id='tbody-rincian-biaya'>
+                                        <tr>
+                                            <input type="hidden" readonly name='templating[no]' value="1">
+                                            <input type="hidden" readonly name='templating[nip]' value="<?= $user->nip ?>">
+                                            <input type="hidden" readonly name='templating[nama_karyawan]' value="<?= $user->nama_karyawan ?>">
+                                            <input type="hidden" readonly name='templating[nama_pangkat]' value="<?= $user->nama_pangkat ?>">
+                                            <input type="hidden" readonly name='templating[hp_nomor]' value="<?= $user->nomor_hp ?>">
 
-                                        <td class='padding-3 text-center'>1</td>
-                                        <td class='padding-3'><?= $user->nip ?></td>
-                                        <td class='padding-3'><?= strtoupper($user->nama_karyawan) ?></td>
-                                        <td class='padding-3'><?= $user->nama_pangkat ?></td>
-                                        <td class='padding-3'><input type='text' name='templating[plafon_maximal]' onkeyup="document.getElementById('grand_total').innerHTML = $(this).val(); document.getElementById('nilai_total').innerHTML =  $(this).val(); document.getElementById('nilai_rp').innerHTML = $(this).val()" class='form-control currency-number custom-input-height text-muted ' placeholder='Isi Nominal'></td>
-                                        <td class='padding-3 text-center' id='nilai_total'></td>
-                                        <td class='padding-3 text-center'>0</td>
-                                        <td class='padding-3 text-center'><?= $user->nomor_hp ?></td>
-                                        <td class='padding-3 text-center' id='nilai_rp'></td>
+                                            <td class='padding-3 text-center'>1</td>
+                                            <td class='padding-3'><?= $user->nip ?></td>
+                                            <td class='padding-3'><?= strtoupper($user->nama_karyawan) ?></td>
+                                            <td class='padding-3'><?= $user->nama_pangkat ?></td>
+                                            <td class='padding-3'><input type='text' name='templating[plafon_maximal]' onkeyup="document.getElementById('grand_total').innerHTML = $(this).val(); document.getElementById('nilai_total').innerHTML =  $(this).val(); document.getElementById('nilai_rp').innerHTML = $(this).val()" class='form-control currency-number custom-input-height text-muted ' placeholder='Isi Nominal'></td>
+                                            <td class='padding-3 text-center' id='nilai_total'></td>
+                                            <td class='padding-3 text-center'>0</td>
+                                            <td class='padding-3 text-center'><?= $user->nomor_hp ?></td>
+                                            <td class='padding-3 text-center' id='nilai_rp'></td>
 
-                                    </tr>
-                                </tbody>
-                                <tfoot>
-                                    <tr>
-                                        <td colspan="8"></td>
-                                        <td class='text-center fweight-700' id='grand_total'></td>
-                                    </tr>
-                                </tfoot>
-                            </table>
+                                        </tr>
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <td colspan="8"></td>
+                                            <td class='text-center fweight-700' id='grand_total'></td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
                         </div>
 
                     </div>

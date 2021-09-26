@@ -9,8 +9,8 @@ if (host != 'localhost')
     baseUrl += "/project";
 
 // var previewUpload = '<object class="kv-preview-data file-preview-' + e + '" title="{caption}" data="{data}" type="' + i + '"' + B + ">\n" + t.DEFAULT_PREVIEW + "\n</object>\n";
-function datatable(options) {
-    table = $(options.element).DataTable({
+async function datatable(options) {
+    table = await $(options.element).DataTable({
         "processing": true,
         "serverSide": true,
         "dom": options.dom ?? '',
@@ -45,6 +45,12 @@ function datatable(options) {
         },
 
     });
+
+    if ($("input[name=datatable_cari]").length > 0) {
+        $("input[name='datatable_cari']").on('keyup', function (evt) {
+            table.search($(this).val()).draw();
+        })
+    }
 }
 
 function isEmpty(obj) {
@@ -205,8 +211,11 @@ function select2Request(options) {
             }
         }
     };
-    // console.log(config);
-    return $(`${options.element}`).select2(config);
+    if (options.indexElement == null)
+        return $(`${options.element}`).select2(config);
+    else
+        return $(`${options.element}`).eq(options.indexElement).select2(config);
+
 }
 function objToGet(obj) {
     let tampung = '?';
@@ -256,6 +265,7 @@ function iconStatus(status) {
         case 'PROSES': text = `<span class="material-icons-outlined icon-lg-title">loop</span>`; break;
         case 'ACC': text = `<span class="material-icons-outlined icon-lg-title">how_to_reg</span>`; break;
         case 'SELESAI': text = `<span class="material-icons-outlined icon-lg-title text-success">verified</span>`; break;
+        case 'TOLAK': text = `<span class="material-icons-outlined icon-lg-title text-danger">highlight_off</span>`; break;
 
     }
 
@@ -268,8 +278,25 @@ function textStatus(status) {
         case 'PROSES': text = `<span class='text-muted'>Sedang diproses</span>`; break;
         case 'ACC': text = `<span class='text-muted'>Acc</span>`; break;
         case 'SELESAI': text = `<span class='text-success'>Selesai</span>`; break;
+        case 'TOLAK': text = `<span class='text-danger'>Ditolak</span>`; break;
 
     }
 
     return text;
+}
+
+
+var signatures = {
+    JVBERi0: "application/pdf",
+    R0lGODdh: "image/gif",
+    R0lGODlh: "image/gif",
+    iVBORw0KGgo: "image/png"
+};
+
+function detectMimeType(b64) {
+    for (var s in signatures) {
+        if (b64.indexOf(s) === 0) {
+            return signatures[s];
+        }
+    }
 }

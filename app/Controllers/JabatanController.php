@@ -62,7 +62,9 @@ class JabatanController extends BaseController
             $input = $this->request->getPost();
 
             $data = [
-                'nama_jabatan' => $input['nama_jabatan'],
+                'nama_jabatan'         => $input['nama_jabatan'],
+                'id_unit_kerja_bagian' => $input['id_bagian'],
+
             ];
 
             $request = $this->jabatan->tambah($data);
@@ -156,6 +158,7 @@ class JabatanController extends BaseController
             foreach ($list as $key => $id) {
                 $data = [
                     'nama_jabatan'             => $input['nama_jabatan'][$key],
+                    'id_unit_kerja_bagian'     => $input['id_bagian'][$key],
                 ];
 
                 $this->jabatan->ubah($key, $data);
@@ -185,7 +188,8 @@ trait ParamDatatable
     {
         $param = [
             'page'      => @$input['page'] ?? 1,
-            'order_by'  => @$input['order_by'] ?? 'desc'
+            'order_by'  => @$input['order_by'] ?? 'desc',
+            'q'         => @$input['search']['value']
         ];
 
         $param = array_merge($param, $this->paramOrderBy($input));
@@ -209,12 +213,14 @@ trait ParamDatatable
 
 trait AjaxData
 {
-    public function ajaxDataJabatan()
+    public function ajaxDataJabatan($idBagian = null)
     {
         try {
 
             // set default param
             $param = [];
+            if ($idBagian != null)
+                $param['id_unit_kerja_bagian'] = $idBagian;
 
             // get method
             $input = $this->request->getGet();

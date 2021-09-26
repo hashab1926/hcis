@@ -15,44 +15,6 @@ function pangkatSelect2() {
 }
 pangkatSelect2();
 
-
-function jabatanSelect2() {
-
-    const jabatan = $('select[data-name=id_jabatan]');
-    let namaJabatan = '';
-    let idJabatan = '';
-    $.each(jabatan, function (index, select) {
-        namaJabatan = $(select).attr('data-selected');
-        idJabatan = $(select).attr('id');
-
-        select2Request({
-            element: `select[id=${idJabatan}]`,
-            placeholder: namaJabatan ?? '- Pilih Jabatan -',
-            url: `/jabatan/ajax/data_jabatan`,
-        });
-    })
-}
-jabatanSelect2();
-
-
-function divisiSelect2() {
-
-    const divisi = $('select[data-name=id_divisi]');
-    let namaDivisi = '';
-    let idDivisi = '';
-    $.each(divisi, function (index, select) {
-        namaDivisi = $(select).attr('data-selected');
-        idDivisi = $(select).attr('id');
-
-        select2Request({
-            element: `select[id=${idDivisi}]`,
-            placeholder: namaDivisi ?? '- Pilih Divisi -',
-            url: `/unit_kerja/divisi/ajax/data_divisi`,
-        });
-    })
-}
-divisiSelect2();
-
 function kepalaSelect2() {
 
     const kepala = $('select[data-name=id_kepala]');
@@ -68,24 +30,55 @@ function kepalaSelect2() {
             url: `/unit_kerja/kepala/ajax/data_kepala`,
         });
     })
+
 }
 kepalaSelect2();
+$('select[data-name=id_kepala]').change(function (evt) {
+    const id = $(this).val();
+    const index = $('select[data-name=id_kepala]').index(this);
+    divisiSelect2(index, id);
+})
 
+$('select[data-name=id_divisi]').change(function (evt) {
+    const id = $(this).val();
+    const index = $('select[data-name=id_divisi]').index(this);
+    bagianSelect2(index, id);
+})
 
-function bagianSelect2() {
+$('select[data-name=id_bagian]').change(function (evt) {
+    const id = $(this).val();
+    const index = $('select[data-name=id_bagian]').index(this);
+    jabatanSelect2(index, id);
+})
 
-    const bagian = $('select[data-name=id_bagian]');
-    let namaBagian = '';
-    let idBagian = '';
-    $.each(bagian, function (index, select) {
-        namaBagian = $(select).attr('data-selected');
-        idBagian = $(select).attr('id');
+function divisiSelect2(indexElement, idKepala) {
+    select2Request({
+        element: `select[data-name=id_divisi]`,
+        indexElement: indexElement,
+        placeholder: '- Pilih Divisi -',
+        url: `/unit_kerja/divisi/ajax/data_divisi/${idKepala}`,
+    });
 
-        select2Request({
-            element: `select[id=${idBagian}]`,
-            placeholder: namaBagian ?? '- Pilih Bagian -',
-            url: `/unit_kerja/bagian/ajax/data_bagian`,
-        });
-    })
 }
-bagianSelect2();
+
+
+
+function bagianSelect2(indexElement, id) {
+
+    select2Request({
+        element: `select[data-name=id_bagian]`,
+        indexElement: indexElement,
+        placeholder: '- Pilih Bagian -',
+        url: `/unit_kerja/bagian/ajax/data_bagian/${id}`,
+    });
+}
+
+function jabatanSelect2(indexElement, id) {
+
+    select2Request({
+        element: `select[data-name=id_jabatan]`,
+        indexElement: indexElement,
+        placeholder: '- Pilih Jabatan -',
+        url: `/jabatan/ajax/data_jabatan/${id}`,
+    });
+}

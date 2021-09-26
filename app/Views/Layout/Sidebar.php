@@ -12,6 +12,15 @@ $accessKaryawan = [
     $library->activeIfRoutes('KaryawanController/ubah', 'active')
 
 ];
+$accessDirektorat = [
+    $library->activeIf('direktorat', 'active'),
+    $library->activeIf('direktorat', 'text-white'),
+    $library->activeIf('direktorat/tambah', 'active'),
+    $library->activeIf('direktorat/tambah', 'text-white'),
+    $library->activeIfRoutes('KaryawanController/detail', 'active'),
+    $library->activeIfRoutes('KaryawanController/ubah', 'active')
+
+];
 
 $accessJabatan = [
     $library->activeIf('jabatan', 'active'),
@@ -36,6 +45,15 @@ $accessPangkat = [
     $library->activeIf('pangkat/tambah', 'text-white'),
 ];
 
+$accessProvinsi = [
+    $library->activeIf('provinsi', 'active'),
+    $library->activeIf('provinsi', 'text-white'),
+    $library->activeIf('provinsi/tambah', 'active'),
+    $library->activeIf('provinsi/tambah', 'text-white'),
+];
+
+
+
 $accessUnitKerja = [
     $library->activeIf('unit_kerja/kepala', 'active'),
     $library->activeIf('unit_kerja/kepala', 'text-white'),
@@ -52,6 +70,61 @@ $accessUnitKerja = [
     $library->activeIf('unit_kerja/bagian/tambah', 'active'),
     $library->activeIf('unit_kerja/bagian/tambah', 'text-white'),
 ];
+
+$accessLainnya = [
+    $library->activeIf('bussiness_trans', 'active'),
+    $library->activeIf('bussiness_trans', 'text-white'),
+    $library->activeIf('bussiness_trans/tambah', 'active'),
+    $library->activeIf('bussiness_trans/tambah', 'text-white'),
+
+    $library->activeIf('cost_center', 'active'),
+    $library->activeIf('cost_center', 'text-white'),
+    $library->activeIf('cost_center/tambah', 'active'),
+    $library->activeIf('cost_center/tambah', 'text-white'),
+
+    $library->activeIf('wbs_element', 'active'),
+    $library->activeIf('wbs_element', 'text-white'),
+    $library->activeIf('wbs_element/tambah', 'active'),
+    $library->activeIf('wbs_element/tambah', 'text-white'),
+
+    $library->activeIf('jenis_fasilitas', 'active'),
+    $library->activeIf('jenis_fasilitas', 'text-white'),
+    $library->activeIf('jenis_fasilitas/tambah', 'active'),
+    $library->activeIf('jenis_fasilitas/tambah', 'text-white'),
+
+    $library->activeIf('negara', 'active'),
+    $library->activeIf('negara', 'text-white'),
+    $library->activeIf('negara/tambah', 'active'),
+    $library->activeIf('negara/tambah', 'text-white'),
+];
+$accessCostCenter = [
+    $library->activeIf('cost_center', 'active'),
+    $library->activeIf('cost_center', 'text-white'),
+    $library->activeIf('cost_center/tambah', 'active'),
+    $library->activeIf('cost_center/tambah', 'text-white'),
+];
+
+$accessBussinessTrans = [
+    $library->activeIf('bussiness_trans', 'active'),
+    $library->activeIf('bussiness_trans', 'text-white'),
+    $library->activeIf('bussiness_trans/tambah', 'active'),
+    $library->activeIf('bussiness_trans/tambah', 'text-white'),
+];
+
+$accessWbs = [
+    $library->activeIf('wbs_element', 'active'),
+    $library->activeIf('wbs_element', 'text-white'),
+    $library->activeIf('wbs_element/tambah', 'active'),
+    $library->activeIf('wbs_element/tambah', 'text-white'),
+];
+
+$accessJenisFasilitas = [
+    $library->activeIf('jenis_fasilitas', 'active'),
+    $library->activeIf('jenis_fasilitas', 'text-white'),
+    $library->activeIf('jenis_fasilitas/tambah', 'active'),
+    $library->activeIf('jenis_fasilitas/tambah', 'text-white'),
+];
+
 $accessKepala = [
     $library->activeIf('unit_kerja/kepala', 'active'),
     $library->activeIf('unit_kerja/kepala', 'text-white'),
@@ -81,6 +154,32 @@ $accessDashboard = [
     $library->activeIf('dashboard', 'text-white'),
 ];
 
+$accessJenisFasilitas = [
+    $library->activeIf('jenis_fasilitas', 'active'),
+    $library->activeIf('jenis_fasilitas', 'text-white'),
+    $library->activeIf('jenis_fasilitas/tambah', 'active'),
+    $library->activeIf('jenis_fasilitas/tambah', 'text-white'),
+];
+
+$accessNegara = [
+    $library->activeIf('negara', 'active'),
+    $library->activeIf('negara', 'text-white'),
+    $library->activeIf('negara/tambah', 'active'),
+    $library->activeIf('negara/tambah', 'text-white'),
+];
+
+$accessSemuaPengajuan = [
+    $library->activeIf('pengajuan', 'active'),
+];
+
+
+$accessPengajuanSaya = [
+    $library->activeIf('pengajuan/saya', 'active'),
+];
+$accessCutiKaryawan = [
+    $library->activeIf('rekap/cutikaryawan', 'active'),
+];
+
 ?>
 
 <div id="sidebar" class="active">
@@ -101,7 +200,7 @@ $accessDashboard = [
             <div class="d-flex justify-content-between">
                 <div class="d-flex flex-column">
                     <img src="<?= base_url('template/images/logo/logo.png') ?>" alt="Logo" class='d-block mx-auto' style="width:75px; height:40px;">
-                    <div class='margin-left-2 text-md-1 margin-top-2 text-center text-primary'>Human Resource Information System </div>
+                    <div class='margin-left-2 text-md-1 margin-top-2 text-center text-primary'>Human Capital Information System</div>
                 </div>
                 <div class="toggler">
                     <a href="#" class="sidebar-hide d-xl-none d-block"><i class="bi bi-x bi-middle"></i></a>
@@ -114,16 +213,16 @@ $accessDashboard = [
             <ul class="menu">
                 <?php if ($level == '2') : ?>
 
-                    <li class="sidebar-item  ">
-                        <a href="<?= base_url('pengajuan') ?>" class='sidebar-link'>
+                    <li class="sidebar-item <?= in_array('active', $accessSemuaPengajuan) ? 'active'  : '' ?> ">
+                        <a href="<?= base_url('pengajuan') ?>" class='sidebar-link <?= in_array('active', $accessSemuaPengajuan) ? 'text-white'  : '' ?>'>
                             <div class="material-icons-outlined">
                                 badge
                             </div>
                             <span>Semua Pengajuan</span>
                         </a>
                     </li>
-                    <li class="sidebar-item  ">
-                        <a href="<?= base_url('pengajuan/saya') ?>" class='sidebar-link'>
+                    <li class="sidebar-item <?= in_array('active', $accessPengajuanSaya) ? 'active'  : '' ?>">
+                        <a href="<?= base_url('pengajuan/saya') ?>" class='sidebar-link   <?= in_array('active', $accessPengajuanSaya) ? 'text-white'  : '' ?>'>
                             <div class="material-icons-outlined">
                                 account_box
                             </div>
@@ -140,6 +239,12 @@ $accessDashboard = [
                         <ul class="submenu  has-sub <?= in_array('active', $accessUnitKerja) ? 'active'  : '' ?>">
                             <li class="submenu-item <?= in_array('active', $accessPerdin) ? 'active'  : '' ?>">
                                 <a href="<?= base_url('rekap/perdin') ?>">Perjalanan Dinas</a>
+                            </li>
+                            <li class="submenu-item  <?= in_array('active', $accessDivisi) ? 'active'  : '' ?>">
+                                <a href="<?= base_url('rekap/reimburse_faskom') ?>">Reimburse Faskom</a>
+                            </li>
+                            <li class="submenu-item  <?= in_array('active', $accessCutiKaryawan) ? 'active'  : '' ?>">
+                                <a href="<?= base_url('rekap/cuti_karyawan') ?>">Cuti Karyawan</a>
                             </li>
                             <li class="submenu-item  <?= in_array('active', $accessDivisi) ? 'active'  : '' ?>">
                                 <a href="<?= base_url('rekap/reimburse_faskom') ?>">Reimburse Faskom</a>
@@ -211,6 +316,14 @@ $accessDashboard = [
                     </li>
                 <?php elseif ($level == '4') : ?>
                     <li class="sidebar-title">Master</li>
+                    <li class="sidebar-item <?= in_array('active', $accessDirektorat) ? 'active'  : '' ?> ">
+                        <a href="<?= base_url('direktorat') ?>" class='sidebar-link'>
+                            <div class="material-icons-outlined <?= in_array('active', $accessDirektorat) ? 'text-white'  : '' ?>">
+                                contacts
+                            </div>
+                            <span>Direktorat </span>
+                        </a>
+                    </li>
 
                     <li class="sidebar-item <?= in_array('active', $accessKaryawan) ? 'active'  : '' ?> ">
                         <a href="<?= base_url('karyawan') ?>" class='sidebar-link'>
@@ -227,6 +340,16 @@ $accessDashboard = [
                                 supervised_user_circle
                             </div>
                             <span>Jabatan</span>
+                        </a>
+                    </li>
+
+
+                    <li class="sidebar-item <?= in_array('active', $accessProvinsi) ? 'active'  : '' ?>">
+                        <a href="<?= base_url('provinsi') ?>" class='sidebar-link'>
+                            <div class=" material-icons-outlined <?= in_array('active', $accessProvinsi) ? 'text-white'  : '' ?>">
+                                apartment
+                            </div>
+                            <span>Provinsi</span>
                         </a>
                     </li>
 
@@ -259,22 +382,28 @@ $accessDashboard = [
 
                         </ul>
                     </li>
-                    <li class="sidebar-item  has-sub <?= in_array('active', $accessUnitKerja) ? 'active'  : '' ?> ">
+                    <li class="sidebar-item  has-sub <?= in_array('active', $accessLainnya) ? 'active'  : '' ?> ">
                         <a href="#" class='sidebar-link'>
-                            <div class="material-icons-outlined <?= in_array('active', $accessUnitKerja) ? 'text-white'  : '' ?>">
+                            <div class="material-icons-outlined <?= in_array('active', $accessLainnya) ? 'text-white'  : '' ?>">
                                 more_horiz
                             </div>
                             <span>Lainnya</span>
                         </a>
-                        <ul class="submenu  has-sub <?= in_array('active', $accessUnitKerja) ? 'active'  : '' ?>">
-                            <li class="submenu-item <?= in_array('active', $accessKepala) ? 'active'  : '' ?>">
+                        <ul class="submenu  has-sub <?= in_array('active', $accessLainnya) ? 'active'  : '' ?>">
+                            <li class="submenu-item <?= in_array('active', $accessCostCenter) ? 'active'  : '' ?>">
                                 <a href="<?= base_url('cost_center') ?>">Cost Center</a>
                             </li>
-                            <li class="submenu-item  <?= in_array('active', $accessDivisi) ? 'active'  : '' ?>">
+                            <li class="submenu-item  <?= in_array('active', $accessBussinessTrans) ? 'active'  : '' ?>">
                                 <a href="<?= base_url('bussiness_trans') ?>">Bussiness Trans</a>
                             </li>
-                            <li class="submenu-item  <?= in_array('active', $accessBagian) ? 'active'  : '' ?>">
+                            <li class="submenu-item  <?= in_array('active', $accessWbs) ? 'active'  : '' ?>">
                                 <a href="<?= base_url('wbs_element') ?>">Wbs Element</a>
+                            </li>
+                            <li class="submenu-item  <?= in_array('active', $accessJenisFasilitas) ? 'active'  : '' ?>">
+                                <a href="<?= base_url('jenis_fasilitas') ?>">Jenis Fasilitas</a>
+                            </li>
+                            <li class="submenu-item  <?= in_array('active', $accessNegara) ? 'active'  : '' ?>">
+                                <a href="<?= base_url('negara') ?>">Negara</a>
                             </li>
 
                         </ul>

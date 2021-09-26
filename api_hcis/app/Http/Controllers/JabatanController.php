@@ -15,7 +15,7 @@ class JabatanController extends Controller
 
     public function index(Request $request)
     {
-        $allowGet = $request->only(['id', 'limit', 'page', 'order_by']);
+        $allowGet = $request->only(['id', 'id_unit_kerja_bagian', 'limit', 'page', 'order_by', 'q']);
 
         $get = Jabatan::getJabatan($allowGet);
         return response()->json($get);
@@ -28,7 +28,9 @@ class JabatanController extends Controller
             $this->rules($request);
 
             $allowPost = [
-                'nama_jabatan' => strtoupper($request->post('nama_jabatan'))
+                'nama_jabatan'          => strtoupper($request->post('nama_jabatan')),
+                'id_unit_kerja_bagian' => $request->post('id_unit_kerja_bagian'),
+
             ];
             // insert
             Jabatan::create($allowPost);
@@ -111,9 +113,11 @@ class JabatanController extends Controller
 
             $old = Jabatan::findOrFail($id);
             $nama = !empty($request->post('nama_jabatan')) ? $request->post('nama_jabatan') : $old->nama_jabatan;
+            $idBagian = !empty($request->post('id_unit_kerja_bagian')) ? $request->post('id_unit_kerja_bagian') : $old->id_unit_kerja_bagian;
 
             $old->update([
-                'nama_jabatan'    => strtoupper($nama)
+                'nama_jabatan'          => strtoupper($nama),
+                'id_unit_kerja_bagian'  => $idBagian
             ]);
             $response = [
                 'status_code' => 200,

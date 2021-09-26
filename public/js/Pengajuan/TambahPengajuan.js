@@ -23,12 +23,19 @@ if (dateLength > 0) {
         new Lightpick({
             field: document.getElementsByClassName('datelightpick-lama-perdin')[x],
             singleDate: false,
-            numberOfMonths: 2,
             format: 'DD-MM-YYYY'
         });
     }
 }
 
+if ($('#datelightpick-lama-cuti').length > 0) {
+    new Lightpick({
+        field: document.getElementById('datelightpick-lama-cuti'),
+        singleDate: false,
+        numberOfMonths: 2,
+        format: 'DD-MM-YYYY'
+    });
+}
 function updateNilaiPengajuan() {
     let sumPengajuan = 0;
     $(document).find('.nilai_pengajuan').each(function (index, value) {
@@ -66,7 +73,7 @@ if ($('#templating-tambah-rincian').length > 0) {
         $('#tbody-rincian-biaya').append(`
         <tr class='box-shadow'>
             <td class='padding-3 text-center'>${no}</td>
-            <td class='padding-3'><input type='text' name='templating[jenis_fasilitas][]' class='form-control no-border' placeholder='Nama Rincian'></td>
+            <td class='padding-3'><select name="templating[jenis_fasilitas][]" data-name="jenis_fasilitas" class="w-100" style="width: 100%"></select></td>
             <td class='padding-3'><input type='text'input dir="rtl" name='templating[nilai_pengajuan][]' class='form-control currency-number currency-number nilai_pengajuan no-border' placeholder='Nominal'></td>
             <td class='padding-3'>
                 <button class='no-border no-background text-muted padding-x-1 hapus-rincian d-flex align-items-center justify-content-center padding-top-1 w-100'>
@@ -79,6 +86,13 @@ if ($('#templating-tambah-rincian').length > 0) {
         `);
 
         $(document).find('.currency-number').mask('000.000.000.000.000', { reverse: true });
+        select2Request({
+            element: `select[data-name='jenis_fasilitas']`,
+            placeholder: '- Pilih Jenis Fasilitas -',
+            url: `${baseUrl}/jenis_fasilitas/ajax/data_jenis_fasilitas_nama`
+        })
+
+
     })
 }
 
@@ -161,3 +175,31 @@ if ($('#tgllembur').length > 0) {
     });
 
 }
+
+$('.jenis_pengajuan').click(function (evt) {
+    const value = $(this).attr('data-value');
+    document.location = `?jenis_pengajuan=${value}`;
+})
+
+var saclar = false;
+if (saclar == false) {
+    $('#sidebar-right-pengajuan').css('right', '-300px');
+    $('#button_showhide').css('right', '0px');
+    $('#icon-showhide').text('chevron_left');
+}
+$('#button_showhide').click(function (evt) {
+    if (saclar == false) {
+
+        $('#sidebar-right-pengajuan').css('right', '0px');
+        $('#button_showhide').css('right', '300px');
+        $('#icon-showhide').text('chevron_right');
+
+        saclar = true;
+    } else {
+        $('#sidebar-right-pengajuan').css('right', '-300px');
+        $('#button_showhide').css('right', '0px');
+        $('#icon-showhide').text('chevron_left');
+        saclar = false;
+
+    }
+})

@@ -220,4 +220,42 @@ trait AjaxData
             echo json_encode([]);
         }
     }
+
+    public function ajaxDataCostCenterKode()
+    {
+        try {
+
+            // set default param
+            $param = [];
+
+            // get method
+            $input = $this->request->getGet();
+
+            // param 'page' kalo ada
+            if (!empty($input['page']))
+                $param['page'] = $input['page'];
+
+            // param 'q' kalo ada
+            if (!empty($input['search']))
+                $param['q'] = $input['search'];
+
+            // get 
+            $get = $this->cost_center->getCostCenter($param);
+            $data = $get->data;
+            $response = [];
+
+            foreach ($data as $list) :
+                $response['results'][] = [
+                    'id'    => $list->kode_cost_center,
+                    'text'  => "{$list->kode_cost_center} - {$list->nama_cost_center}"
+                ];
+            endforeach;
+
+            $response['pagination']['more'] = true;
+            $response['count_filtered'] = $get->total_row;
+            echo json_encode($response);
+        } catch (\Exception | \Throwable $error) {
+            echo json_encode([]);
+        }
+    }
 }

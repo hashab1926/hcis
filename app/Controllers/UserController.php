@@ -16,9 +16,19 @@ class UserController extends BaseController
         $this->karyawan = new Karyawan();
     }
 
+    private function getMenu()
+    {
+        $currentUrl = $this->request->getPath();
+        $menu = 'Karyawan';
+        if (strpos($currentUrl, 'direktorat') !== false)
+            $menu = 'Direktorat';
+        return $menu;
+    }
+
     public function tambah($listIdKaryawan)
     {
         try {
+            $menu = $this->getMenu();
             $input = $this->request->getGet();
             $listIdKaryawan = base64_decode($listIdKaryawan);
 
@@ -51,6 +61,7 @@ class UserController extends BaseController
                 'message'       => $error->getMessage()
             ];
         } finally {
+            $response['menu'] = $menu;
             // printr($response);
             return view('User/Tambah', $response);
         }

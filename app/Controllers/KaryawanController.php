@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Libraries\RequestApi\Karyawan;
+use Exception;
 use Throwable;
 
 class KaryawanController extends BaseController
@@ -18,14 +19,25 @@ class KaryawanController extends BaseController
 
     public function index()
     {
-        return view('Karyawan/Data');
+        $menu = $this->getMenu();
+        return view('Karyawan/Data', ['menu' => $menu]);
+    }
+
+    public function indexDirektorat()
+    {
+        $menu = $this->getMenu();
+        return view('Karyawan/DataDirektorat', ['menu' => $menu]);
     }
 
     public function tambah()
     {
-        return view("Karyawan/Tambah");
+        $menu = $this->getMenu();
+        return view("Karyawan/Tambah", ['menu' => $menu]);
     }
-
+    public function tambahDirektorat()
+    {
+        return view("Karyawan/TambahDirektorat");
+    }
 
     public function getDatatable()
     {
@@ -35,6 +47,37 @@ class KaryawanController extends BaseController
 
             // param datatable
             $param = $this->paramDatatable($input);
+            $param['status'] = 'except_pejabat';
+            // get karyawan
+            $karyawan = $this->karyawan->getKaryawan($param);
+            $response = [
+                'draw'           => $input['draw'] ?? 1,
+                'recordsTotal'   => $karyawan->total_row,
+                'recordsFiltered' => $karyawan->total_row,
+                'data'           => $karyawan->data
+            ];
+        } catch (\Exception | \Throwable $error) {
+            $response = [
+                'draw'           => $input['draw'] ?? 1,
+                'recordsTotal'   => 0,
+                'recordsFiltered' => 0,
+                'data'           => [],
+                'message'        => $error->getMessage()
+            ];
+        } finally {
+            echo json_encode($response);
+        }
+    }
+
+    public function getDatatableDirektorat()
+    {
+        try {
+            $input = $this->request->getGet();
+
+
+            // param datatable
+            $param = $this->paramDatatable($input);
+            $param['status'] = 'direktorat';
 
             // get karyawan
             $karyawan = $this->karyawan->getKaryawan($param);
@@ -57,22 +100,41 @@ class KaryawanController extends BaseController
         }
     }
 
+
     public function store()
     {
         try {
             $input = $this->request->getPost();
-
+            // printr($input);
             $data = [
                 'nip'                    => $input['nip'],
                 'nama_karyawan'          => $input['nama_karyawan'],
                 'id_pangkat'             => $input['id_pangkat'],
                 'id_jabatan'             => $input['id_jabatan'],
-                'id_unit_kerja_kepala'   => $input['id_kepala'],
-                'id_unit_kerja_divisi'   => $input['id_divisi'],
-                'id_unit_kerja_bagian'   => $input['id_bagian'],
                 'email'                  => $input['email'],
             ];
 
+            if (!empty($input['id_kepala']))
+                $data['id_unit_kerja_kepala'] = $input['id_kepala'];
+
+            if (!empty($input['nomor_hp']))
+                $data['nomor_hp'] = $input['nomor_hp'];
+
+            if (!empty($input['id_divisi']))
+                $data['id_unit_kerja_divisi'] = $input['id_divisi'];
+
+            if (!empty($input['id_bagian']))
+                $data['id_unit_kerja_bagian'] = $input['id_bagian'];
+
+            // kalo status nya ada dan sesuai, maka dia pejabat
+            if (!empty($input['status']) && $input['status'] == sha1(3))
+                $data['status'] = '3';
+
+            $foto = $_FILES['foto'] ?? [];
+            // printr($_FILES);
+            if (!empty($foto['name']))
+                $data['foto'] = $this->library->addFile($foto['tmp_name'], $foto['type'], $foto['name']);
+            // printr($data);
             $request = $this->karyawan->tambah($data);
             $response = [
                 'status_code' => 201,
@@ -88,6 +150,7 @@ class KaryawanController extends BaseController
             echo json_encode($response);
         }
     }
+
 
     public function hapus()
     {
@@ -118,6 +181,8 @@ class KaryawanController extends BaseController
     public function detail($listIdKaryawan)
     {
         try {
+
+            $menu = $this->getMenu();
             $input = $this->request->getGet();
             $listIdKaryawan = base64_decode($listIdKaryawan);
 
@@ -150,13 +215,24 @@ class KaryawanController extends BaseController
                 'message'       => $error->getMessage()
             ];
         } finally {
+            $response['menu'] = $menu;
             return view('Karyawan/Detail', $response);
         }
+    }
+
+    private function getMenu()
+    {
+        $currentUrl = $this->request->getPath();
+        $menu = 'Karyawan';
+        if (strpos($currentUrl, 'direktorat') !== false)
+            $menu = 'Direktorat';
+        return $menu;
     }
 
     public function ubah($listIdKaryawan)
     {
         try {
+            $menu = $this->getMenu();
             $input = $this->request->getGet();
             $listIdKaryawan = base64_decode($listIdKaryawan);
 
@@ -189,8 +265,8 @@ class KaryawanController extends BaseController
                 'message'       => $error->getMessage()
             ];
         } finally {
-            $response['menu'] = 'Ubah Karyawan';
-
+            $response['menu'] = $menu;
+            $response['menu_edit'] = $menu;
             // printr($response);
             return view('Karyawan/Ubah', $response);
         }
@@ -202,6 +278,8 @@ class KaryawanController extends BaseController
             $input = $this->request->getPost();
 
             $listNip = $input['nip'];
+            $file = $_FILES['foto'] ?? [];
+
             foreach ($listNip as $key => $id) {
                 $data = [
                     'nip'             => $input['nip'][$key],
@@ -215,7 +293,8 @@ class KaryawanController extends BaseController
 
                 if (isset($input['id_jabatan'][$key]))
                     $data['id_jabatan'] = $input['id_jabatan'][$key];
-
+                if (isset($input['nomor_hp'][$key]))
+                    $data['nomor_hp'] = $input['nomor_hp'][$key];
                 if (isset($input['id_kepala'][$key]))
                     $data['id_unit_kerja_kepala'] = $input['id_kepala'][$key];
                 if (isset($input['id_divisi'][$key]))
@@ -231,22 +310,25 @@ class KaryawanController extends BaseController
 
                 // upload foto, kalo ada
                 if (isset($file['name'][$key])) {
-                    $file = $_FILES['foto'];
                     $data['foto'] = $this->library->addFile($file['tmp_name'][$key], $file['type'][$key], $file['name'][$key]);
                 }
 
                 $this->karyawan->ubah($key, $data);
             }
 
+            $status = $input['status'];
+            $action =  base_url('karyawan');
+            if ($status == '3')
+                $action = base_url('direktorat');
             $response = [
                 'status_code'   => 200,
                 'message'       => 'data telah di perbarui',
-                'action'        => base_url('karyawan')
+                'action'        => $action
             ];
         } catch (\Exception | \Throwable $error) {
             $response = [
                 'status_code'   => 400,
-                'message'       => $error->getMessage()
+                'message'       => $error->getMessage() . $error->getLine()
             ];
         } finally {
             $response['token'] = csrf_hash();
@@ -286,9 +368,12 @@ trait ParamDatatable
 {
     private function paramDatatable($input)
     {
+
+        // printr($input);
         $param = [
             'page'      => @$input['page'] ?? 1,
-            'order_by'  => @$input['order_by'] ?? 'desc'
+            'order_by'  => @$input['order_by'] ?? 'desc',
+            'q'         => @$input['search']['value']
         ];
 
         $param = array_merge($param, $this->paramOrderBy($input));
@@ -337,7 +422,7 @@ trait AjaxData
             foreach ($dataJabatan as $list) :
                 $response['results'][] = [
                     'id'    => $list->id,
-                    'text'  => $list->nama_karyawan . ' - ' . $list->email
+                    'text'  => $list->nama_karyawan . ' - ' . $list->nama_jabatan
                 ];
             endforeach;
 

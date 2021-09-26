@@ -17,7 +17,7 @@ class FbcjController extends Controller
 
     public function index(Request $request)
     {
-        $allowGet = $request->only(['id', 'q', 'limit', 'page', 'order_by', 'penandatangan']);
+        $allowGet = $request->only(['id', 'q', 'limit', 'page', 'order_by', 'penandatangan', 'created_at', 'created_at_bulan']);
 
         $get = Fbcj::getFbcj($allowGet);
         return response()->json($get);

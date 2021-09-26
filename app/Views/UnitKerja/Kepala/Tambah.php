@@ -17,7 +17,7 @@
                         <div class="col-lg-7 offset-lg-2">
                             <div class="row margin-bottom-5">
                                 <div class="col text-center">
-                                    <h3>Tambah Direktur / Kepala</h3>
+                                    <h3>Tambah Direktorat / Kepala</h3>
                                     <div class='text-muted'>isi kolom dibawah dengan benar dan lengkap</div>
                                 </div>
                             </div>
@@ -32,15 +32,15 @@
                                 <div class="row">
                                     <div class="col-xl-6 col-lg-6 col-xs-12 col-sm-12 col-md-12 padding-bottom-3 margin-top-4">
                                         <div class="form-group padding-x-5">
-                                            <label for="first-name-column">Kode Unit </label>
-                                            <input type="text" id="first-name-column" class="form-control custom-input-height" placeholder="Kode Unit" name="kode_kepala">
+                                            <label for="first-name-column">Kode Direktorat (opsional) </label>
+                                            <input type="text" id="first-name-column" class="form-control custom-input-height" placeholder="Kode Direktorat" name="kode_kepala">
                                         </div>
                                     </div>
 
                                     <div class="col-xl-6 col-lg-6 col-xs-12 col-sm-12 col-md-12 padding-bottom-3 margin-top-4">
                                         <div class="form-group padding-x-5">
-                                            <label for="first-name-column">Nama Unit </label>
-                                            <input type="text" id="first-name-column" class="form-control custom-input-height" placeholder="Nama Unit" name="nama_kepala">
+                                            <label for="first-name-column">Nama Direktorat </label>
+                                            <input type="text" id="first-name-column" class="form-control custom-input-height" placeholder="Nama Direktorat" name="nama_kepala">
                                         </div>
                                     </div>
                                     <div class="row">

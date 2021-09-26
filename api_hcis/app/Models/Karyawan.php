@@ -19,7 +19,8 @@ class Karyawan extends Model
         'id_jabatan',
         'email',
         'nomor_hp',
-        'foto'
+        'foto',
+        'status'
     ];
 
     protected $table = 'karyawan';
@@ -38,6 +39,7 @@ class Karyawan extends Model
         'karyawan.email',
         'karyawan.nomor_hp',
         'karyawan.foto',
+        'karyawan.status',
 
     ];
 
@@ -133,16 +135,23 @@ class Karyawan extends Model
                 case 'biasa':
                     $query = $query->where('karyawan.status', '1');
                     break;
-                case 'pejabat':
-                    $query = $query->orWhere(function ($queryOr) {
-                        $queryOr->orWhere('user.level', '3')
-                            ->orWhere('user.level', 'DIR');
-                    });
+                case 'kepala_divisi':
+                    $query = $query->where('karyawan.status', '2');
                     break;
+                case 'except_pejabat':
+                    $query = $query->where('karyawan.status', '!=', '3');
+                    break;
+
+                case 'direktorat':
+                    $query = $query->where('karyawan.status', '3');
+                    break;
+
                 case 'not_register':
                     $query = $query->whereNull('karyawan.id_user');
                     break;
-
+                case 'pejabat':
+                    $query = $query->where('karyawan.status', '!=', '1');
+                    break;
                 case 'pengaju':
                     $query = $query->orWhere(function ($queryOr) {
                         $queryOr->orWhere('user.level', '1')

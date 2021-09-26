@@ -119,7 +119,7 @@
         <div class="card box-shadow">
             <div class="card-body">
                 <form id='form-pengajuan'>
-                    <h5 class="card-title">Form Pengajuan</h5>
+                    <h5 class="card-title">Form Pengajuan <?= $nama_pengajuan ?> </h5>
                     <div class='text-center'>
                         <span class="material-icons-outlined text-muted" style='font-size:200px'>
                             assignment
@@ -133,7 +133,7 @@
                                 </div>
                             </div>
                             <div class="col-lg-8">
-                                <input type='text' name='templating[kategori_wilayah]' class='form-control custom-input-height' placeholder="Kategori wilayah">
+                                <select name="templating[kategori_wilayah]" data-name="id_provinsi" class="w-100" style="width: 100%"></select>
                             </div>
 
                         </div>
@@ -172,34 +172,34 @@
 
                         <div class="row margin-top-3">
                             <div class="col-lg-4 text-md-2">
-                                <div class='d-flex justify-content-end margin-top-2'>
+                                <div class='d-flex justify-content-lg-end margin-top-2'>
                                     <div class='fweight-600'>WBS Element</div>
                                 </div>
                             </div>
                             <div class="col-lg-8">
-                                <input type='text' name='templating[wbs_element]' class='form-control custom-input-height' placeholder="Wbs Element">
+                                <select name="templating[wbs_element]" data-name="id_wbs_element" class="w-100" style="width: 100%"></select>
                             </div>
                         </div>
 
                         <div class="row margin-top-3">
                             <div class="col-lg-4 text-md-2">
-                                <div class='d-flex justify-content-end margin-top-2'>
+                                <div class='d-flex justify-content-lg-end margin-top-2'>
                                     <div class='fweight-600'>Cost Center</div>
                                 </div>
                             </div>
                             <div class="col-lg-8">
-                                <input type='text' name='templating[cost_center]' class='form-control custom-input-height' placeholder="Cost Center">
+                                <select name="templating[cost_center]" data-name="id_cost_center" class="w-100" style="width: 100%"></select>
                             </div>
                         </div>
 
                         <div class="row margin-top-3">
                             <div class="col-lg-4 text-md-2">
-                                <div class='d-flex justify-content-end margin-top-2'>
+                                <div class='d-flex justify-content-lg-end margin-top-2'>
                                     <div class='fweight-600'>Bussiness Trans</div>
                                 </div>
                             </div>
                             <div class="col-lg-8">
-                                <input type='text' name='templating[bussiness_trans]' class='form-control custom-input-height' placeholder="Bussiness Trans">
+                                <select name="templating[bussiness_trans]" data-name="id_bussiness_trans" class="w-100" style="width: 100%"></select>
                             </div>
                         </div>
 
@@ -246,7 +246,7 @@
                             <tbody id='tbody-rincian-biaya'>
                                 <tr class='box-shadow'>
                                     <td class='padding-3 text-center'>1</td>
-                                    <td class='padding-3'><input type='text' name='templating[jenis_fasilitas][]' class='form-control no-border text-muted ' placeholder='Nama Rincian'></td>
+                                    <td class='padding-3'><select name="templating[jenis_fasilitas][]" data-name="jenis_fasilitas" class="w-100" style="width: 100%"></select></td>
                                     <td class='padding-3'><input type='text' dir="rtl" name='templating[nilai_pengajuan][]' class='form-control currency-number currency-number nilai_pengajuan no-border' placeholder='Nominal'></td>
                                     <td class='padding-3 text-center'>
                                         <button class='no-border no-background text-muted padding-x-1 hapus-rincian d-flex align-items-center justify-content-center padding-top-1 w-100'>

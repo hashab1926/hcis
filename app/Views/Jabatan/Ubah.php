@@ -1,6 +1,7 @@
 <?= $this->extend('Layout/Page') ?>
 
 <?= $this->section('css_files') ?>
+<link rel="stylesheet" href="<?= base_url('template/vendors/select2/select2.min.css') ?>">
 <link rel="stylesheet" href="<?= base_url('css/tabs-items.css') ?>">
 <?= $this->endSection() ?>
 
@@ -28,12 +29,20 @@
                                             </div>
                                             <!-- ICON -->
 
-                                            <div class='row'>
-                                                <div class='col-12 margin-top-2'>
+                                            <div class="row">
+                                                <div class="col-12 padding-bottom-3">
+                                                    <div class="form-group d-flex flex-column">
+                                                        <label for="last-name-column">Bagian</label>
+                                                        <select name="id_bagian[<?= $list->id ?>]" id="<?= $list->id ?>" data-name="id_bagian" class="w-100"></select>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-12 padding-bottom-3">
                                                     <label class='fweight-700'>Nama Jabatan</label>
                                                     <div class="text-muted"><input type='text' name="nama_jabatan[<?= $list->id ?>]" class='form-control custom-input-height' value="<?= $list->nama_jabatan ?>" /></div>
                                                 </div>
                                             </div>
+
 
                                         </div>
 
@@ -64,6 +73,8 @@
 
 
 <?= $this->section('js_files') ?>
+<script src="<?= base_url('template/vendors/select2/select2.min.js') ?>"></script>
+<script src="<?= base_url('js/Jabatan/UbahJabatanSelect2.js') ?>"></script>
 <script src="<?= base_url('js/Jabatan/UbahJabatan.js') ?>"></script>
 
 <?= $this->endSection() ?>

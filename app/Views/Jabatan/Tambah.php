@@ -2,6 +2,8 @@
 
 <?= $this->section('css_files') ?>
 <link rel="stylesheet" href="<?= base_url('css/tabs-items.css') ?>">
+<link rel="stylesheet" href="<?= base_url('template/vendors/select2/select2.min.css') ?>">
+
 <?= $this->endSection() ?>
 
 <?= $this->section('content') ?>
@@ -30,7 +32,13 @@
                             </div>
                             <form id="jabatan-store" method="POST">
                                 <div class="row">
-                                    <div class="col-12 padding-bottom-3 margin-top-4">
+                                    <div class="col-md-6 col-12 padding-bottom-3">
+                                        <div class="form-group padding-x-5 d-flex flex-column">
+                                            <label for="last-name-column">Bagian</label>
+                                            <select name="id_bagian" data-name="id_bagian" class="w-100" id="id_bagian"></select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-12 padding-bottom-3">
                                         <div class="form-group padding-x-5">
                                             <label for="first-name-column">Nama Jabatan</label>
                                             <input type="text" id="first-name-column" class="form-control custom-input-height" placeholder="Jabatan" name="nama_jabatan">
@@ -60,6 +68,8 @@
 <?= $this->endSection() ?>
 
 <?= $this->section('js_files') ?>
+<script src="<?= base_url('template/vendors/select2/select2.min.js') ?>"></script>
 <script src="<?= base_url('template/vendors/jquery-validation/jquery.validate.min.js') ?>"></script>
+<script src="<?= base_url('js/Jabatan/JabatanSelect2.js') ?>"></script>
 <script src="<?= base_url('js/Jabatan/TambahJabatan.js') ?>"></script>
 <?= $this->endSection() ?>

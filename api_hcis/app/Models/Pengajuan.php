@@ -213,9 +213,6 @@ class Pengajuan extends Model
         if (isset($request['id_penandatangan'])) {
             $query = $query->where('pengajuan.id_penandatangan', $request['id_penandatangan']);
         }
-        if (isset($request['status'])) {
-            $query = $query->where('pengajuan.status', $request['status']);
-        }
         if (isset($request['id_unit_kerja_divisi'])) {
             $query = $query->where('pengajuan.id_unit_kerja_divisi', $request['id_unit_kerja_divisi']);
         }
@@ -232,6 +229,26 @@ class Pengajuan extends Model
         if (isset($request['created_at_bulan'])) {
             $query = $query->where(DB::raw("DATE_FORMAT(pengajuan.created_at,'%Y-%m')"), $request['created_at_bulan']);
         }
+
+        if (isset($request['tgl_berangkat_bulan'])) {
+            $explodeTgl = explode('|', $request['tgl_berangkat_bulan']);
+            $awal =  $explodeTgl[0];
+            $akhir = $explodeTgl[1];
+            $query = $query->where(DB::raw("DATE_FORMAT(JSON_EXTRACT(pengajuan.data_template,'$.lama_perdin_realisasi'),'%Y-%m')"), '>=', $awal)
+                ->where(DB::raw("DATE_FORMAT(JSON_EXTRACT(pengajuan.data_template,'$.lama_perdin_realisasi'),'%Y-%m')"), '<=', $akhir);
+        }
+
+        //untuk lama_cuti
+
+        if (isset($request['tgl_berangkat_bulan'])) {
+            $explodeTgl = explode('|', $request['tgl_berangkat_bulan']);
+            $awal =  $explodeTgl[0];
+            $akhir = $explodeTgl[1];
+            $query = $query->where(DB::raw("DATE_FORMAT(JSON_EXTRACT(pengajuan.data_template,'$.lama_perdin_realisasi'),'%Y-%m')"), '>=', $awal)
+                ->where(DB::raw("DATE_FORMAT(JSON_EXTRACT(pengajuan.data_template,'$.lama_perdin_realisasi'),'%Y-%m')"), '<=', $akhir);
+        }
+
+
         if (isset($request['created_at_tahun'])) {
             $query = $query->where(DB::raw("DATE_FORMAT(pengajuan.created_at,'%Y')"), $request['created_at_tahun']);
         }
@@ -241,9 +258,19 @@ class Pengajuan extends Model
             $awal =  $explodeTgl[0];
             $akhir = $explodeTgl[1];
 
+            $query = $query->where(DB::raw("DATE_FORMAT(pengajuan.created_at,'%Y-%m')"), '>=', $awal)
+                ->where(DB::raw("DATE_FORMAT(pengajuan.created_at,'%Y-%m')"), '<=', $akhir);
+        }
+
+        if (isset($request['date_range_reimburse'])) {
+            $explodeTgl = explode('|', $request['date_range_reimburse']);
+            $awal =  $explodeTgl[0];
+            $akhir = $explodeTgl[1];
+
             $query = $query->where(DB::raw("JSON_EXTRACT(pengajuan.data_template,'$.tahun_bulan')"), '>=', $awal)
                 ->where(DB::raw("JSON_EXTRACT(pengajuan.data_template,'$.tahun_bulan')"), '<=', $akhir);
         }
+
 
         if (isset($request['jenis_pengajuan'])) {
             if ($request['jenis_pengajuan'] == 'reimburse_faskom') {
@@ -277,8 +304,23 @@ class Pengajuan extends Model
                 $query = $query->where('pengajuan.status', 'PROSES');
             elseif ($request['status'] == 'acc')
                 $query = $query->where('pengajuan.status', 'ACC');
+            elseif ($request['status'] == 'acc_selesai') {
+                $query = $query->where(function ($queryOr) {
+                    $queryOr->orWhere('pengajuan.status', 'ACC')
+                        ->orWhere('pengajuan.status', 'SELESAI');
+                });
+            }
         }
 
+        // kalo ada param q
+        if (isset($request['q'])) {
+            $q = $request['q'];
+            $query = $query->where(function ($queryOr) use ($q) {
+                $queryOr->orWhere('pengajuan.nomor', 'like', "%$q%")
+                    ->orWhere('pengajuan.nomor', 'like', "%nomor $q%")
+                    ->orWhere('karyawan.nama_karyawan', 'like', "%$q%");
+            });
+        }
         // param 'order_by'
         $query = self::paramOrderBy($query);
 

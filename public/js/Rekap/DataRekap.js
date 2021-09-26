@@ -30,6 +30,7 @@ $(document).delegate('.autocomplete-search .item', 'click', function (evt) {
 $('#search').click(function (evt) {
     const tglAwal = $('input[name=tgl_awal]').val();
     const tglAkhir = $('input[name=tgl_akhir]').val();
+    const idDivisi = $('#id_divisi').val();
 
     if (tglAwal != "" && tglAkhir != "") {
 
@@ -37,11 +38,14 @@ $('#search').click(function (evt) {
         param.tgl_akhir = tglAkhir;
     }
 
+    if (idDivisi != null)
+        param.id_divisi = idDivisi;
+
     if (idUser == null) {
         alert('silahkan isi nama karyawan');
         return false;
     }
-    document.location = `${baseUrl}/rekap/preview/${idUser}${objToGet(param)}`
+    redirectRekap(`${baseUrl}/rekap/preview/${idUser != null ? `/${idUser}` : ''}${objToGet(param)}`)
 })
 
 $(document).delegate('body', 'click', function (evt) {
@@ -91,10 +95,6 @@ function showDataAutocomplete(data) {
                     <div class='subitem-text text-sm-4 text-muted'>${data[x]['nip']} &nbsp; ${data[x]['pangkat']}</div>
                 </div>
             </div>
-
-            <div>
-                <span class='badge bg-primary text-white'>3</span>
-            </div>
         </div>
         `;
         x++;
@@ -135,6 +135,7 @@ function hideAutoComplete() {
 $('#cari').click(function (evt) {
     const tglAwal = $('input[name=tgl_awal]').val();
     const tglAkhir = $('input[name=tgl_akhir]').val();
+    const idDivisi = $('#id_divisi').val();
 
     if (tglAwal != "" && tglAkhir != "") {
 
@@ -142,5 +143,23 @@ $('#cari').click(function (evt) {
         param.tgl_akhir = tglAkhir;
     }
 
-    document.location = `${baseUrl}/rekap/preview_perdin${idUser != null ? `/${idUser}` : ''}${objToGet(param)}`
+    if (idDivisi != null)
+        param.id_divisi = idDivisi;
+
+    const tipe = $('#tipe-pengajuan').attr('data-type');
+    if (tipe == 'perdin')
+        redirectRekap(`${baseUrl}/rekap/preview_perdin${idUser != null ? `/${idUser}` : ''}${objToGet(param)}`);
+    else if (tipe == 'cutikaryawan')
+        redirectRekap(`${baseUrl}/rekap/preview_cuti${idUser != null ? `/${idUser}` : ''}${objToGet(param)}`);
+
 })
+
+function redirectRekap(url) {
+    window.open(url, '_blank')
+}
+
+select2Request({
+    element: 'select[data-name=id_divisi]',
+    placeholder: '- Pilih Divisi -',
+    url: `/unit_kerja/divisi/ajax/data_divisi`,
+});

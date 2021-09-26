@@ -18,7 +18,7 @@ class PengajuanController extends Controller
 
     public function index(Request $request)
     {
-        $allowGet = $request->only(['id', 'created_at', 'created_at_bulan', 'created_at_tahun', 'status', 'limit', 'date_range', 'reimburse_tahunbulan', 'page', 'order_by', 'id_user', 'id_penandatangan', 'status', 'id_unit_kerja_divisi', 'jenis_pengajuan']);
+        $allowGet = $request->only(['q', 'id', 'created_at', 'tgl_cuti', 'tgl_berangkat_bulan', 'created_at_bulan', 'date_range_reimburse', 'created_at_tahun', 'status', 'limit', 'date_range', 'reimburse_tahunbulan', 'page', 'order_by', 'id_user', 'id_penandatangan', 'status', 'id_unit_kerja_divisi', 'jenis_pengajuan']);
 
         $get = Pengajuan::getPengajuan($allowGet);
         return response()->json($get);
@@ -26,7 +26,7 @@ class PengajuanController extends Controller
 
     public function pengajuanKaryawanExists(Request $request)
     {
-        $allowGet = $request->only(['id', 'status', 'limit', 'date_range', 'reimburse_tahunbulan', 'page', 'order_by', 'id_user', 'id_penandatangan', 'status', 'id_unit_kerja_divisi', 'jenis_pengajuan']);
+        $allowGet = $request->only(['q', 'id', 'status', 'limit', 'date_range', 'reimburse_tahunbulan', 'page', 'order_by', 'id_user', 'id_penandatangan', 'status', 'id_unit_kerja_divisi', 'jenis_pengajuan']);
 
         $get = Pengajuan::karyawanExists($request);
 

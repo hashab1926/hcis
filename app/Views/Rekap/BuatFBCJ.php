@@ -77,11 +77,11 @@
 
                         <div class="col-lg-6">
                             <div class="row  margin-top-2">
-                                <div class="col-lg-2 d-flex justify-content-between align-items-center">
+                                <div class="col-lg-2 col-12 d-flex justify-content-between align-items-center">
                                     <div class='fweight-700'>Penandatangan</div>
                                     <div class='d-lg-block d-xl-block d-md-block d-sm-none d-xs-none d-none'>:</div>
                                 </div>
-                                <div class="col-lg-4">
+                                <div class="col-lg-7">
                                     <select data-name="penandatangan" name='penandatangan' class='form-select'>
                                     </select>
                                 </div>
@@ -104,44 +104,46 @@
 
                 <div class='margin-top-10'>
                     <form id='form-fbcj'>
-                        <table class='table table-borderless'>
-                            <thead>
-                                <tr>
-                                    <th>Bussiness Transaction</th>
-                                    <th>Wbs Element</th>
-                                    <th class='padding-right-4' style='text-align:right'>Amount</th>
-                                    <th>Recipient</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody id='tbody-isi'>
-                                <tr class='box-shadow'>
-                                    <td class='padding-3'> <select name="rincian[id_bussiness_trans][]" data-name="id_bussiness_trans" class="w-100" style="width: 100%"></select></td>
-                                    <td class='padding-3'><select name="rincian[id_wbs_element][]" data-name="id_wbs_element" class="w-100" style="width: 100%"></select></td>
-                                    <td class='padding-3'><input type='text' dir="rtl" name='rincian[amount][]' class='form-control currency-number currency-number amount' placeholder='Amount'></td>
-                                    <td class='padding-3'><select name="rincian[id_karyawan][]" data-name="id_karyawan" class="w-100" style="width: 100%"></select></td>
+                        <div class="table-responsive">
+                            <table class='table table-borderless'>
+                                <thead>
+                                    <tr>
+                                        <th>Bussiness Transaction</th>
+                                        <th>Wbs Element</th>
+                                        <th class='padding-right-4' style='text-align:right'>Amount</th>
+                                        <th>Recipient</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody id='tbody-isi'>
+                                    <tr class='box-shadow'>
+                                        <td class='padding-3'> <select name="rincian[id_bussiness_trans][]" data-name="id_bussiness_trans" class="w-100" style="width: 100%"></select></td>
+                                        <td class='padding-3'><select name="rincian[id_wbs_element][]" data-name="id_wbs_element" class="w-100" style="width: 100%"></select></td>
+                                        <td class='padding-3'><input type='text' dir="rtl" name='rincian[amount][]' class='form-control currency-number currency-number amount' placeholder='Amount'></td>
+                                        <td class='padding-3'><select name="rincian[id_karyawan][]" data-name="id_karyawan" class="w-100" style="width: 100%"></select></td>
 
-                                    <td class='padding-3 text-center'>
-                                        <button class='no-border no-background text-muted padding-x-1 hapus-baris d-flex align-items-center justify-content-center padding-top-1 w-100'>
-                                            <span class='material-icons-outlined'>
-                                                highlight_off
-                                            </span>
-                                        </button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                            <tfoot>
-                                <tr>
-                                    <td style="text-align:right" class=' fweight-700 text-md-2' colspan=2>TOTAL AMOUNT</td>
-                                    <td class='text-center fweight-700 padding-right-6'>
-                                        <div class=' d-flex justify-content-between'>
-                                            <div>Rp.</div>
-                                            <div id='total-amount'>0</div>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </tfoot>
-                        </table>
+                                        <td class='padding-3 text-center'>
+                                            <button class='no-border no-background text-muted padding-x-1 hapus-baris d-flex align-items-center justify-content-center padding-top-1 w-100'>
+                                                <span class='material-icons-outlined'>
+                                                    highlight_off
+                                                </span>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td style="text-align:right" class=' fweight-700 text-md-2' colspan=2>TOTAL AMOUNT</td>
+                                        <td class='text-center fweight-700 padding-right-6'>
+                                            <div class=' d-flex justify-content-between'>
+                                                <div>Rp.</div>
+                                                <div id='total-amount'>0</div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
                     </form>
 
                     <div class='margin-top-2'>

@@ -37,6 +37,13 @@ $router->group(['middleware' => 'AuthLogin'], function () use ($router) {
     $router->post('jabatan/multiple_delete', 'JabatanController@multipleDelete');
     $router->put('jabatan[/{id}]', 'JabatanController@update');
 
+    // provinsi
+    $router->get('provinsi', 'ProvinsiController@index');
+    $router->post('provinsi', 'ProvinsiController@store');
+    $router->delete('provinsi[/{id}]', 'ProvinsiController@delete');
+    $router->post('provinsi/multiple_delete', 'ProvinsiController@multipleDelete');
+    $router->put('provinsi[/{id}]', 'ProvinsiController@update');
+
     // pangkat
     $router->get('pangkat', 'PangkatController@index');
     $router->post('pangkat', 'PangkatController@store');
@@ -58,10 +65,17 @@ $router->group(['middleware' => 'AuthLogin'], function () use ($router) {
         $router->post('cost_center/multiple_delete', 'CostCenterController@multipleDelete');
         $router->put('cost_center[/{id}]', 'CostCenterController@update');
 
-        // $router->get('jenis_pekerjaan', 'JenisPekerjaanController@index');
-        // $router->post('jenis_pekerjaan', 'JenisPekerjaanController@store');
-        // $router->delete('jenis_pekerjaan[/{id}]', 'JenisPekerjaanController@delete');
-        // $router->put('jenis_pekerjaan[/{id}]', 'JenisPekerjaanController@update');
+        $router->get('jenis_fasilitas', 'JenisFasilitasController@index');
+        $router->post('jenis_fasilitas', 'JenisFasilitasController@store');
+        $router->delete('jenis_fasilitas[/{id}]', 'JenisFasilitasController@delete');
+        $router->post('jenis_fasilitas/multiple_delete', 'JenisFasilitasController@multipleDelete');
+        $router->put('jenis_fasilitas[/{id}]', 'JenisFasilitasController@update');
+
+        $router->get('negara', 'NegaraController@index');
+        $router->post('negara', 'NegaraController@store');
+        $router->delete('negara[/{id}]', 'NegaraController@delete');
+        $router->post('negara/multiple_delete', 'NegaraController@multipleDelete');
+        $router->put('negara[/{id}]', 'NegaraController@update');
 
         $router->get('wbs_element', 'WbsElementController@index');
         $router->post('wbs_element', 'WbsElementController@store');

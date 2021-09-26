@@ -8,13 +8,14 @@ use Illuminate\Database\QueryException;
 
 class Jabatan extends Model
 {
-    protected $fillable = ['nama_jabatan'];
+    protected $fillable = ['nama_jabatan', 'id_unit_kerja_bagian'];
     protected $table = 'jabatan';
 
     // default field
     private static $column_table = [
-        'id',
-        'nama_jabatan'
+        'jabatan.id',
+        'jabatan.nama_jabatan',
+        'jabatan.id_unit_kerja_bagian'
     ];
 
     protected static $allow_limit = [10, 25, 50, 100];
@@ -32,11 +33,18 @@ class Jabatan extends Model
 
         try {
 
-            $get = DB::table('jabatan');
+            $get = DB::table('jabatan')
+                ->leftJoin('unit_kerja__bagian', 'unit_kerja__bagian.id', '=', 'jabatan.id_unit_kerja_bagian');
 
             // request param di kirim ke 'self'
             self::$request = $request;
             $get = self::getParam($get);
+
+            // add select dari join
+            $addSelect = [
+                'unit_kerja__bagian.nama_bagian',
+            ];
+            self::$column_table = array_merge($addSelect, self::$column_table);
 
             // field yang ditampilkan
             $get = $get->get(self::$column_table);
@@ -83,6 +91,17 @@ class Jabatan extends Model
                 $query = $query->where('jabatan.id', $request['id']);
             }
         }
+
+        // kalo ada param q
+        if (isset($request['q'])) {
+            $q = $request['q'];
+            $query = $query->where(function ($queryOr) use ($q) {
+                $queryOr->orWhere('jabatan.nama_jabatan', 'like', "%$q%");
+            });
+        }
+
+        if (isset($request['id_unit_kerja_bagian']))
+            $query = $query->where('unit_kerja__bagian.id', $request['id_unit_kerja_bagian']);
 
         // param 'order_by'
         $query = self::paramOrderBy($query);

@@ -3,6 +3,8 @@
 <?= $this->section('css_files') ?>
 <link rel="stylesheet" href="<?= base_url('template/vendors/select2/select2.min.css') ?>">
 <link rel="stylesheet" href="<?= base_url('css/tabs-items.css') ?>">
+<link rel="stylesheet" href="<?= base_url('template/vendors/kartik-upload/fileinput.min.css') ?>">
+
 <?= $this->endSection() ?>
 
 <?= $this->section('content') ?>
@@ -14,13 +16,16 @@
                 <form id="karyawan-updatestore">
                     <div class="row">
                         <?php
-                        $col = count($data) >= 3 ? 'col-lg-4' : 'col-lg-6';
+                        $col = count($data) >= 3 ? 'col-lg-6' : 'col-lg-6';
+                        $x = 1;
                         foreach ($data as $list) :
+                            if ($x++ == 1) echo "<input type='hidden' name='status' value='" . $list->status . "'>";
                         ?>
+
                             <div class="<?= $col ?>">
                                 <div class="card box-shadow">
                                     <div class="card-body padding-bottom-10">
-                                        <div class='d-flex flex-column '>
+                                        <div class='row '>
                                             <!-- ICON -->
                                             <div class='text-center d-flex align-items-center flex-column'>
                                                 <?php if ($list->foto == null) : ?>
@@ -45,57 +50,72 @@
                                             </div>
                                             <!-- ICON -->
 
-                                            <div class='row margin-top-3'>
-                                                <div class='col-lg-6 col-xl-6 col-md-12 col-xs-12 margin-top-2'>
-                                                    <label class='fweight-700'>NIP</label>
-                                                    <div class="text-muted"><input type='text' name="nip[<?= $list->id ?>]" class='form-control custom-input-height' value="<?= $list->nip ?>" /></div>
-                                                </div>
-                                                <div class='col-lg-6 col-xl-6 col-md-12 col-xs-12 margin-top-2'>
-                                                    <label class='fweight-700'>Nama Karyawan</label>
-                                                    <div class="text-muted"><input type='text' name="nama_karyawan[<?= $list->id ?>]" class='form-control custom-input-height' value="<?= $list->nama_karyawan ?>" /></div>
-                                                </div>
+
+                                            <div class='col-lg-6 col-xl-6 col-md-12 col-xs-12 margin-top-2'>
+                                                <label class='fweight-700'>NIP</label>
+                                                <div class="text-muted"><input type='text' name="nip[<?= $list->id ?>]" class='form-control custom-input-height' value="<?= $list->nip ?>" /></div>
                                             </div>
-                                            <div class='row margin-top-2'>
-
-                                                <div class='col-lg-6 col-xl-6 col-md-12 col-xs-12 margin-top-2'>
-                                                    <label class='fweight-700'>Pangkat</label>
-                                                    <select name="id_pangkat[<?= $list->id ?>]" data-name="id_pangkat" id="pangkat_<?= $list->id ?>" class="w-100" data-selected="<?= $list->nama_pangkat ?>"></select>
-                                                    <i class='text-muted'> pangkat sebelumnya : <code><?= $list->nama_pangkat ?></code></i>
-                                                </div>
-                                                <div class='col-lg-6 col-xl-6 col-md-12 col-xs-12 margin-top-2'>
-                                                    <label class='fweight-700'>Jabatan</label>
-                                                    <select name="id_jabatan[<?= $list->id ?>]" data-name="id_jabatan" id="jabatan_<?= $list->id ?>" class="w-100" data-selected="<?= $list->nama_jabatan ?>"></select>
-                                                    <i class='text-muted'> jabatan sebelumnya : <code><?= $list->nama_jabatan ?></code></i>
-
-                                                </div>
+                                            <div class='col-lg-6 col-xl-6 col-md-12 col-xs-12 margin-top-2'>
+                                                <label class='fweight-700'>Nama Karyawan</label>
+                                                <div class="text-muted"><input type='text' name="nama_karyawan[<?= $list->id ?>]" class='form-control custom-input-height' value="<?= $list->nama_karyawan ?>" /></div>
                                             </div>
 
-                                            <div class='row margin-top-2'>
+
+                                            <div class="col-lg-6 col-xl-6 col-md-12 col-xs-12 margin-top-2">
+                                                <div class="form-group">
+                                                    <label for="last-name-column">Nomor Handphone <sup>Opsional</sup></label>
+                                                    <input type="text" class=" form-control custom-input-height" placeholder="Nomor Handphone" name="nomor_hp[<?= $list->id ?>]" value="<?= $list->nomor_hp ?>">
+                                                    <i class='text-muted'> nomor handphone sebelumnya : <code><?= $list->nomor_hp ?></code></i>
+                                                </div>
+                                            </div>
+                                            <div class='col-lg-6 col-xl-6 col-md-12 col-xs-12 margin-top-2'>
+                                                <label class='fweight-700'>Pangkat</label>
+                                                <select name="id_pangkat[<?= $list->id ?>]" data-name="id_pangkat" id="pangkat_<?= $list->id ?>" class="w-100" data-selected="<?= $list->nama_pangkat ?>"></select>
+                                                <i class='text-muted'> pangkat sebelumnya : <code><?= $list->nama_pangkat ?></code></i>
+                                            </div>
+
+                                            <?php if ($list->status != '3') : ?>
                                                 <div class='col-lg-6 col-xl-6 col-md-12 col-xs-12 margin-top-2'>
                                                     <label class='fweight-700'>Kepala</label>
                                                     <select name="id_kepala[<?= $list->id ?>]" data-name="id_kepala" id="kepala_<?= $list->id ?>" class="w-100" data-selected="<?= $list->nama_kepala ?>"></select>
                                                     <i class='text-muted'> kepala sebelumnya : <code><?= $list->nama_kepala ?></code></i>
 
                                                 </div>
+                                            <?php endif; ?>
+
+
+                                            <?php if ($list->status != '3') : ?>
+
+
+
                                                 <div class='col-lg-6 col-xl-6 col-md-12 col-xs-12 margin-top-2'>
                                                     <label class='fweight-700'>Divisi</label>
                                                     <select name="id_divisi[<?= $list->id ?>]" data-name="id_divisi" id="divisi_<?= $list->id ?>" class="w-100" data-selected="<?= $list->nama_divisi ?>"></select>
                                                     <i class='text-muted'> divisi sebelumnya : <code><?= $list->nama_divisi ?></code></i>
 
                                                 </div>
-
-                                            </div>
-                                            <div class='row margin-top-2'>
                                                 <div class='col-lg-6 col-xl-6 col-md-12 col-xs-12 margin-top-2'>
                                                     <label class='fweight-700'>Bagian</label>
                                                     <select name="id_bagian[<?= $list->id ?>]" data-name="id_bagian" id="bagian_<?= $list->id ?>" class="w-100" data-selected="<?= $list->nama_bagian ?>"></select>
                                                     <i class='text-muted'> bagian sebelumnya : <code><?= $list->nama_bagian ?></code></i>
                                                 </div>
+
+
                                                 <div class='col-lg-6 col-xl-6 col-md-12 col-xs-12 margin-top-2'>
-                                                    <label class='fweight-700'>Email</label>
-                                                    <div class="text-muted"><input type='text' name="email[<?= $list->id ?>]" class='form-control custom-input-height' value="<?= $list->email ?>" /></div>
+                                                    <label class='fweight-700'>Jabatan</label>
+                                                    <select name="id_jabatan[<?= $list->id ?>]" data-name="id_jabatan" id="jabatan_<?= $list->id ?>" class="w-100" data-selected="<?= $list->nama_jabatan ?>"></select>
+                                                    <i class='text-muted'> jabatan sebelumnya : <code><?= $list->nama_jabatan ?></code></i>
+
                                                 </div>
+
+                                            <?php endif; ?>
+
+
+                                            <div class='col-lg-6 col-xl-6 col-md-12 col-xs-12 margin-top-2'>
+                                                <label class='fweight-700'>Email</label>
+                                                <div class="text-muted"><input type='text' name="email[<?= $list->id ?>]" class='form-control custom-input-height' value="<?= $list->email ?>" /></div>
                                             </div>
+
                                             <?php if ($list->id_user != null) : ?>
                                                 <input type="hidden" readonly name="id_user[<?= $list->id ?>]" value="<?= $list->id_user ?>">
                                                 <div class='row margin-top-2'>

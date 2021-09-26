@@ -12,24 +12,25 @@
         <?= $this->include('JenisPengajuan/Menu') ?>
         <div class="card" style="border-top-left-radius:0;">
             <div class="card-body padding-x-1">
-
-                <table id="datatable" class="table strip-table" style="width:100%">
-                    <thead class='border-radius-sm' style='background:#f2f4fd'>
-                        <tr class='rounded-pill-row padding-row'>
-                            <th width=4%>
-                                <div class="form-check">
-                                    <div class="custom-control custom-checkbox">
-                                        <input type="checkbox" class=" hover-pointer form-check-input form-check-primary form-check-glow" name="checkbox_all">
-                                        <label class="form-check-label" for="checkbox_all"></label>
+                <div class="table-responsive">
+                    <table id="datatable" class="table strip-table" style="width:100%">
+                        <thead class='border-radius-sm' style='background:#f2f4fd'>
+                            <tr class='rounded-pill-row padding-row'>
+                                <th width=4%>
+                                    <div class="form-check">
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class=" hover-pointer form-check-input form-check-primary form-check-glow" name="checkbox_all">
+                                            <label class="form-check-label" for="checkbox_all"></label>
+                                        </div>
                                     </div>
-                                </div>
-                            </th>
-                            <th>JENIS PENGAJUAN </th>
-                            <th>FILE </th>
+                                </th>
+                                <th>JENIS PENGAJUAN </th>
+                                <th>FILE </th>
 
-                        </tr>
-                    </thead>
-                </table>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
             </div>
         </div>
     </div>

@@ -217,7 +217,8 @@ trait ParamDatatable
     {
         $param = [
             'page'      => @$input['page'] ?? 1,
-            'order_by'  => @$input['order_by'] ?? 'desc'
+            'order_by'  => @$input['order_by'] ?? 'desc',
+            'q'         => @$input['search']['value']
         ];
 
         $param = array_merge($param, $this->paramOrderBy($input));

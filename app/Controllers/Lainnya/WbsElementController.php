@@ -220,4 +220,42 @@ trait AjaxData
             echo json_encode([]);
         }
     }
+
+    public function ajaxDataWbsElementKode()
+    {
+        try {
+
+            // set default param
+            $param = [];
+
+            // get method
+            $input = $this->request->getGet();
+
+            // param 'page' kalo ada
+            if (!empty($input['page']))
+                $param['page'] = $input['page'];
+
+            // param 'q' kalo ada
+            if (!empty($input['search']))
+                $param['q'] = $input['search'];
+
+            // get karyawan
+            $get = $this->wbs_element->getWbsElement($param);
+            $data = $get->data;
+            $response = [];
+
+            foreach ($data as $list) :
+                $response['results'][] = [
+                    'id'    => $list->kode_wbs_element,
+                    'text'  => "{$list->kode_wbs_element} - {$list->nama_wbs_element}"
+                ];
+            endforeach;
+
+            $response['pagination']['more'] = true;
+            $response['count_filtered'] = $get->total_row;
+            echo json_encode($response);
+        } catch (\Exception | \Throwable $error) {
+            echo json_encode([]);
+        }
+    }
 }

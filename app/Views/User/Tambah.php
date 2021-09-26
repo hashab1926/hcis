@@ -12,6 +12,7 @@
             <div class="card-body padding-x-1 pt-0">
                 <form id='form-buatuser'>
                     <div class="row">
+                        <input type="hidden" name='menu' value="<?= $menu ?>">
                         <?php
                         $col = count($data) >= 3 ? 'col-lg-4' : 'col-lg-6';
                         foreach ($data as $list) :
@@ -34,7 +35,7 @@
                                                     <div class="text-muted"><?= $list->nip ?></div>
                                                 </div>
                                                 <div class='col-lg-6 col-xl-6 col-md-12 col-xs-12 margin-top-2'>
-                                                    <label class='fweight-700'>Nama Karyawan</label>
+                                                    <label class='fweight-700'>Nama Lengkap</label>
                                                     <div class="text-muted"><?= $list->nama_karyawan ?></div>
                                                 </div>
                                             </div>
@@ -50,23 +51,25 @@
                                                 </div>
                                             </div>
 
+                                            <?php if ($list->status != '3') : ?>
+                                                <div class='row margin-top-2'>
+                                                    <div class='col-lg-6 col-xl-6 col-md-12 col-xs-12 margin-top-2'>
+                                                        <label class='fweight-700'>Kepala</label>
+                                                        <div class="text-muted"><?= $list->nama_kepala ?? 'Belum diisi' ?></div>
+                                                    </div>
+                                                    <div class='col-lg-6 col-xl-6 col-md-12 col-xs-12 margin-top-2'>
+                                                        <label class='fweight-700'>Divisi</label>
+                                                        <div class="text-muted"><?= $list->nama_divisi ?? 'Belum diisi' ?></div>
+                                                    </div>
+                                                </div>
+                                            <?php endif; ?>
                                             <div class='row margin-top-2'>
-
-                                                <div class='col-lg-6 col-xl-6 col-md-12 col-xs-12 margin-top-2'>
-                                                    <label class='fweight-700'>Kepala</label>
-                                                    <div class="text-muted"><?= $list->nama_kepala ?? 'Belum diisi' ?></div>
-                                                </div>
-                                                <div class='col-lg-6 col-xl-6 col-md-12 col-xs-12 margin-top-2'>
-                                                    <label class='fweight-700'>Divisi</label>
-                                                    <div class="text-muted"><?= $list->nama_divisi ?? 'Belum diisi' ?></div>
-                                                </div>
-                                            </div>
-                                            <div class='row margin-top-2'>
-
-                                                <div class='col-lg-6 col-xl-6 col-md-12 col-xs-12 margin-top-2'>
-                                                    <label class='fweight-700'>Bagian</label>
-                                                    <div class="text-muted"><?= $list->nama_bagian ?></div>
-                                                </div>
+                                                <?php if ($list->status != '3') : ?>
+                                                    <div class='col-lg-6 col-xl-6 col-md-12 col-xs-12 margin-top-2'>
+                                                        <label class='fweight-700'>Bagian</label>
+                                                        <div class="text-muted"><?= $list->nama_bagian ?></div>
+                                                    </div>
+                                                <?php endif; ?>
                                                 <div class='col-lg-6 col-xl-6 col-md-12 col-xs-12 margin-top-2'>
                                                     <label class='fweight-700'>Email</label>
                                                     <div class="text-muted"><?= $list->email ?></div>
@@ -81,7 +84,7 @@
                                             <div class="row">
                                                 <div class="col text-center">
 
-                                                    <span class='text-md-2 text-success'>Karyawan ini telah memiliki akun</span>
+                                                    <span class='text-md-2 text-success'>Telah memiliki akun</span>
                                                 </div>
                                             </div>
 

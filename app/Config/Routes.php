@@ -40,16 +40,23 @@ $routes->post('login/store', 'LoginController::store');
 
 $routes->group('/', ['filter' => 'authlogin'], function ($routes) {
 	$routes->get('user/buat/(:segment)', 'UserController::tambah/$1');
+	$routes->get('user/direktorat/buat/(:segment)', 'UserController::tambah/$1');
+
 	$routes->post('user/buat/store', 'UserController::store');
 	$routes->get('akun/tambah', 'UserController::tambah');
 	$routes->get('user/ajax/data_nregister_karyawan', 'UserController::ajaxDataNotResigterKaryawan');
 	$routes->post('user/store', 'UserController::store');
+
+	$routes->get('direktorat', 'KaryawanController::indexDirektorat');
+	$routes->get('direktorat/get_datatable', 'KaryawanController::getDatatableDirektorat');
+	$routes->get('direktorat/ubah/(:segment)', 'KaryawanController::ubah/$1');
 
 	$routes->get('karyawan', 'KaryawanController::index');
 	$routes->get('karyawan/get_datatable', 'KaryawanController::getDatatable');
 	$routes->get('karyawan/get', 'KaryawanController::get');
 
 	$routes->get('karyawan/tambah', 'KaryawanController::tambah');
+	$routes->get('direktorat/tambah', 'KaryawanController::tambahDirektorat');
 	$routes->post('karyawan/store', 'KaryawanController::store');
 	$routes->post('karyawan/hapus', 'KaryawanController::hapus');
 	$routes->get('karyawan/detail/(:segment)', 'KaryawanController::detail/$1');
@@ -67,6 +74,7 @@ $routes->group('/', ['filter' => 'authlogin'], function ($routes) {
 	$routes->get('jabatan/ubah/(:segment)', 'JabatanController::ubah/$1');
 	$routes->post('jabatan/ubah/store', 'JabatanController::ubahStore');
 	$routes->get('jabatan/ajax/data_jabatan', 'JabatanController::ajaxDataJabatan');
+	$routes->get('jabatan/ajax/data_jabatan/(:num)', 'JabatanController::ajaxDataJabatan/$1');
 
 
 	$routes->get('pangkat', 'PangkatController::index');
@@ -77,6 +85,16 @@ $routes->group('/', ['filter' => 'authlogin'], function ($routes) {
 	$routes->get('pangkat/ubah/(:segment)', 'PangkatController::ubah/$1');
 	$routes->post('pangkat/hapus', 'PangkatController::hapus');
 	$routes->post('pangkat/ubah/store', 'PangkatController::ubahStore');
+
+	$routes->get('provinsi', 'ProvinsiController::index');
+	$routes->get('provinsi/get_datatable', 'ProvinsiController::getDatatable');
+	$routes->get('provinsi/tambah', 'ProvinsiController::tambah');
+	$routes->post('provinsi/store', 'ProvinsiController::store');
+	$routes->get('provinsi/ajax/data_provinsi', 'ProvinsiController::ajaxDataProvinsi');
+	$routes->get('provinsi/ajax/data_provinsi_nama', 'ProvinsiController::ajaxDataProvinsiNama');
+	$routes->get('provinsi/ubah/(:segment)', 'ProvinsiController::ubah/$1');
+	$routes->post('provinsi/hapus', 'ProvinsiController::hapus');
+	$routes->post('provinsi/ubah/store', 'ProvinsiController::ubahStore');
 
 	$routes->get('jenis_pengajuan', 'JenisPengajuanController::index');
 	$routes->get('jenis_pengajuan/get_datatable', 'JenisPengajuanController::getDatatable');
@@ -93,6 +111,17 @@ $routes->group('/', ['filter' => 'authlogin'], function ($routes) {
 	$routes->get('cost_center/ubah/(:segment)', 'Lainnya\CostCenterController::ubah/$1');
 	$routes->post('cost_center/ubah/store', 'Lainnya\CostCenterController::ubahStore');
 	$routes->get('cost_center/ajax/data_costcenter', 'Lainnya\CostCenterController::ajaxDataCostCenter');
+	$routes->get('cost_center/ajax/data_costcenter_kode', 'Lainnya\CostCenterController::ajaxDataCostCenterKode');
+
+	$routes->get('jenis_fasilitas', 'Lainnya\JenisFasilitasController::index');
+	$routes->get('jenis_fasilitas/get_datatable', 'Lainnya\JenisFasilitasController::getDatatable');
+	$routes->get('jenis_fasilitas/tambah', 'Lainnya\JenisFasilitasController::tambah');
+	$routes->post('jenis_fasilitas/store', 'Lainnya\JenisFasilitasController::store');
+	$routes->post('jenis_fasilitas/hapus', 'Lainnya\JenisFasilitasController::hapus');
+	$routes->get('jenis_fasilitas/ubah/(:segment)', 'Lainnya\JenisFasilitasController::ubah/$1');
+	$routes->post('jenis_fasilitas/ubah/store', 'Lainnya\JenisFasilitasController::ubahStore');
+	$routes->get('jenis_fasilitas/ajax/data_jenis_fasilitas', 'Lainnya\JenisFasilitasController::ajaxDataCostCenter');
+	$routes->get('jenis_fasilitas/ajax/data_jenis_fasilitas_nama', 'Lainnya\JenisFasilitasController::ajaxDataJenisFasilitasNama');
 
 	$routes->get('bussiness_trans', 'Lainnya\BussinessTransController::index');
 	$routes->get('bussiness_trans/get_datatable', 'Lainnya\BussinessTransController::getDatatable');
@@ -102,7 +131,7 @@ $routes->group('/', ['filter' => 'authlogin'], function ($routes) {
 	$routes->get('bussiness_trans/ubah/(:segment)', 'Lainnya\BussinessTransController::ubah/$1');
 	$routes->post('bussiness_trans/ubah/store', 'Lainnya\BussinessTransController::ubahStore');
 	$routes->get('bussiness_trans/ajax/data_bussinesstrans', 'Lainnya\BussinessTransController::ajaxDataBussinessTrans');
-
+	$routes->get('bussiness_trans/ajax/data_bussinesstrans_kode', 'Lainnya\BussinessTransController::ajaxDataBussinessTransKode');
 
 	$routes->get('wbs_element', 'Lainnya\WbsElementController::index');
 	$routes->get('wbs_element/get_datatable', 'Lainnya\WbsElementController::getDatatable');
@@ -112,6 +141,18 @@ $routes->group('/', ['filter' => 'authlogin'], function ($routes) {
 	$routes->get('wbs_element/ubah/(:segment)', 'Lainnya\WbsElementController::ubah/$1');
 	$routes->post('wbs_element/ubah/store', 'Lainnya\WbsElementController::ubahStore');
 	$routes->get('wbs_element/ajax/data_wbselement', 'Lainnya\WbsElementController::ajaxDataWbsElement');
+	$routes->get('wbs_element/ajax/data_wbselement_kode', 'Lainnya\WbsElementController::ajaxDataWbsElementKode');
+
+
+	$routes->get('negara', 'Lainnya\NegaraController::index');
+	$routes->get('negara/get_datatable', 'Lainnya\NegaraController::getDatatable');
+	$routes->get('negara/tambah', 'Lainnya\NegaraController::tambah');
+	$routes->post('negara/store', 'Lainnya\NegaraController::store');
+	$routes->post('negara/hapus', 'Lainnya\NegaraController::hapus');
+	$routes->get('negara/ubah/(:segment)', 'Lainnya\NegaraController::ubah/$1');
+	$routes->post('negara/ubah/store', 'Lainnya\NegaraController::ubahStore');
+	$routes->get('negara/ajax/data_negara', 'Lainnya\NegaraController::ajaxDataNegara');
+	$routes->get('negara/ajax/data_namanegara', 'Lainnya\NegaraController::ajaxDataNamaNegara');
 
 	$routes->get('pengajuan', 'PengajuanController::index');
 	$routes->get('pengajuan/saya', 'PengajuanController::indexSaya');
@@ -128,6 +169,7 @@ $routes->group('/', ['filter' => 'authlogin'], function ($routes) {
 	$routes->post('pengajuan/storeacc', 'PengajuanController::storeAcc');
 	$routes->post('pengajuan/storeajuan', 'PengajuanController::storeAjuan');
 	$routes->post('pengajuan/storeaccajuan', 'PengajuanController::storeAccAjuan');
+	$routes->post('pengajuan/storebatal', 'PengajuanController::storeBatal');
 
 	$routes->get('lampiran_pengajuan/preview/(:num)', 'PengajuanController::previewLampiran/$1');
 	$routes->get('lampiran_pengajuan/preview_pengajuan/(:num)', 'PengajuanController::previewLampiranPengajuan/$1');
@@ -149,6 +191,7 @@ $routes->group('/', ['filter' => 'authlogin'], function ($routes) {
 		$routes->get('divisi/get_datatable', 'UnitKerja\DivisiController::getDatatable');
 		$routes->get('divisi/tambah', 'UnitKerja\DivisiController::tambah');
 		$routes->get('divisi/ajax/data_divisi', 'UnitKerja\DivisiController::ajaxDataDivisi');
+		$routes->get('divisi/ajax/data_divisi/(:num)', 'UnitKerja\DivisiController::ajaxDataDivisi/$1');
 
 
 		$routes->get('bagian', 'UnitKerja\BagianController::index');
@@ -159,7 +202,7 @@ $routes->group('/', ['filter' => 'authlogin'], function ($routes) {
 		$routes->get('bagian/get_datatable', 'UnitKerja\BagianController::getDatatable');
 		$routes->get('bagian/tambah', 'UnitKerja\BagianController::tambah');
 		$routes->get('bagian/ajax/data_bagian', 'UnitKerja\BagianController::ajaxDataBagian');
-
+		$routes->get('bagian/ajax/data_bagian/(:num)', 'UnitKerja\BagianController::ajaxDataBagian/$1');
 		// $routes->get('bagian', 'UnitKerja\BagianController::index');
 		// $routes->get('bagian/get_datatable', 'UnitKerja\BagianController::getDatatable');
 		// $routes->get('bagian/tambah', 'UnitKerja\BagianController::tambah');
@@ -174,6 +217,10 @@ $routes->group('/', ['filter' => 'authlogin'], function ($routes) {
 		$routes->get('perdin', 'Rekap\PerdinController::index');
 		$routes->get('perdin/get_datatable', 'Rekap\PerdinController::getDatatable');
 
+
+		$routes->get('cuti_karyawan', 'Rekap\CutiKaryawanController::index');
+		$routes->get('preview_cuti', 'Rekap\CutiKaryawanController::preview');
+		$routes->get('preview_cuti/(:segment)', 'Rekap\CutiKaryawanController::preview/$1');
 
 		$routes->get('fbcj', 'Rekap\FBCJController::index');
 		$routes->get('fbcj_bukti/preview/(:num)/(:num)', 'Rekap\FBCJController::previewBukti/$1/$2');

@@ -47,6 +47,17 @@ $(document).ready(function () {
                     return checkbox;
                 }
             },
+
+            {
+                "sClass": "fweight-700 text-md-1",
+                "data": "foto",
+                "render": function (data, type, row) {
+                    if (data != null)
+                        return `<img src='${baseUrl}/media/karyawan/${row['id']}' width=50>`;
+                    else
+                        return `<span class="material-icons-outlined icon-lg-title text-muted">account_box</span>`
+                }
+            },
             {
                 "sClass": "fweight-700 text-md-1",
                 "data": "nip",
@@ -109,7 +120,7 @@ $(document).ready(function () {
                                         filter_alt
                                     </div>
                                 </span>
-                            <input type="text" class="form-control custom-input-height no-border-radius" placeholder="Filter Karyawan" style="border-left:0; padding-left:5px" >
+                            <input type="text" class="form-control custom-input-height no-border-radius cari" placeholder="Cari" style="border-left:0; padding-left:5px" >
                                 <button class="btn btn-primary border-right-radius border border-light d-flex align-items-center padding-x-3" type="button">
                                     <span class="material-icons-outlined" style='transform:rotate(90deg)'>
                                         tune
@@ -128,6 +139,12 @@ $(document).ready(function () {
                         `;
 
     $('#head').html(wrapper);
+
+    $('.cari').on('keyup', function () {
+        if ($(this).val().length >= 2)
+            table.search($(this).val()).draw();
+    })
+
 
 });
 

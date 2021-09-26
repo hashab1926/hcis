@@ -119,7 +119,7 @@
         <div class="card box-shadow">
             <div class="card-body">
                 <form id='form-pengajuan'>
-                    <h5 class="card-title">Form Pengajuan</h5>
+                    <h5 class="card-title">Form Pengajuan <?= $nama_pengajuan ?> </h5>
                     <div class='text-center'>
                         <span class="material-icons-outlined text-muted" style='font-size:200px'>
                             assignment

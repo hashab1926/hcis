@@ -189,13 +189,14 @@ class BagianController extends BaseController
 
 trait AjaxData
 {
-    public function ajaxDataBagian()
+    public function ajaxDataBagian($idDivisi = null)
     {
         try {
 
             // set default param
             $param = [];
-
+            if ($idDivisi != null)
+                $param['id_unit_kerja_divisi'] = $idDivisi;
             // get method
             $input = $this->request->getGet();
 

@@ -279,6 +279,19 @@ class Fbcj extends Model
             ], self::$column_table);
         }
 
+
+        if (isset($request['created_at'])) {
+            $query = $query->where(DB::raw("DATE_FORMAT(rekap__fbcj.created_at,'%Y-%m-%d')"), $request['created_at']);
+        }
+
+
+        if (isset($request['created_at_bulan'])) {
+            $query = $query->where(DB::raw("DATE_FORMAT(rekap__fbcj.created_at,'%Y-%m')"), $request['created_at_bulan']);
+        }
+        if (isset($request['created_at_tahun'])) {
+            $query = $query->where(DB::raw("DATE_FORMAT(rekap__fbcj.created_at,'%Y')"), $request['created_at_tahun']);
+        }
+
         // param 'order_by'
         $query = self::paramOrderBy($query);
 

@@ -15,7 +15,7 @@ class PangkatController extends Controller
 
     public function index(Request $request)
     {
-        $allowGet = $request->only(['id', 'limit', 'page', 'order_by']);
+        $allowGet = $request->only(['id', 'limit', 'page', 'order_by', 'q']);
 
         $get = Pangkat::getPangkat($allowGet);
         return response()->json($get);

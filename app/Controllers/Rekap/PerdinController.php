@@ -72,8 +72,15 @@ class PerdinController extends BaseController
 
             // kalo ada tanggal between
             if (isset($input['tgl_awal']) && isset($input['tgl_akhir'])) {
-                $param['date_range'] = trim($input['tgl_awal']) . '|' . trim($input['tgl_akhir']);
+                $param['tgl_berangkat_bulan'] = trim($input['tgl_awal']) . '|' . trim($input['tgl_akhir']);
             }
+
+
+            // kalo ada id_divisi
+            if (isset($input['id_divisi'])) {
+                $param['id_unit_kerja_divisi'] = $input['id_divisi'];
+            }
+
 
             if ($id != null)
                 $param['id_user'] = $id;

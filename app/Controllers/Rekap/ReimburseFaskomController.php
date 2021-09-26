@@ -66,7 +66,7 @@ class ReimburseFaskomController extends BaseController
 
             // kalo ada tanggal between
             if (isset($input['tgl_awal']) && isset($input['tgl_akhir'])) {
-                $param['date_range'] = trim($input['tgl_awal']) . '|' . trim($input['tgl_akhir']);
+                $param['date_range_reimburse'] = trim($input['tgl_awal']) . '|' . trim($input['tgl_akhir']);
                 $param['reimburse_tahunbulan'] =  'yes';
             }
             // get karyawan
