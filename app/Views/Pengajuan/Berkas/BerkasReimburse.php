@@ -1,5 +1,6 @@
 <?php
 $library = new App\Libraries\Library();
+$credential = new App\Libraries\Credential();
 $explodeTahBul = explode('-', $template->tahun_bulan);
 $tahun = $explodeTahBul[0];
 $bulan = $explodeTahBul[1];
@@ -151,7 +152,7 @@ $bulan = $explodeTahBul[1];
 
     </div>
     <div style="width:100%; text-align:center; font-family: monospace; font-size:10px; margin-top:20px; color:black;">
-        Dicetak Oleh : <?= strtoupper($pengaju->nama_karyawan) ?> <?= $library->tanggalToText(date('Y-m-d H:i:s')) ?> </div>
+        Dicetak Oleh : <?= strtoupper($credential->get('nama_user')) ?> <?= $library->tanggalToText(date('Y-m-d H:i:s')) ?> </div>
 
 </body>
 

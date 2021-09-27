@@ -150,7 +150,16 @@ $('button[name=simpan]').click(function (evt) {
                     dataType: 'json',
                     processData: false,
                     contentType: false,
+                    beforeSend: function () {
+                        loadingOn();
+                    },
+                    error: function (jqXHR, exception) {
+                        loadingOff();
+                        errorMessage(jqXHR, exception);
+                    },
                 }).done(function (response) {
+                    loadingOff();
+
                     resetCsrfToken(response.token);
                     // kalo gagal dihapus
                     if (response.status_code != 201) {
@@ -160,6 +169,7 @@ $('button[name=simpan]').click(function (evt) {
 
                     // kalo berhasil dihapus
                     successMessage('Pesan', response.message);
+                    location.reload();
                 })
 
             } else if (result.isDenied) {
@@ -181,25 +191,25 @@ $('.jenis_pengajuan').click(function (evt) {
     document.location = `?jenis_pengajuan=${value}`;
 })
 
-var saclar = false;
-if (saclar == false) {
+var saclarSidebar = true;
+if (saclarSidebar == false) {
     $('#sidebar-right-pengajuan').css('right', '-300px');
     $('#button_showhide').css('right', '0px');
     $('#icon-showhide').text('chevron_left');
 }
 $('#button_showhide').click(function (evt) {
-    if (saclar == false) {
+    if (saclarSidebar == false) {
 
         $('#sidebar-right-pengajuan').css('right', '0px');
         $('#button_showhide').css('right', '300px');
         $('#icon-showhide').text('chevron_right');
 
-        saclar = true;
+        saclarSidebar = true;
     } else {
         $('#sidebar-right-pengajuan').css('right', '-300px');
         $('#button_showhide').css('right', '0px');
         $('#icon-showhide').text('chevron_left');
-        saclar = false;
+        saclarSidebar = false;
 
     }
 })

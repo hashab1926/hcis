@@ -3,16 +3,15 @@
 namespace App\Controllers\Rekap;
 
 use App\Controllers\BaseController;
-use App\Libraries\RequestApi\Pengajuan;
 use App\Libraries\Library;
 use App\Libraries\Pdf as Pdf;
+use App\Libraries\RequestApi\Pengajuan;
 use App\Libraries\RequestApi\Karyawan;
 
-class PerdinController extends BaseController
+class LemburKaryawanController extends BaseController
 {
 
     use ParamDatatable;
-
     public function __construct()
     {
         $this->request = service('request');
@@ -22,7 +21,7 @@ class PerdinController extends BaseController
 
     public function index()
     {
-        return view('Pengajuan/Rekap/PerjalananDinas');
+        return view('Pengajuan/Rekap/LemburKaryawan');
     }
 
 
@@ -36,7 +35,7 @@ class PerdinController extends BaseController
             $param = $this->paramDatatable($input);
 
 
-            $get = $this->pengajuan->getPengajuanKaryawan($param);
+            $get = $this->pengajuan->getPengajuan($param);
 
             $response = [
                 'draw'           => $input['draw'] ?? 1,
@@ -66,36 +65,50 @@ class PerdinController extends BaseController
 
 
             $param = [
-                'jenis_pengajuan'       => 'perjalanan_dinas',
-                'status'                => 'selesai'
+                'jenis_pengajuan'       => 'lembur',
+                'status'                => 'acc_selesai',
+                'detail_penandatangan'  => 'yes'
             ];
 
             // kalo ada tanggal between
             if (isset($input['tgl_awal']) && isset($input['tgl_akhir'])) {
-                $param['tgl_realisasi'] = trim($input['tgl_awal']) . '|' . trim($input['tgl_akhir']);
+                $param['date_range'] = trim($input['tgl_awal']) . '|' . trim($input['tgl_akhir']);
             }
 
-
-            // kalo ada id_divisi
-            if (isset($input['id_divisi'])) {
-                $param['id_unit_kerja_divisi'] = $input['id_divisi'];
-            }
-
-
-            if ($id != null)
+            $action = 'PreviewLemburKaryawanAll';
+            if ($id != null) {
                 $param['id_user'] = $id;
+                $action = 'PreviewLemburKaryawan';
+            }
+
+            if (!empty($input['id_divisi']))
+                $param['id_unit_kerja_divisi'] = $input['id_divisi'];
+
             // get karyawan
-            // printr(arrayToGet($param));
+            // printr($param);
             $pengajuan = $this->pengajuan->getPengajuan($param);
 
+            // cek pengajuan
+            if ($pengajuan->total_row <= 0)
+                throw new \Exception("Pengajuan tidak ditemukan");
+
+            $source = $pengajuan->data[0];
+            // printr($source);
+            // id_pengaju
+            $idPengaju = $source->id_pengaju;
+
+            $pengaju = $this->karyawan->getKaryawan(['id' => $idPengaju]);
+            // cek pengaju
+            if ($pengaju->total_row <= 0)
+                throw new \Exception('Pengaju tidak ditemukan');
 
             $response = [
                 'pengajuan'        => $pengajuan->data,
+                'pengaju'          => $pengaju->data[0]
             ];
 
-
             // printr($response);
-            $preview = view('Pengajuan/Rekap/PreviewPerjalananDinas', $response);
+            $preview = view("Pengajuan/Rekap/{$action}", $response);
             // return $preview;
             // echo $preview;
             // exit(1);
@@ -103,16 +116,18 @@ class PerdinController extends BaseController
             $pdf = new Pdf();
             $pdf->htmlToPdf([
                 'paper'  => 'A4',
-                'layout' => 'landscape',
+                'layout' => 'portait',
                 'title'  => 'Berkas',
                 'author' => 'PT.INTI',
                 'html'   => $preview,
             ]);
         } catch (\Exception | \Throwable $error) {
+            echo "<a href='" . base_url('rekap/lembur_karyawan') . "'>Kembali</a> <br/>";
             echo $error->getMessage();
         }
     }
 }
+
 
 
 
@@ -124,7 +139,8 @@ trait ParamDatatable
         $param = [
             'page'      => @$input['page'] ?? 1,
             'order_by'  => @$input['order_by'] ?? 'desc',
-            'jenis_pengajuan'   => 'perjalanan_dinas'
+            'jenis_pengajuan'   => 'cuti',
+            'status'            => 'acc_selesai'
         ];
 
         $param = array_merge($param, $this->paramOrderBy($input));

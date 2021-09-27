@@ -256,7 +256,7 @@ endif;
                 </div>
 
                 <!-- PRINT -->
-                <?php if (($user->id == $pengaju->id_user && ($pengajuan->status == 'ACC' || $pengajuan->status == 'SELESAI')) || $user->id == $penandatangan->id_user || $user->level == 'DIR') : ?>
+                <?php if (($user->id == $pengaju->id_user && ($pengajuan->status == 'ACC' || $pengajuan->status == 'SELESAI' || $user->level == 'DIR')) || ($user->level == '2' || $user->level == '3' || $user->level == 'DIR')) : ?>
 
                     <br /><br />
                     <div class='margin-top-7'>

@@ -455,6 +455,13 @@ class Library
             case 'PD_LKOTA':
                 $text = 'Surat Perjalanan Dinas Luar Kota';
                 break;
+            case 'PD_DKOTA':
+                $text = 'Surat Perjalanan Dinas Luar Kota';
+                break;
+            case 'PD_LNGRI':
+                $text = 'Surat Perjalanan Dinas Luar Negri';
+                break;
+
             case 'RE_FASKOM':
                 $text = 'Reimburse Fasilitas Komunikasi';
                 break;
@@ -478,8 +485,12 @@ class Library
                 $text = '<span class="material-icons-outlined icon-lg-title ' . $class . ' ">emoji_transportation</span>';
                 break;
             case 'PD_DKOTA':
-                $text = '<span class="material-icons-outlined icon-lg-title ' . $class . ' ">emoji_transportation</span>';
+                $text = '<span class="material-icons-outlined icon-lg-title ' . $class . ' ">directions_car</span>';
                 break;
+            case 'PD_LNGRI':
+                $text = '<span class="material-icons-outlined icon-lg-title ' . $class . ' ">flight_takeoff</span>';
+                break;
+
             case 'RE_FASKOM':
                 $text = '<span class="material-icons-outlined icon-lg-title ' . $class . ' ">paid</span>';
                 break;

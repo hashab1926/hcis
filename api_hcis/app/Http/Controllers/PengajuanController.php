@@ -18,7 +18,7 @@ class PengajuanController extends Controller
 
     public function index(Request $request)
     {
-        $allowGet = $request->only(['q', 'id', 'created_at', 'tgl_cuti', 'tgl_berangkat_bulan', 'created_at_bulan', 'date_range_reimburse', 'created_at_tahun', 'status', 'limit', 'date_range', 'reimburse_tahunbulan', 'page', 'order_by', 'id_user', 'id_penandatangan', 'status', 'id_unit_kerja_divisi', 'jenis_pengajuan']);
+        $allowGet = $request->only(['q', 'id', 'created_at', 'detail_penandatangan', 'tgl_cuti', 'tgl_realisasi', 'created_at_bulan', 'date_range_reimburse', 'created_at_tahun', 'status', 'limit', 'date_range', 'reimburse_tahunbulan', 'page', 'order_by', 'id_user', 'id_penandatangan', 'status', 'id_unit_kerja_divisi', 'jenis_pengajuan']);
 
         $get = Pengajuan::getPengajuan($allowGet);
         return response()->json($get);
@@ -93,12 +93,12 @@ class PengajuanController extends Controller
 
             $old = Pengajuan::findOrFail($id);
             $status = !empty($request->post('status')) ? $request->post('status') : $old->status;
-            $waktuAcc = !empty($request->post('waktu_diacc')) ? $request->post('waktu_diacc') : $old->waktu_diacc;
+            $waktuAcc =  $request->post('waktu_diacc') ?? $old->waktu_diacc;
             $statusEdit = !empty($request->post('status_edit')) ? $request->post('status_edit') : $old->status_edit;
 
             $old->update([
                 'status'        => $status,
-                'wakti_diacc'   => $waktuAcc,
+                'waktu_diacc'   => $waktuAcc,
                 'status_edit'   => $statusEdit
             ]);
             $response = [
@@ -135,11 +135,14 @@ class PengajuanController extends Controller
                 $decodeTemplate = array_merge($oldDecodeTemplate, $decodeTemplate);
             }
             $dataTemplateLampiran = !empty($request->post('data_template_lampiran')) ? $request->post('data_template_lampiran') : $old->data_template_lampiran;
+            $waktuRealisasi = explode(' - ', $request->post('waktu_realisasi'));
             // ubah template
             $old->update([
                 'data_template'           => $decodeTemplate,
                 'data_template_lampiran'  => $dataTemplateLampiran,
                 'waktu_lampiran'          => date('Y-m-d H:i:s'),
+                'waktu_realisasi_awal'    => date('Y-m-d', strtotime($waktuRealisasi[0])),
+                'waktu_realisasi_akhir'   => date('Y-m-d', strtotime($waktuRealisasi[1])),
                 'status'                  => 'SELESAI'
             ]);
 

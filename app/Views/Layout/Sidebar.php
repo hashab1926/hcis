@@ -177,7 +177,10 @@ $accessPengajuanSaya = [
     $library->activeIf('pengajuan/saya', 'active'),
 ];
 $accessCutiKaryawan = [
-    $library->activeIf('rekap/cutikaryawan', 'active'),
+    $library->activeIf('rekap/cuti_karyawan', 'active'),
+];
+$accessLemburKaryawan = [
+    $library->activeIf('rekap/lembur_karyawan', 'active'),
 ];
 
 ?>
@@ -240,8 +243,8 @@ $accessCutiKaryawan = [
                             <li class="submenu-item <?= in_array('active', $accessPerdin) ? 'active'  : '' ?>">
                                 <a href="<?= base_url('rekap/perdin') ?>">Perjalanan Dinas</a>
                             </li>
-                            <li class="submenu-item  <?= in_array('active', $accessDivisi) ? 'active'  : '' ?>">
-                                <a href="<?= base_url('rekap/reimburse_faskom') ?>">Reimburse Faskom</a>
+                            <li class="submenu-item  <?= in_array('active', $accessLemburKaryawan) ? 'active'  : '' ?>">
+                                <a href="<?= base_url('rekap/lembur_karyawan') ?>">Lembur Karyawan</a>
                             </li>
                             <li class="submenu-item  <?= in_array('active', $accessCutiKaryawan) ? 'active'  : '' ?>">
                                 <a href="<?= base_url('rekap/cuti_karyawan') ?>">Cuti Karyawan</a>

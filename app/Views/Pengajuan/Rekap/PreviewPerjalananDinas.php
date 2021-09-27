@@ -41,8 +41,15 @@ $library = new App\Libraries\Library();
                         DAFTAR PERDIN YANG SUDAH VALIDASI REALISASI LANGSUNG
                     </span>
                     <?php $input = $_GET;
-                    if (isset($input['tgl_awal']) && isset($input['tgl_akhir'])) : ?>
-                        <div style='margin-top:10px'>Tanggal Posting : 01-10-2020 S/D 03-11-2020</div>
+                    if (isset($input['tgl_awal']) && isset($input['tgl_akhir'])) :
+                        $explodeAwal =  explode('-', $input['tgl_awal']);
+                        $explodeAkhir =  explode('-', $input['tgl_akhir']);
+
+                        $bulanAwal =  $library->bulanToText($explodeAwal[1]) . ' ' . $explodeAwal[0];
+                        $bulanAkhir =  $library->bulanToText($explodeAkhir[1]) . ' ' . $explodeAkhir[0];
+
+                    ?>
+                        <div style='margin-top:10px'>Tanggal Posting : <?= $bulanAwal == $bulanAkhir ? $bulanAwal : "{$bulanAwal} s/d {$bulanAkhir}" ?> </div>
                     <?php else :  ?>
                         <div style='margin-top:10px'>Keseluruhan</div>
                     <?php endif; ?>

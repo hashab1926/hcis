@@ -247,8 +247,8 @@ trait AjaxData
 
             foreach ($data as $list) :
                 $response['results'][] = [
-                    'id'    => $list->jenis_fasilitas,
-                    'text'  => "{$list->kode_fasilitas} - {$list->jenis_fasilitas}"
+                    'id'    => "$list->jenis_fasilitas",
+                    'text'  => "$list->jenis_fasilitas"
                 ];
             endforeach;
 

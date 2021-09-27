@@ -112,9 +112,11 @@ $("#fileUpload").fileinput({
 $('.file-preview').addClass(['no-border']);
 
 function getFormData() {
-    const formTemplating = new FormData($('#form-templating')[0]);
-    const formLampiran = new FormData($('#form-templating-lampiran')[0]);
+    const formTemplating = new FormData($(document).find('#form-templating')[0]);
+    const formLampiran = new FormData($(document).find('#form-templating-lampiran')[0]);
+
     for (var pair of formLampiran.entries()) {
+
         formTemplating.append(pair[0], pair[1]);
     }
 
@@ -145,9 +147,14 @@ $('button[name=simpan]').click(function (evt) {
                     processData: false,
                     contentType: false,
                     beforeSend: function () {
-                        enableLoading('tambah')
+                        loadingOn();
+                    },
+                    error: function (jqXHR, exception) {
+                        loadingOff();
+                        errorMessage(jqXHR, exception);
                     },
                 }).done(function (response) {
+                    loadingOff();
                     resetCsrfToken(response.token);
                     // kalo gagal dihapus
                     if (response.status_code != 200) {

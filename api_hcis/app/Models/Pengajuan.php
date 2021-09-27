@@ -19,7 +19,10 @@ class Pengajuan extends Model
         'status',
         'id_penandatangan',
         'status_edit',
-        'waktu_lampiran'
+        'waktu_lampiran',
+        'waktu_realisasi_awal',
+        'waktu_realisasi_akhir',
+
     ];
     protected $table = 'pengajuan';
 
@@ -230,23 +233,16 @@ class Pengajuan extends Model
             $query = $query->where(DB::raw("DATE_FORMAT(pengajuan.created_at,'%Y-%m')"), $request['created_at_bulan']);
         }
 
-        if (isset($request['tgl_berangkat_bulan'])) {
-            $explodeTgl = explode('|', $request['tgl_berangkat_bulan']);
-            $awal =  $explodeTgl[0];
-            $akhir = $explodeTgl[1];
-            $query = $query->where(DB::raw("DATE_FORMAT(JSON_EXTRACT(pengajuan.data_template,'$.lama_perdin_realisasi'),'%Y-%m')"), '>=', $awal)
-                ->where(DB::raw("DATE_FORMAT(JSON_EXTRACT(pengajuan.data_template,'$.lama_perdin_realisasi'),'%Y-%m')"), '<=', $akhir);
-        }
-
         //untuk lama_cuti
 
-        if (isset($request['tgl_berangkat_bulan'])) {
-            $explodeTgl = explode('|', $request['tgl_berangkat_bulan']);
-            $awal =  $explodeTgl[0];
-            $akhir = $explodeTgl[1];
-            $query = $query->where(DB::raw("DATE_FORMAT(JSON_EXTRACT(pengajuan.data_template,'$.lama_perdin_realisasi'),'%Y-%m')"), '>=', $awal)
-                ->where(DB::raw("DATE_FORMAT(JSON_EXTRACT(pengajuan.data_template,'$.lama_perdin_realisasi'),'%Y-%m')"), '<=', $akhir);
+        if (isset($request['tgl_realisasi'])) {
+            $explodeTgl = explode('|', $request['tgl_realisasi']);
+            $tglAwal = $explodeTgl[0];
+            $tglAkhir = $explodeTgl[1];
+            $query = $query->where(DB::raw("DATE_FORMAT(pengajuan.waktu_realisasi_awal,'%Y-%m')"), '>=', $tglAwal)
+                ->where(DB::raw("DATE_FORMAT(pengajuan.waktu_realisasi_awal,'%Y-%m')", '<='), $tglAkhir);
         }
+
 
 
         if (isset($request['created_at_tahun'])) {
@@ -310,6 +306,11 @@ class Pengajuan extends Model
                         ->orWhere('pengajuan.status', 'SELESAI');
                 });
             }
+        }
+
+        // kalo param 'detail_penandatangan' = 'yes'
+        if (isset($request['detail_penandatangan']) && $request['detail_penandatangan'] == 'yes') {
+            self::$column = array_merge([DB::raw("(SELECT krywn.nama_karyawan FROM karyawan krywn WHERE krywn.id = pengajuan.id_penandatangan) AS nama_penandatangan")], self::$column);
         }
 
         // kalo ada param q

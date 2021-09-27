@@ -1,5 +1,7 @@
 <?php
-$library = new App\Libraries\Library(); ?>
+$library = new App\Libraries\Library();
+$credential = new App\Libraries\Credential();
+?>
 <html>
 <style>
     * {
@@ -226,7 +228,7 @@ $library = new App\Libraries\Library(); ?>
     </div>
 
     <div style='width:100%; text-align:center; margin-top:70px; font-size:12px; font-family:monospace'>
-        Dicetak Oleh : <?= strtoupper($penandatangan->nama_karyawan) ?>
+        Dicetak Oleh : <?= strtoupper($credential->get('nama_user')) ?>
         tgl <?= date('d-m-Y') ?> pkl <?= date('H:i:s') ?>
     </div>
 </body>

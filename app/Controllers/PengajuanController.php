@@ -359,7 +359,11 @@ class PengajuanController extends BaseController
         try {
             $input = $this->request->getPost();
             $files = $_FILES['bukti_file'];
+            $dataTemplate = $input['templating'];
+            $lamaPerdin = $dataTemplate['lama_perdin_realisasi'] ?? null;
+
             $data = [
+                'waktu_realisasi'        => $lamaPerdin,
                 'data_template'          => json_encode($input['templating'], JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT),
                 'data_template_lampiran' => json_encode($input['templating_lampiran'], JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT),
             ];
@@ -373,6 +377,9 @@ class PengajuanController extends BaseController
                 }
                 $data = array_merge($data, $tampungFiles);
             endif;
+
+            // printr($data);
+
 
             // printr($data);
             $this->pengajuan->ubahLampiran($input['id'], $data);

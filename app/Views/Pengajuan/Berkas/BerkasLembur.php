@@ -1,6 +1,7 @@
 <?php
 
-$library = new App\Libraries\Library(); ?>
+$library = new App\Libraries\Library();
+$credential = new App\Libraries\Credential(); ?>
 <html>
 <style>
     * {
@@ -143,7 +144,7 @@ $library = new App\Libraries\Library(); ?>
         </div>
     </div>
     <div style="width:100%; text-align:center; font-family: monospace; font-size:10px; margin-top:20px;">
-        Dicetak Oleh :<?= $library->tanggalToText(date('Y-m-d H:i:s')) ?> </div>
+        Dicetak Oleh :<?= strtoupper($credential->get('nama_user')) ?> <?= $library->tanggalToText(date('Y-m-d H:i:s')) ?> </div>
 
 </body>
 

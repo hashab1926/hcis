@@ -48,7 +48,7 @@ if ($('#templating-tambah-rincian').length > 0) {
         $('#tbody-rincian-biaya').append(`
         <tr class='box-shadow'>
             <td class='padding-3 text-center'>${no}</td>
-            <td class='padding-3'><input type='text' name='templating[jenis_fasilitas][]' class='form-control no-border' placeholder='Nama Rincian'></td>
+            <td class='padding-3'><select id="${no}" name="templating[jenis_fasilitas][]" data-name="ubah_jenis_fasilitas" class="w-100" style="width: 100%"></select></td>
             <td class='padding-3'><input type='text' dir="rtl" name='templating[nilai_pengajuan][]' class='form-control currency-number currency-number nilai_pengajuan no-border' placeholder='Nominal'></td>
             <td class='padding-3'><input type='text' dir="rtl" name='templating[nilai_realisasi][]' class='form-control currency-number currency-number nilai_realisasi no-border' placeholder='Nominal'></td>
             <td class='padding-3'>
@@ -60,7 +60,7 @@ if ($('#templating-tambah-rincian').length > 0) {
             </td>
         </tr>
         `);
-
+        ubahPengajuanSelect2();
         $(document).find('.currency-number').mask('000.000.000.000.000', { reverse: true });
     })
 }

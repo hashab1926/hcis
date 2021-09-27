@@ -201,14 +201,16 @@ if ($pengajuan->data_template_lampiran != null)
                                                     $nilaiRealisasi = $template->nilai_realisasi ?? 0;
 
                                                     $no = 0;
-                                                    foreach ($jenisFasilitas as $list) :
+                                                    foreach ($jenisFasilitas as $key => $list) :
                                                         $totalPengajuan += str_replace('.', '', $nilaiPengajuan[$no]);
                                                         $totalRealisasi += str_replace('.', '', $nilaiRealisasi[$no] ?? 0);
 
                                                 ?>
                                                         <tr class='box-shadow'>
                                                             <td class='padding-3 text-center'><?= ($no) + 1 ?></td>
-                                                            <td class='padding-3'><input type='text' name='templating[jenis_fasilitas][]' class='form-control no-border text-muted ' value="<?= $list ?>" placeholder='Nama Rincian'></td>
+
+                                                            <td class='padding-3'><select id="<?= $key + 1 ?>" data-selected="<?= $list ?>" name="templating[jenis_fasilitas][]" data-name="ubah_jenis_fasilitas" class="w-100" style="width: 100%"></select></td>
+                                                            <!-- <td class='padding-3'><input type='text' name='templating[jenis_fasilitas][]' class='form-control no-border text-muted ' value="?= $list ?>" placeholder='Nama Rincian'></td> -->
                                                             <td class='padding-3'><input type='text' dir="rtl" name='templating[nilai_pengajuan][]' class='form-control currency-number currency-number nilai_pengajuan no-border' value="<?= $nilaiPengajuan[$no] ?>" placeholder='Nominal'></td>
                                                             <td class='padding-3'><input type='text' dir="rtl" name='templating[nilai_realisasi][]' class='form-control currency-number currency-number nilai_realisasi no-border' value="<?= $nilaiRealisasi[$no] ?? '' ?>" placeholder='Nominal'></td>
                                                             <td class='padding-3 text-center'>
@@ -548,7 +550,7 @@ if ($pengajuan->data_template_lampiran != null)
 <script src="<?= base_url('template/vendors/kartik-upload/custom_fileinput.min.js') ?>"></script>
 <script src="<?= base_url('template/vendors/kartik-upload/theme.js') ?>"></script>
 
+<script src="<?= base_url('js/Pengajuan/PengajuanSelect2.js') ?>"></script>
 <script src="<?= base_url('js/Pengajuan/UbahPengajuan.js') ?>"></script>
 <script src="<?= base_url('js/Pengajuan/LampiranPengajuan.js') ?>"></script>
-
 <?= $this->endSection() ?>

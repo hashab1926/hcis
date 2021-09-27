@@ -41,3 +41,32 @@ select2Request({
     url: `${baseUrl}/jenis_fasilitas/ajax/data_jenis_fasilitas_nama`
 })
 
+
+
+function ubahPengajuanSelect2() {
+
+    const jenisFasilitas = $('select[data-name=ubah_jenis_fasilitas]');
+    let namaJenis = '';
+    let idJenis = '';
+    $.each(jenisFasilitas, function (index, select) {
+        namaJenis = $(select).attr('data-selected') ?? $(select).val() ?? '';
+        idJenis = $(select).attr('id');
+
+        select2Request({
+            element: `select[id=${idJenis}]`,
+            // placeholder: namaJenis ?? '- Pilih Jenis Fasilitas -',
+            url: `${baseUrl}/jenis_fasilitas/ajax/data_jenis_fasilitas_nama`
+        });
+
+        if (namaJenis != '' || typeof namaJenis == 'undefined') {
+            // $(`select[id=${idJenis}]`).val('data', { id: idJenis, text: namaJenis, });
+            const option = new Option(namaJenis, namaJenis, true, true);
+            $(`select[id=${idJenis}]`).append(option).trigger('change');
+        }
+    })
+
+}
+
+if ($('select[data-name=ubah_jenis_fasilitas]').length > 0) {
+    ubahPengajuanSelect2();
+}

@@ -151,6 +151,8 @@ $('#cari').click(function (evt) {
         redirectRekap(`${baseUrl}/rekap/preview_perdin${idUser != null ? `/${idUser}` : ''}${objToGet(param)}`);
     else if (tipe == 'cutikaryawan')
         redirectRekap(`${baseUrl}/rekap/preview_cuti${idUser != null ? `/${idUser}` : ''}${objToGet(param)}`);
+    else if (tipe == 'lemburkaryawan')
+        redirectRekap(`${baseUrl}/rekap/preview_lembur${idUser != null ? `/${idUser}` : ''}${objToGet(param)}`);
 
 })
 

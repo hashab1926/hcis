@@ -1,5 +1,7 @@
 <?php
-$library = new App\Libraries\Library(); ?>
+$library = new App\Libraries\Library();
+$credential = new App\Libraries\Credential();
+?>
 <html>
 <style>
     * {
@@ -169,7 +171,9 @@ $library = new App\Libraries\Library(); ?>
                     foreach ($tanggal as $key => $list) :
                         $jumlah = str_replace('.', '', $lampiran->jumlah[$no]) ?? 0;
                         $hargaSatuan = str_replace('.', '', $lampiran->harga_satuan[$no]) ?? 0;
-                        $total = $jumlah * $hargaSatuan;
+                        if ($hargaSatuan != null) {
+                            $total = $jumlah * $hargaSatuan;
+                        }
                         $jumlahBiaya += $total;
                     ?>
                         <tr>
@@ -217,16 +221,16 @@ $library = new App\Libraries\Library(); ?>
         <div style='width:100%; margin-top:40px'>
             <div style='float:right; width:300px; text-align:center;'>
                 <div>Disetujui Oleh,</div>
-                <div style='margin-top:10px'><?= strtoupper($penandatangan->nama_divisi) ?></div>
+                <div style='margin-top:10px'><?= strtoupper($penandatangan->nama_divisi ?? 'BELUM DIISI') ?></div>
                 <div style='margin:100px 0;'></div>
-                <div>( <?= strtoupper($penandatangan->nama_karyawan) ?> )</div>
+                <div>( <?= strtoupper($penandatangan->nama_karyawan ?? 'Penandatangan TIDAK DIISI') ?> )</div>
             </div>
         </div>
         <!-- TTD -->
     </div>
 
     <div style='width:100%; text-align:center; margin-top:70px; font-size:12px; font-family:monospace'>
-        Dicetak Oleh : <?= strtoupper($penandatangan->nama_karyawan) ?>
+        Dicetak Oleh : <?= strtoupper($credential->get('nama_user')) ?>
         tgl <?= date('d-m-Y') ?> pkl <?= date('H:i:s') ?>
     </div>
 </body>

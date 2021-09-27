@@ -222,6 +222,10 @@ $routes->group('/', ['filter' => 'authlogin'], function ($routes) {
 		$routes->get('preview_cuti', 'Rekap\CutiKaryawanController::preview');
 		$routes->get('preview_cuti/(:segment)', 'Rekap\CutiKaryawanController::preview/$1');
 
+		$routes->get('lembur_karyawan', 'Rekap\LemburKaryawanController::index');
+		$routes->get('preview_lembur', 'Rekap\LemburKaryawanController::preview');
+		$routes->get('preview_lembur/(:segment)', 'Rekap\LemburKaryawanController::preview/$1');
+
 		$routes->get('fbcj', 'Rekap\FBCJController::index');
 		$routes->get('fbcj_bukti/preview/(:num)/(:num)', 'Rekap\FBCJController::previewBukti/$1/$2');
 		$routes->get('fbcj/ajax/data_fbcj/(:num)', 'Rekap\FBCJController::ajaxDataFbcj/$1');

@@ -206,7 +206,7 @@ class DashboardController extends BaseController
             'id_penandatangan'  => $idKaryawan,
             'limit'             => 50,
             'order_by'          => 'desc',
-            'status'            => 'PROSES'
+            'status'            => 'proses'
         ]);
 
         return $konfirmasi->data;
@@ -215,7 +215,7 @@ class DashboardController extends BaseController
     private function tampungTotalPengajuanPerdin()
     {
 
-
+        // luar kota
         $monthTotalPerdinLuarKota = $this->totalPengajuanPerdin([
             'jenis_pengajuan'   => 'perdin_luar_kota',
             'created_at_bulan'   => date('Y-m'),
@@ -226,6 +226,8 @@ class DashboardController extends BaseController
             'created_at'        => date('Y-m-d'),
         ]);
 
+
+        // Dalam kota
         $monthTotalPerdinDalamKota = $this->totalPengajuanPerdin([
             'jenis_pengajuan'   => 'perdin_dalam_kota',
             'created_at_bulan'   => date('Y-m'),
@@ -236,6 +238,8 @@ class DashboardController extends BaseController
             'created_at'        => date('Y-m-d'),
         ]);
 
+
+        // Luar negri
         $monthTotalPerdinLuarNegri = $this->totalPengajuanPerdin([
             'jenis_pengajuan'   => 'perdin_luar_negri',
             'created_at_bulan'   => date('Y-m'),

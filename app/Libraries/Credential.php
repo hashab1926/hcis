@@ -25,6 +25,7 @@ class Credential
     public function cekCredential()
     {
         try {
+            // printr($_SESSION);
             // var_dump($this->has($this->tokenName));
             // cek kalo ada tokennya
             if (!$this->has($this->tokenName))

@@ -29,10 +29,30 @@ $routes = service('routes');
         .sidebar-wrapper .menu .sidebar-item.active .sidebar-link {
             background: #212529;
         }
+
+        #loading-page {
+            display: none;
+        }
     </style>
 </head>
 
 <body>
+
+    <div id='loading-page'>
+        <div class='position-fixed' style="left:0; width:100%; height:100vh; background:#111; opacity:0.9; z-index:19111999"></div>
+        <div class='position-fixed d-flex flex-column' style="left:50%; top:45%; transform: translate(-50%, -50%); z-index:19112000">
+            <div>
+                <img src="<?= base_url('img/logo.png') ?>" width="300">
+            </div>
+            <div class='text-center'>
+                <img src="<?= base_url('img/loading-dot.svg') ?>" width=100 class='mx-auto d-block'>
+            </div>
+            <div class='text-white text-center text-md-3 fweight-500' style='font-family:Arial'>
+                Sedang memproses
+            </div>
+        </div>
+    </div>
+
     <div id="app">
         <?= $this->include('Layout/Sidebar'); ?>
         <div id="main" class='layout-navbar'>
