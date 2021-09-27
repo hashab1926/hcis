@@ -110,9 +110,11 @@ class KaryawanController extends BaseController
                 'nip'                    => $input['nip'],
                 'nama_karyawan'          => $input['nama_karyawan'],
                 'id_pangkat'             => $input['id_pangkat'],
-                'id_jabatan'             => $input['id_jabatan'],
                 'email'                  => $input['email'],
             ];
+
+            if (!empty($input['id_jabatan']))
+                $data['id_jabatan'] = $input['id_jabatan'];
 
             if (!empty($input['id_kepala']))
                 $data['id_unit_kerja_kepala'] = $input['id_kepala'];

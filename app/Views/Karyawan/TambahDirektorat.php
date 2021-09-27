@@ -74,8 +74,8 @@ $library = new App\Libraries\Library; ?>
 
                                     <div class="col-md-6 col-12 padding-bottom-3">
                                         <div class="form-group padding-x-5 d-flex flex-column">
-                                            <label for="last-name-column">Jabatan</label>
-                                            <select name="id_jabatan" data-name="id_jabatan" class="w-100" id="id_jabatan"></select>
+                                            <label for="last-name-column">Direktorat</label>
+                                            <select name="id_kepala" data-name="id_direktorat" class="w-100" id="id_direktorat"></select>
                                         </div>
                                     </div>
 

@@ -85,7 +85,7 @@ $(document).ready(function () {
             },
             {
                 "sClass": "text-uppercase",
-                "data": "nama_jabatan",
+                "data": "nama_kepala",
             },
 
 

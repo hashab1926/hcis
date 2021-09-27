@@ -290,8 +290,8 @@ function iconNamaJenis(nama) {
 function iconStatus(status) {
     let text = '';
     switch (status) {
-        case 'PROSES': text = `<span class="material-icons-outlined icon-lg-title">loop</span>`; break;
-        case 'ACC': text = `<span class="material-icons-outlined icon-lg-title">how_to_reg</span>`; break;
+        case 'PROSES': text = `<span class="material-icons-outlined icon-lg-title text-warning">loop</span>`; break;
+        case 'ACC': text = `<span class="material-icons-outlined icon-lg-title text-primary">how_to_reg</span>`; break;
         case 'SELESAI': text = `<span class="material-icons-outlined icon-lg-title text-success">verified</span>`; break;
         case 'TOLAK': text = `<span class="material-icons-outlined icon-lg-title text-danger">highlight_off</span>`; break;
 

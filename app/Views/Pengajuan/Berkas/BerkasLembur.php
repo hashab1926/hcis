@@ -57,7 +57,7 @@ $credential = new App\Libraries\Credential(); ?>
             <table>
                 <tr>
                     <td style="padding-left: 20px;">Unit Kerja &nbsp;&nbsp;&nbsp;&nbsp; : &nbsp; &nbsp; &nbsp; </td>
-                    <td style="text-align: center;"><?= $pengaju->nama_kepala ?></td>
+                    <td style="text-align: center; vertical-align:top"><?= $pengaju->nama_kepala ?></td>
                     <td style="vertical-align: top;">/</td>
                     <td style="text-align: center;"><?= $pengaju->nama_divisi ?></td>
                     <td style="vertical-align: top;">/</td>
@@ -73,7 +73,7 @@ $credential = new App\Libraries\Credential(); ?>
                     <td width='0.2%'>1.</td>
                     <td width='35%'>NIP/Nama Karyawan</td>
                     <td>:</td>
-                    <td width='60%'><?= $pengaju->nip ?></td>
+                    <td width='60%'><?= "{$pengaju->nip} / " . strtoupper($pengaju->nama_karyawan) ?></td>
                 </tr>
                 <tr>
                     <td width='0.2%'>2.</td>

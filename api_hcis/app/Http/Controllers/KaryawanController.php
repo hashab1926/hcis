@@ -209,7 +209,6 @@ trait Rules
         $rules = Validator::make($request->post(), [
             'nip'            => 'required|max:100',
             'id_pangkat'     => 'required|max:10',
-            'id_jabatan'     => 'required|max:10',
 
         ], $this->message);
         // cek rules

@@ -60,8 +60,9 @@
                                     <div class='d-lg-block d-xl-block d-md-block d-sm-none d-xs-none d-none'>:</div>
                                 </div>
                                 <div class="col-lg-4">
-                                    <input type="text" name='kas_jurnal' placeholder="Kas Jurnal" class="form-control custom-input-height">
+                                    <select name="kas_jurnal" data-name="id_direktorat" class="w-100" id="id_direktorat"></select>
                                 </div>
+
                             </div>
 
                             <div class="row margin-top-2">

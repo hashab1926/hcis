@@ -61,7 +61,9 @@ $library = new App\Libraries\Library();
             <table width='100%' style="font-weight:700">
                 <tr>
                     <td>Kas Jurnal : KD11</td>
-                    <td>DIVISI : <?= $pengaju->nama_divisi ?></td>
+                    <?php if (isset($input['id_divisi'])) : ?>
+                        <td>DIVISI : <?= $pengaju->nama_divisi ?></td>
+                    <?php endif; ?>
                 </tr>
             </table>
 

@@ -43,3 +43,9 @@ select2Request({
     placeholder: '- Pilih Penandatangan -',
     url: `${baseUrl}/karyawan/ajax/data_pejabat`,
 });
+
+select2Request({
+    element: `select[data-name=id_direktorat]`,
+    placeholder: '- Pilih Direktorat -',
+    url: `/unit_kerja/kepala/ajax/data_kepala`,
+});

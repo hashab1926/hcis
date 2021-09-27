@@ -81,21 +81,36 @@ class PerdinController extends BaseController
                 $param['id_unit_kerja_divisi'] = $input['id_divisi'];
             }
 
-
-            if ($id != null)
+            $action = 'PreviewPerjalananDinasAll';
+            if ($id != null) {
                 $param['id_user'] = $id;
+                $action = 'PreviewPerjalananDinas';
+            }
+
             // get karyawan
             // printr(arrayToGet($param));
             $pengajuan = $this->pengajuan->getPengajuan($param);
+            if ($pengajuan->total_row <= 0)
+                throw new \Exception('Pengajuan tidak ditemukan');
 
+            $source = $pengajuan->data[0];
+            // printr($source);
+            // id_pengaju
+            $idPengaju = $source->id_pengaju;
+
+            $pengaju = $this->karyawan->getKaryawan(['id' => $idPengaju]);
+            // cek pengaju
+            if ($pengaju->total_row <= 0)
+                throw new \Exception('Pengaju tidak ditemukan');
 
             $response = [
                 'pengajuan'        => $pengajuan->data,
+                'pengaju'          => $pengaju->data[0]
             ];
 
 
             // printr($response);
-            $preview = view('Pengajuan/Rekap/PreviewPerjalananDinas', $response);
+            $preview = view("Pengajuan/Rekap/{$action}", $response);
             // return $preview;
             // echo $preview;
             // exit(1);
@@ -109,6 +124,7 @@ class PerdinController extends BaseController
                 'html'   => $preview,
             ]);
         } catch (\Exception | \Throwable $error) {
+            echo "<a href='" . base_url('rekap/perdin') . "'>Kembali</a> <br/>";
             echo $error->getMessage();
         }
     }

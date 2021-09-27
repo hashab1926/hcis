@@ -40,6 +40,11 @@ $('select[data-name=id_bagian]').change(function (evt) {
 
 
 })
+select2Request({
+    element: 'select[data-name=id_direktorat]',
+    placeholder: '- Pilih Direktorat -',
+    url: `/unit_kerja/kepala/ajax/data_kepala`,
+});
 
 
 select2Request({

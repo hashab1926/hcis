@@ -206,24 +206,6 @@
 
         </div>
 
-        <div class="card box-shadow">
-            <div class="card-body">
-                <h5 class="card-title">Penandatangan</h5>
-                <div class='text-center'>
-                    <span class="material-icons-outlined icon-xxl-title text-muted">
-                        drive_file_rename_outline
-                    </span>
-                </div>
-
-                <div class="form-group">
-                    <label class='fweight-700 margin-bottom-1'>Nama penandatangan</label>
-                    <select id="penandatangan" name='templating[nama_penandatangan]' class='form-select'>
-                        <option value="">- Pilih Penandatangan -</option>
-                    </select>
-                </div>
-
-            </div>
-        </div>
 
         <div class="card box-shadow" id='wrapper-rincian-biaya'>
             <div class="card-body">
@@ -285,6 +267,26 @@
 
             </div>
         </div>
+
+        <div class="card box-shadow">
+            <div class="card-body">
+                <h5 class="card-title">Penandatangan</h5>
+                <div class='text-center'>
+                    <span class="material-icons-outlined icon-xxl-title text-muted">
+                        drive_file_rename_outline
+                    </span>
+                </div>
+
+                <div class="form-group">
+                    <label class='fweight-700 margin-bottom-1'>Nama penandatangan</label>
+                    <select id="penandatangan" name='templating[nama_penandatangan]' class='form-select'>
+                        <option value="">- Pilih Penandatangan -</option>
+                    </select>
+                </div>
+
+            </div>
+        </div>
+
 
     </div>
 </div>

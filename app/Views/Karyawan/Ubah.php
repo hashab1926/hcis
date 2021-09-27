@@ -116,6 +116,14 @@
                                                 <div class="text-muted"><input type='text' name="email[<?= $list->id ?>]" class='form-control custom-input-height' value="<?= $list->email ?>" /></div>
                                             </div>
 
+                                            <?php if ($list->status == '3') : ?>
+                                                <div class='col-lg-6 col-xl-6 col-md-12 col-xs-12 margin-top-2'>
+                                                    <label for="last-name-column">Direktorat</label>
+                                                    <select name="id_kepala[<?= $list->id ?>]" data-name="id_direktorat" data-selected="<?= $list->nama_kepala ?>" class="w-100" id="id_direktorat"></select>
+                                                    <i class='text-muted'> Direktorat sebelumnya : <code><?= $list->nama_kepala ?></code></i>
+
+                                                </div>
+                                            <?php endif; ?>
                                             <?php if ($list->id_user != null) : ?>
                                                 <input type="hidden" readonly name="id_user[<?= $list->id ?>]" value="<?= $list->id_user ?>">
                                                 <div class='row margin-top-2'>

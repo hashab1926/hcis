@@ -30,7 +30,7 @@
                                 <th>EMAIL</th>
                                 <th>NO.HP</th>
                                 <th>PANGKAT</th>
-                                <th>JABATAN</th>
+                                <th>DIREKTORAT</th>
                             </tr>
                         </thead>
                     </table>

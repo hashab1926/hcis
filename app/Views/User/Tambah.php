@@ -5,6 +5,11 @@
 <?= $this->endSection() ?>
 
 <?= $this->section('content') ?>
+
+<?php
+
+$accessName = strpos(current_url(), 'direktorat') ? 'direktorat' : 'karyawan';
+?>
 <div class="row">
     <div class="col">
         <?= $this->include('Karyawan/Menu') ?>
@@ -46,8 +51,8 @@
                                                     <div class="text-muted"><?= $list->nama_pangkat ?></div>
                                                 </div>
                                                 <div class='col-lg-6 col-xl-6 col-md-12 col-xs-12 margin-top-2'>
-                                                    <label class='fweight-700'>Jabatan</label>
-                                                    <div class="text-muted"><?= $list->nama_jabatan ?></div>
+                                                    <label class='fweight-700'><?= $accessName == 'direktorat' ? 'Direktorat' : 'Jabatan' ?></label>
+                                                    <div class="text-muted"><?= $accessName == 'direktorat' ?  $list->nama_kepala : $list->nama_jabatan ?></div>
                                                 </div>
                                             </div>
 

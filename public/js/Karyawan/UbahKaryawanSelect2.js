@@ -33,6 +33,30 @@ function kepalaSelect2() {
 
 }
 kepalaSelect2();
+
+function direktoratSelect2() {
+
+    const kepala = $('select[data-name=id_direktorat]');
+    let namaDirektorat = '';
+    let idDirektorat = '';
+    $.each(kepala, function (index, select) {
+        namaDirektorat = $(select).attr('data-selected');
+        idDirektorat = $(select).attr('id');
+
+        select2Request({
+            element: `select[id=${idDirektorat}]`,
+            placeholder: namaDirektorat ?? '- Pilih Kepala -',
+            url: `/unit_kerja/kepala/ajax/data_kepala`,
+        });
+    })
+
+}
+if ($('select[data-name=id_direktorat]').length > 0) {
+
+    direktoratSelect2();
+}
+
+
 $('select[data-name=id_kepala]').change(function (evt) {
     const id = $(this).val();
     const index = $('select[data-name=id_kepala]').index(this);
