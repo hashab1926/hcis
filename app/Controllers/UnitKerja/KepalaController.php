@@ -220,4 +220,42 @@ trait AjaxData
             echo json_encode([]);
         }
     }
+
+    public function ajaxDataKepalaNama()
+    {
+        try {
+
+            // set default param
+            $param = [];
+
+            // get method
+            $input = $this->request->getGet();
+
+            // param 'page' kalo ada
+            if (!empty($input['page']))
+                $param['page'] = $input['page'];
+
+            // param 'q' kalo ada
+            if (!empty($input['search']))
+                $param['q'] = $input['search'];
+
+            // get karyawan
+            $divisi = $this->kepala->getKepala($param);
+            $data = $divisi->data;
+            $response = [];
+
+            foreach ($data as $list) :
+                $response['results'][] = [
+                    'id'    => $list->nama_kepala,
+                    'text'  => $list->nama_kepala
+                ];
+            endforeach;
+
+            $response['pagination']['more'] = true;
+            $response['count_filtered'] = $divisi->total_row;
+            echo json_encode($response);
+        } catch (\Exception | \Throwable $error) {
+            echo json_encode([]);
+        }
+    }
 }

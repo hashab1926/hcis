@@ -182,6 +182,7 @@ $routes->group('/', ['filter' => 'authlogin'], function ($routes) {
 		$routes->get('kepala/get_datatable', 'UnitKerja\KepalaController::getDatatable');
 		$routes->get('kepala/tambah', 'UnitKerja\KepalaController::tambah');
 		$routes->get('kepala/ajax/data_kepala', 'UnitKerja\KepalaController::ajaxDataKepala');
+		$routes->get('kepala/ajax/data_kepala_nama', 'UnitKerja\KepalaController::ajaxDataKepalaNama');
 
 		$routes->get('divisi', 'UnitKerja\DivisiController::index');
 		$routes->post('divisi/store', 'UnitKerja\DivisiController::store');

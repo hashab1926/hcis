@@ -152,9 +152,14 @@ $('button[name=simpan]').click(function (evt) {
                     type: 'POST',
                     dataType: 'json',
                     beforeSend: function () {
-                        enableLoading('tambah')
+                        loadingOn();
+                    },
+                    error: function (jqXHR, exception) {
+                        loadingOff();
+                        errorMessage(jqXHR, exception);
                     },
                 }).done(function (response) {
+                    loadingOff();
                     resetCsrfToken(response.token);
                     // kalo gagal dihapus
                     if (response.status_code != 201) {

@@ -47,5 +47,5 @@ select2Request({
 select2Request({
     element: `select[data-name=id_direktorat]`,
     placeholder: '- Pilih Direktorat -',
-    url: `/unit_kerja/kepala/ajax/data_kepala`,
+    url: `/unit_kerja/kepala/ajax/data_kepala_nama`,
 });

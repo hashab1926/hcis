@@ -81,16 +81,18 @@ class FbcjController extends Controller
 
             // insert bon/ bukti file
             $bukti = $request->file('bukti_file');
-            $length = count($bukti);
-            if ($length > 0) {
-                $dataTampung = [];
-                for ($x = 0; $x < $length; $x++) {
-                    $dataTampung[] = [
-                        'id_fbcj'       => $withId,
-                        'bukti_file'    => BlobHelper::fileToBlob($bukti[$x])
-                    ];
+            if ($request->hasFile('bukti_file')) {
+                $length = count($bukti);
+                if ($length > 0) {
+                    $dataTampung = [];
+                    for ($x = 0; $x < $length; $x++) {
+                        $dataTampung[] = [
+                            'id_fbcj'       => $withId,
+                            'bukti_file'    => BlobHelper::fileToBlob($bukti[$x])
+                        ];
+                    }
+                    DB::table('rekap__fbcj_bukti')->insert($dataTampung);
                 }
-                DB::table('rekap__fbcj_bukti')->insert($dataTampung);
             }
             $response = [
                 'status_code' => 201,
@@ -204,7 +206,7 @@ trait Rules
         $rules = Validator::make($request->post(), [
             'id_unit_kerja_divisi'  => 'required|max:100',
             'tanggal'               => 'required',
-            'kas_jurnal'            => 'required|max:10',
+            'kas_jurnal'            => 'required',
             'id_cost_center'        => 'required',
 
         ], $this->message);
