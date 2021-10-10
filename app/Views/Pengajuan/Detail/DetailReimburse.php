@@ -137,7 +137,7 @@ endif;
 
                                     <?php if ($user->id == $penandatangan->id_user && $pengajuan->status == 'PROSES') : ?>
                                         <div class='d-flex margin-top-5'>
-                                            <button class='btn btn-danger d-flex align-items-center rounded-pill padding-x-4 box-shadow' id='batalButton' name='btnbatal' data-id="<?= $pengajuan->id ?>">
+                                            <button class='btn btn-danger d-flex align-items-center rounded-pill padding-x-4 box-shadow' data-toggle="modal" data-target="#modalRevisi" id='batalButton' name='btnbatal' data-id="<?= $pengajuan->id ?>">
                                                 <span class="material-icons-outlined">
                                                     highlight_off
                                                 </span>
@@ -168,6 +168,22 @@ endif;
                                     check_circle
                                 </span>
                                 <div class='margin-left-2 fweight-600 text-success'>Telah Selesai</div>
+                            </div>
+                        </div>
+                    <?php elseif ($pengajuan->status == 'TOLAK') : ?>
+
+                        <div class=' margin-top-2 d-flex justify-content-center flex-column'>
+                            <div class="text-center margin-bottom-3">
+                                <div class="d-flex flex-column">
+                                    <div class="fweight-600">Keterangan revisi</div>
+                                    <i><?= $pengajuan->ket_revisi ?? '' ?></i>
+                                </div>
+                            </div>
+                            <div class='d-flex align-items-center justify-content-center'>
+                                <span class='material-icons text-danger'>
+                                    close
+                                </span>
+                                <div class='margin-left-2 fweight-600 text-danger'>Ditolak</div>
                             </div>
                         </div>
                     <?php endif; ?>
@@ -205,6 +221,35 @@ endif;
                 <!-- PRINT -->
 
                 <br /><Br /><br />
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="modalRevisi" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Catatan Revisi</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group margin-top-3">
+                            <label for="">Keterangan Revisi</label>
+                            <textarea class="form-control" name="ket_revisi"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer no-border">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-danger" id="save-tolakpengajuan">Tolak Pengajuan</button>
             </div>
         </div>
     </div>

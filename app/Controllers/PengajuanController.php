@@ -314,7 +314,7 @@ class PengajuanController extends BaseController
     {
         try {
             $input = $this->request->getPost();
-
+            // printr($input);
             $id = $input['id'];
 
             // cek id
@@ -333,7 +333,8 @@ class PengajuanController extends BaseController
 
             $data = [
                 'status'        => 'TOLAK',
-                'waktu_diacc'   => date('Y-m-d H:i:s')
+                'waktu_diacc'   => date('Y-m-d H:i:s'),
+                'ket_revisi'    => $input['ket_revisi']
             ];
 
             $this->pengajuan->ubah($id, $data);

@@ -213,3 +213,8 @@ $('#button_showhide').click(function (evt) {
 
     }
 })
+console.log($('input'))
+$(`input[name='templating[lama_lembur]'`).change(function (evt) {
+    if ($(this).val() > 3)
+        $(this).val(3);
+})

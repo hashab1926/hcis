@@ -52,7 +52,7 @@ class PengajuanController extends Controller
                 'id_user'       => $user->id,
                 'id_unit_kerja_divisi'   => $user->id_unit_kerja_divisi,
                 'id_penandatangan'       => $dataTemplateDecode['nama_penandatangan'],
-                'nomor'                  => Pengajuan::getAutoNumberGeneral($request->post('nama_jenis'))
+                'nomor'                  => Pengajuan::getAutoNumberGeneral($request->post('nama_jenis')),
             ];
 
             switch ($request->post('nama_jenis')) {
@@ -95,11 +95,13 @@ class PengajuanController extends Controller
             $status = !empty($request->post('status')) ? $request->post('status') : $old->status;
             $waktuAcc =  $request->post('waktu_diacc') ?? $old->waktu_diacc;
             $statusEdit = !empty($request->post('status_edit')) ? $request->post('status_edit') : $old->status_edit;
+            $ketRevisi = !empty($request->post('ket_revisi')) ? $request->post('ket_revisi') : $old->ket_revisi;
 
             $old->update([
                 'status'        => $status,
                 'waktu_diacc'   => $waktuAcc,
-                'status_edit'   => $statusEdit
+                'status_edit'   => $statusEdit,
+                'ket_revisi'    => $ketRevisi
             ]);
             $response = [
                 'status_code' => 200,

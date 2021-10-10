@@ -120,7 +120,7 @@
                                 <div class="form-group">
                                     <label for="">Lama Lembur</label>
                                     <div class='d-flex align-items-center'>
-                                        <input type='number' name='templating[lama_lembur]' class='form-control w-50' placeholder="Lama Lembur">
+                                        <input type='number' name='templating[lama_lembur]' class='form-control w-50' placeholder="Lama Lembur" min="1" max="3">
                                         <div class='text-muted margin-left-2'>Jam</div>
                                     </div>
                                 </div>

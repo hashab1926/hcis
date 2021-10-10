@@ -22,6 +22,7 @@ class Pengajuan extends Model
         'waktu_lampiran',
         'waktu_realisasi_awal',
         'waktu_realisasi_akhir',
+        'ket_revisi'
 
     ];
     protected $table = 'pengajuan';
@@ -40,6 +41,7 @@ class Pengajuan extends Model
         'pengajuan.waktu_diacc',
         'pengajuan.id_penandatangan',
         'pengajuan.status_edit',
+        'pengajuan.ket_revisi'
 
 
     ];

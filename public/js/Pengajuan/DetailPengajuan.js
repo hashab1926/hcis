@@ -10,15 +10,24 @@ $('#posisi').click(function (evt) {
 })
 
 $('#batalButton').click(function (evt) {
+
+    const id = $(this).attr('data-id');
+    $('#save-tolakpengajuan').attr('data-id', id);
+})
+
+$('#save-tolakpengajuan').click(function (evt) {
     const id = $(this).attr('data-id');
     questionMessage("Pesan", "Pengajuan ini akan ditolak, apakah anda yakin ?")
         .then((result) => {
             /* Read more about isConfirmed, isDenied below */
             if (result.isConfirmed) {
+                const ketRevisi = $(`textarea[name=ket_revisi]`).val();
+                console.log(ketRevisi);
                 $.ajax({
                     url: `${baseUrl}/pengajuan/storebatal`,
                     data: {
                         id: id,
+                        ket_revisi: ketRevisi,
                         [getCsrfName()]: getCsrfHash()
                     },
                     type: 'POST',
@@ -49,7 +58,6 @@ $('#batalButton').click(function (evt) {
             }
         })
 })
-
 
 $('#accButton').click(function (evt) {
     const id = $(this).attr('data-id');
