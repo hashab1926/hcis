@@ -1,23 +1,24 @@
 $(document).ready(function () {
-    datatable({
-        element: '#datatable',
-        url: `${baseUrl}/pengajuan/inbox/get_datatable`,
-        dom: `<".d-flex padding-x-1 justify-content-between"<"#head">p>t<".d-flex justify-content-between"<'.margin-left-5 text-muted'i>p><"clear">`,
-        language: {
-            info: ` _START_ to _END_ of _TOTAL_ entries`
-        },
-        columns: [
+    function datatableInbox(param = {}) {
+        datatable({
+            element: '#datatable',
+            url: `${baseUrl}/pengajuan/inbox/get_datatable${objToGet(param)}`,
+            dom: `<".d-flex padding-x-1 justify-content-between"<"#head">p>t<".d-flex justify-content-between"<'.margin-left-5 text-muted'i>p><"clear">`,
+            language: {
+                info: ` _START_ to _END_ of _TOTAL_ entries`
+            },
+            columns: [
 
-            {
-                "data": "id",
-                "createdCell": function (td, cellData, rowData, row, col) {
-                    $(td).attr('width', '30%')
+                {
+                    "data": "id",
+                    "createdCell": function (td, cellData, rowData, row, col) {
+                        $(td).attr('width', '30%')
 
-                },
-                "render": function (data, type, row, meta) {
-                    const namaPengaju = ucFirst(row['nama_pengaju'].toLowerCase());
-                    const nomor = row['nomor'] ?? 'Belum diisi';
-                    const avatar = `
+                    },
+                    "render": function (data, type, row, meta) {
+                        const namaPengaju = ucFirst(row['nama_pengaju'].toLowerCase());
+                        const nomor = row['nomor'] ?? 'Belum diisi';
+                        const avatar = `
                     <div class='d-flex align-items-center'>
                         <div class='d-flex align-items-center'>
                             <span class="material-icons-outlined icon-lg-title text-muted">
@@ -32,21 +33,21 @@ $(document).ready(function () {
                     </div>
 
                     `;
-                    return `
+                        return `
                     <div class='d-flex'>
                         ${avatar}
                     </div>
                     `;
-                }
-            },
-            {
-                "data": "nama_pengaju",
-                "createdCell": function (td, cellData, rowData, row, col) {
-                    $(td).attr('width', '40%')
-
+                    }
                 },
-                "render": function (data, type, row, meta) {
-                    return `
+                {
+                    "data": "nama_pengaju",
+                    "createdCell": function (td, cellData, rowData, row, col) {
+                        $(td).attr('width', '40%')
+
+                    },
+                    "render": function (data, type, row, meta) {
+                        return `
                                 <div class=''>
                                     <div class='d-flex align-items-center'>
                                         ${iconNamaJenis(row['nama_jenis'])}
@@ -55,16 +56,16 @@ $(document).ready(function () {
                                 </div>
     
                         `;
-                }
-            },
-            {
-                "data": "status",
-                "createdCell": function (td, cellData, rowData, row, col) {
-                    $(td).attr('width', '20%')
-
+                    }
                 },
-                "render": function (data, type, row, meta) {
-                    return `
+                {
+                    "data": "status",
+                    "createdCell": function (td, cellData, rowData, row, col) {
+                        $(td).attr('width', '20%')
+
+                    },
+                    "render": function (data, type, row, meta) {
+                        return `
                     <div class=''>
                     <div class='d-flex align-items-center'>
                         ${iconStatus(row['status'])}
@@ -72,26 +73,29 @@ $(document).ready(function () {
                     </div>
                 </div>
                     `;
-                }
-            },
-            {
-                "data": "created_at",
-                "createdCell": function (td, cellData, rowData, row, col) {
-                    $(td).attr('width', '15%')
-
+                    }
                 },
-                "render": function (data, type, row, meta) {
-                    return data;
+                {
+                    "data": "created_at",
+                    "createdCell": function (td, cellData, rowData, row, col) {
+                        $(td).attr('width', '15%')
+
+                    },
+                    "render": function (data, type, row, meta) {
+                        return data;
+                    }
                 }
-            }
 
-        ],
-        createdRow: function (row, data, dataIndex) {
-            $(row).addClass(['padding-row', 'bg-white']);
-            $(row).attr('data-id', data['id'])
-        },
+            ],
+            createdRow: function (row, data, dataIndex) {
+                $(row).addClass(['padding-row', 'bg-white']);
+                $(row).attr('data-id', data['id'])
+            },
 
-    })
+        })
+    }
+
+    datatableInbox();
 
     const inputFilter = `
     <div class='margin-left-3'>
@@ -101,8 +105,8 @@ $(document).ready(function () {
                     filter_alt
                 </div>
             </span>
-            <input type="text" class="form-control custom-input-height no-border-radius" placeholder="Cari" style="border-left:0; padding-left:5px"  name='datatable_cari'>
-            <button class="btn btn-primary border-right-radius border border-light d-flex align-items-center padding-x-3" type="button">
+            <input type="text" class="form-control custom-input-height no-border-radius" placeholder="Cari" style="border-left:0; padding-left:5px"  name='datatable_cari' >
+            <button class="btn btn-primary border-right-radius border border-light d-flex align-items-center padding-x-3" type="button" data-toggle="modal" data-target="#modalFilter">
                 <span class="material-icons-outlined" style='transform:rotate(90deg)'>
                     tune
                 </span>
@@ -133,5 +137,17 @@ $(document).ready(function () {
 
     $(document).delegate('#datatable tbody tr', 'click', function (evt) {
         document.location = `${baseUrl}/pengajuan/detail/${$(this).attr('data-id')}`;
+    })
+
+    $('.filter-pengajuan').click(function (evt) {
+        if ($.fn.DataTable.isDataTable("#datatable")) {
+            $('#datatable').DataTable().clear().destroy();
+        }
+        let param;
+        const status = $(this).attr('data-value');
+        if (status != '')
+            param = { status: status };
+        // alert('dasdas')
+        datatableInbox(param);
     })
 });

@@ -28,9 +28,9 @@ class InboxPengajuanController extends BaseController
         try {
             $input = $this->request->getGet();
 
-
             // param datatable
             $param = $this->paramDatatable($input);
+
 
             // get karyawan
             $pengajuan = $this->pengajuan->getPengajuan($param);
@@ -72,12 +72,16 @@ trait ParamDatatable
             'page'              => @$input['page'] ?? 1,
             'order_by'          => @$input['order_by'] ?? 'desc',
         ];
+
         if ($user->level == '3' || $user->level == 'DIR')
             $param['id_penandatangan'] = $user->id_karyawan;
         elseif ($user->level == '2') {
             $param['id_unit_kerja_divisi'] = $user->id_unit_kerja_divisi;
             $param['status'] = 'ACC';
         }
+
+        if (isset($input['status']))
+            $param['status'] = $input['status'];
 
         $param = array_merge($param, $this->paramOrderBy($input));
         // printr($param);

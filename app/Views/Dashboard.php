@@ -274,8 +274,9 @@ $library = new \App\Libraries\Library;
         <div class="col-12 col-lg-4">
 
             <div class="card">
-                <div class="card-header">
+                <div class="card-header d-flex justify-content-between">
                     <h4>Konfirmasi Pengajuan</h4>
+                    <div class="text-sm-3"><?= $total_belumapprove ?> Approve</div>
                 </div>
                 <div class="card-content pb-4">
                     <?php

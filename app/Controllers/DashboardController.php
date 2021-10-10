@@ -300,6 +300,20 @@ class DashboardController extends BaseController
     }
 
 
+    private function approveStatus()
+    {
+        $idPenandatangan = $this->credential->get('id_karyawan');
+        // printr($_SESSION);
+        $pengajuanBelumApprove = $this->pengajuan->getPengajuan([
+            'status'            => 'proses',
+            'id_penandatangan'  => $idPenandatangan
+        ]);
+
+        $totalBelumApprove = $pengajuanBelumApprove->total_row;
+
+        return $totalBelumApprove;
+    }
+
     public function index()
     {
         $data = [];
@@ -315,7 +329,9 @@ class DashboardController extends BaseController
                 'list_konfirmasi'     => $this->listKonfirmasi(),
                 'total_perdin'        => $this->tampungTotalPengajuanPerdin(),
                 'total_fbcj'          => $this->tampungTotalPengajuanFBCJ(),
-                'total_faskom'        => $this->tampungTotalPengajuanFaskom()
+                'total_faskom'        => $this->tampungTotalPengajuanFaskom(),
+                'total_belumapprove'  => $this->approveStatus(),
+
             ];
         }
 

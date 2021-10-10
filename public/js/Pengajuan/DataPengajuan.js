@@ -103,7 +103,7 @@ $(document).ready(function () {
                 </div>
             </span>
             <input type="text" class="form-control custom-input-height no-border-radius" placeholder="Cari" style="border-left:0; padding-left:5px"  name='datatable_cari'>
-            <button class="btn btn-primary border-right-radius border border-light d-flex align-items-center padding-x-3" type="button">
+            <button class="btn btn-primary border-right-radius border border-light d-flex align-items-center padding-x-3" type="button" data-toggle="modal" data-target="#modalFilter">
                 <span class="material-icons-outlined" style='transform:rotate(90deg)'>
                     tune
                 </span>

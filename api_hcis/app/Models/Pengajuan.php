@@ -302,6 +302,8 @@ class Pengajuan extends Model
                 $query = $query->where('pengajuan.status', 'PROSES');
             elseif ($request['status'] == 'acc')
                 $query = $query->where('pengajuan.status', 'ACC');
+            elseif ($request['status'] == 'tolak')
+                $query = $query->where('pengajuan.status', 'TOLAK');
             elseif ($request['status'] == 'acc_selesai') {
                 $query = $query->where(function ($queryOr) {
                     $queryOr->orWhere('pengajuan.status', 'ACC')
