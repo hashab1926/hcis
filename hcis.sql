@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Waktu pembuatan: 01 Okt 2021 pada 08.15
+-- Waktu pembuatan: 06 Jan 2022 pada 23.16
 -- Versi server: 10.4.17-MariaDB
 -- Versi PHP: 7.4.15
 
@@ -323,18 +323,21 @@ CREATE TABLE `pengajuan` (
   `waktu_realisasi_awal` date DEFAULT NULL,
   `waktu_realisasi_akhir` date DEFAULT NULL,
   `status` enum('PROSES','ACC','SELESAI','TOLAK') NOT NULL DEFAULT 'PROSES',
-  `status_edit` enum('Y','N','PENDING') NOT NULL DEFAULT 'N'
+  `status_edit` enum('Y','N','PENDING') NOT NULL DEFAULT 'N',
+  `ket_revisi` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data untuk tabel `pengajuan`
 --
 
-INSERT INTO `pengajuan` (`id`, `id_unit_kerja_divisi`, `nama_jenis`, `nomor`, `id_user`, `id_penandatangan`, `data_template`, `data_template_lampiran`, `created_at`, `updated_at`, `waktu_diacc`, `waktu_lampiran`, `waktu_realisasi_awal`, `waktu_realisasi_akhir`, `status`, `status_edit`) VALUES
-(1, 1, 'PD_LKOTA', '00000000001/2021', 3, 2, '{\"kategori_wilayah\":\"JAWA BARAT\",\"kota\":\"Bandung\",\"pekerjaan\":\"Test\",\"lama_perdin\":\"27-09-2021 - 28-09-2021\",\"wbs_element\":\"B-20.003.012.999\",\"cost_center\":\"CC19938\",\"bussiness_trans\":\"BST192038\",\"jenis_fasilitas\":[\"UANG HARIAN (2)\",\"BIAYA TRANSPORTASI\"],\"nilai_pengajuan\":[\"80.000\",\"50.000\"],\"nama_penandatangan\":\"2\",\"lama_perdin_realisasi\":\"27-09-2021 - 28-09-2021\",\"nilai_realisasi\":[\"10.000\",\"10.000\"]}', '{\"no\":\"KN.012 \\/ 2010\",\"edisi\":\"1\",\"nama_penandatangan\":\"2\",\"no_perdin\":\"00000000001\\/2021\",\"nama_karyawan\":\"Daphney Christiansen\",\"nama_divisi\":\"HUKUM DAN MANAJEMEN RESIKO\",\"kota\":\"Bandung\",\"lama_perdin_realisasi\":\"\",\"tujuan\":\"Test\",\"biaya\":\"\",\"bon\":\"Ada bon\",\"tanggal\":[\"27-09-2021\",\"27-09-2021\"],\"uraian\":[\"Bensin SPBU Tol Purbaleunyi KM 97\",\"Perjalanan 001\"],\"jumlah\":[\"1\",\"1\"],\"satuan\":[\"bon\",\"bon\"],\"harga_satuan\":[\"10.000\",\"10.000\"]}', '2021-09-27 10:28:16', '2021-09-27 10:45:52', '2021-09-27 10:32:03', '2021-09-27 10:45:52', '2021-09-27', '2021-09-28', 'SELESAI', 'N'),
-(2, 1, 'LEMBUR', '00000000001/2021', 4, 2, '{\"tgl_lembur\":\"27-Sep-2021\",\"lama_lembur\":\"3\",\"keterangan\":\"Menyelesaikan module tambahan\",\"nama_penandatangan\":\"2\"}', NULL, '2021-09-27 12:27:04', '2021-09-27 12:27:33', '2021-09-27 12:27:33', NULL, NULL, NULL, 'ACC', 'N'),
-(3, 1, 'LEMBUR', '00000000002/2021', 3, 2, '{\"tgl_lembur\":\"27-Sep-2021\",\"lama_lembur\":\"3\",\"keterangan\":\"Membuat Sketch Draw\",\"nama_penandatangan\":\"2\"}', NULL, '2021-09-27 13:04:46', '2021-09-27 13:05:05', '2021-09-27 13:05:05', NULL, NULL, NULL, 'ACC', 'N'),
-(4, 1, 'PD_LNGRI', '00000000001/2021', 5, 1002, '{\"kategori_wilayah\":\"Kamboja\",\"kota\":\"Nethepark\",\"pekerjaan\":\"Managing Data Store\",\"lama_perdin\":\"27-09-2021 - 03-10-2021\",\"wbs_element\":\"B-20.003.012.999\",\"cost_center\":\"CJD9283\",\"bussiness_trans\":\"BST192038\",\"jenis_fasilitas\":[\"UANG HARIAN (2)\",\"BIAYA TRANSPORTASI\"],\"nilai_pengajuan\":[\"70.000\",\"2.000.000\"],\"nama_penandatangan\":\"1002\",\"lama_perdin_realisasi\":\"27-09-2021 - 03-10-2021\",\"nilai_realisasi\":[\"70.000\",\"2.000.000\"]}', '{\"no\":\"KN.012 \\/ 2010\",\"edisi\":\"1\",\"nama_penandatangan\":\"1002\",\"no_perdin\":\"00000000001\\/2021\",\"nama_karyawan\":\"Mallory Bashirian\",\"nama_divisi\":\"HUKUM DAN MANAJEMEN RESIKO\",\"kota\":\"Nethepark\",\"lama_perdin_realisasi\":\"27-09-2021 - 03-10-2021\",\"tujuan\":\"Managing Data Store\",\"biaya\":\"2.070.000\",\"bon\":\"Ada bon\",\"tanggal\":[\"27-09-2021\",\"28-09-2021\"],\"uraian\":[\"Biaya Transportasi\",\"Uang Harian Makan \"],\"jumlah\":[\"1\",\"1\"],\"satuan\":[\"bon\",\"bon\"],\"harga_satuan\":[\"2.000.000\",\"70.000\"]}', '2021-09-27 13:12:40', '2021-09-27 13:24:09', '2021-09-27 13:15:44', '2021-09-27 13:24:09', '2021-09-27', '2021-10-03', 'SELESAI', 'N');
+INSERT INTO `pengajuan` (`id`, `id_unit_kerja_divisi`, `nama_jenis`, `nomor`, `id_user`, `id_penandatangan`, `data_template`, `data_template_lampiran`, `created_at`, `updated_at`, `waktu_diacc`, `waktu_lampiran`, `waktu_realisasi_awal`, `waktu_realisasi_akhir`, `status`, `status_edit`, `ket_revisi`) VALUES
+(1, 1, 'PD_LKOTA', '00000000001/2021', 3, 2, '{\"kategori_wilayah\":\"JAWA BARAT\",\"kota\":\"Bandung\",\"pekerjaan\":\"Test\",\"lama_perdin\":\"27-09-2021 - 28-09-2021\",\"wbs_element\":\"B-20.003.012.999\",\"cost_center\":\"CC19938\",\"bussiness_trans\":\"BST192038\",\"jenis_fasilitas\":[\"UANG HARIAN (2)\",\"BIAYA TRANSPORTASI\"],\"nilai_pengajuan\":[\"80.000\",\"50.000\"],\"nama_penandatangan\":\"2\",\"lama_perdin_realisasi\":\"27-09-2021 - 28-09-2021\",\"nilai_realisasi\":[\"10.000\",\"10.000\"]}', '{\"no\":\"KN.012 \\/ 2010\",\"edisi\":\"1\",\"nama_penandatangan\":\"2\",\"no_perdin\":\"00000000001\\/2021\",\"nama_karyawan\":\"Daphney Christiansen\",\"nama_divisi\":\"HUKUM DAN MANAJEMEN RESIKO\",\"kota\":\"Bandung\",\"lama_perdin_realisasi\":\"\",\"tujuan\":\"Test\",\"biaya\":\"\",\"bon\":\"Ada bon\",\"tanggal\":[\"27-09-2021\",\"27-09-2021\"],\"uraian\":[\"Bensin SPBU Tol Purbaleunyi KM 97\",\"Perjalanan 001\"],\"jumlah\":[\"1\",\"1\"],\"satuan\":[\"bon\",\"bon\"],\"harga_satuan\":[\"10.000\",\"10.000\"]}', '2021-09-27 10:28:16', '2021-09-27 10:45:52', '2021-09-27 10:32:03', '2021-09-27 10:45:52', '2021-09-27', '2021-09-28', 'SELESAI', 'N', NULL),
+(2, 1, 'LEMBUR', '00000000001/2021', 4, 2, '{\"tgl_lembur\":\"27-Sep-2021\",\"lama_lembur\":\"3\",\"keterangan\":\"Menyelesaikan module tambahan\",\"nama_penandatangan\":\"2\"}', NULL, '2021-09-27 12:27:04', '2021-09-27 12:27:33', '2021-09-27 12:27:33', NULL, NULL, NULL, 'ACC', 'N', NULL),
+(3, 1, 'LEMBUR', '00000000002/2021', 3, 2, '{\"tgl_lembur\":\"27-Sep-2021\",\"lama_lembur\":\"3\",\"keterangan\":\"Membuat Sketch Draw\",\"nama_penandatangan\":\"2\"}', NULL, '2021-09-27 13:04:46', '2021-09-27 13:05:05', '2021-09-27 13:05:05', NULL, NULL, NULL, 'ACC', 'N', NULL),
+(4, 1, 'PD_LNGRI', '00000000001/2021', 5, 1002, '{\"kategori_wilayah\":\"Kamboja\",\"kota\":\"Nethepark\",\"pekerjaan\":\"Managing Data Store\",\"lama_perdin\":\"27-09-2021 - 03-10-2021\",\"wbs_element\":\"B-20.003.012.999\",\"cost_center\":\"CJD9283\",\"bussiness_trans\":\"BST192038\",\"jenis_fasilitas\":[\"UANG HARIAN (2)\",\"BIAYA TRANSPORTASI\"],\"nilai_pengajuan\":[\"70.000\",\"2.000.000\"],\"nama_penandatangan\":\"1002\",\"lama_perdin_realisasi\":\"27-09-2021 - 03-10-2021\",\"nilai_realisasi\":[\"70.000\",\"2.000.000\"]}', '{\"no\":\"KN.012 \\/ 2010\",\"edisi\":\"1\",\"nama_penandatangan\":\"1002\",\"no_perdin\":\"00000000001\\/2021\",\"nama_karyawan\":\"Mallory Bashirian\",\"nama_divisi\":\"HUKUM DAN MANAJEMEN RESIKO\",\"kota\":\"Nethepark\",\"lama_perdin_realisasi\":\"27-09-2021 - 03-10-2021\",\"tujuan\":\"Managing Data Store\",\"biaya\":\"2.070.000\",\"bon\":\"Ada bon\",\"tanggal\":[\"27-09-2021\",\"28-09-2021\"],\"uraian\":[\"Biaya Transportasi\",\"Uang Harian Makan \"],\"jumlah\":[\"1\",\"1\"],\"satuan\":[\"bon\",\"bon\"],\"harga_satuan\":[\"2.000.000\",\"70.000\"]}', '2021-09-27 13:12:40', '2021-09-27 13:24:09', '2021-09-27 13:15:44', '2021-09-27 13:24:09', '2021-09-27', '2021-10-03', 'SELESAI', 'N', NULL),
+(5, 1, 'CUTI', '00000000001/2021', 6, 2, '{\"lama_cuti\":\"10-10-2021 - 11-10-2021\",\"alasan_cuti\":\"Meninggal\",\"nama_penandatangan\":\"2\"}', NULL, '2021-10-10 16:47:20', '2021-10-10 17:43:07', '2021-10-10 17:43:07', NULL, NULL, NULL, 'TOLAK', 'N', 'sorry gue tolak bro, tidak memenuhi '),
+(6, 1, 'PD_LKOTA', '00000000002/2021', 5, 1002, '{\"kategori_wilayah\":\"JAWA BARAT\",\"kota\":\"Bandung\",\"pekerjaan\":\"Mengoperasikan Seluruh Genap bangsa\",\"lama_perdin\":\"10-10-2021 - 13-10-2021\",\"wbs_element\":\"B-20.003.012.999\",\"cost_center\":\"CC1992387\",\"bussiness_trans\":\"BST192038\",\"jenis_fasilitas\":[\"UANG HARIAN (2)\",\"BIAYA TRANSPORTASI\"],\"nilai_pengajuan\":[\"10.000\",\"50.000\"],\"nama_penandatangan\":\"1002\"}', NULL, '2021-10-10 19:57:32', '2021-10-10 19:57:32', NULL, NULL, NULL, NULL, 'PROSES', 'N', NULL);
 
 -- --------------------------------------------------------
 
@@ -801,7 +804,7 @@ ALTER TABLE `pangkat`
 -- AUTO_INCREMENT untuk tabel `pengajuan`
 --
 ALTER TABLE `pengajuan`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT untuk tabel `provinsi`
