@@ -1,9 +1,9 @@
 # Cara serve frontend & backend
-* Frontend
+**Frontend**
 - buka terminal, ke directory _/path/to/hcis_ 
 - ketik _"php spark serve"_
 
-* Backend 
+**Backend**
 - buka terminal, ke directory _/path/to/hcis/api_hcis/_
 - ketik _"php -S localhost:8000 -t public"_
 
